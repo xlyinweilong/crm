@@ -4,6 +4,9 @@
     "i-grid": "/wxcomponents/iview/grid/index",
     "i-grid-item": "/wxcomponents/iview/grid-item/index",
     "i-grid-icon": "/wxcomponents/iview/grid-icon/index",
-    "i-grid-label": "/wxcomponents/iview/grid-label/index"
+    "i-grid-label": "/wxcomponents/iview/grid-label/index",
+    "i-icon": "/wxcomponents/iview/icon/index",
+    "i-row": "/wxcomponents/iview/row/index",
+    "i-col": "/wxcomponents/iview/col/index"
   }
 }

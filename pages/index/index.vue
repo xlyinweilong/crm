@@ -5,8 +5,7 @@
 				<div class="aui-head-chang">
 					<div class="aui-flex">
 						<div class="aui-user-img">
-							<img src="@/static/images/user.png" alt="">
-
+							<image :lazy-load="true" src="../../static/images/user.png" />
 						</div>
 						<div class="aui-flex-box">
 							<h2>李嘉桦</h2>
@@ -20,9 +19,9 @@
 				</div>
 				<div class="aui-head-top">
 					<div class="aui-flex">
-						<div class="aui-sml-img">
-							<img src="@/static/images/sd.png" alt="">
-						</div>
+						<view class="aui-sml-img">
+							<image class="aui-sml-img" :lazy-load="true" src="../../static/images/sd.png" />
+						</view>
 						<div class="aui-flex-box">
 							<h3>钻石卡
 								<!-- <img src="@/static/images/ar.png" alt=""> -->
@@ -33,69 +32,77 @@
 					</div>
 				</div>
 				<div class="aui-white-box">
-					<view>
-						<i-grid>
-							<i-grid-item>
-								<i-grid-icon>
-									<image src="../images/icon-vip.png" />
-								</i-grid-icon>
-								<i-grid-label>Grid</i-grid-label>
-							</i-grid-item>
-							<i-grid-item>Grid</i-grid-item>
-							<i-grid-item>Grid</i-grid-item>
-						</i-grid>
-					</view>
-					<!-- <div class="aui-flex"> -->
-					<!-- <div class="aui-flex-box">
+					<div class="aui-flex">
+						<div class="aui-flex-box">
 							<h2>我的订单</h2>
 						</div>
 						<div class="aui-arrow">
 							<span>查看全部</span>
-						</div> -->
-					<!-- </div> -->
-					<div class="aui-palace">
-						<a href="javascript:;" class="aui-palace-grid">
-							<div class="aui-palace-grid-icon">
-								<img src="@/static/images/nav-001.png" alt="">
-							</div>
-							<!-- <uni-icon type="contact" size="30">待付款</uni-icon> -->
-							<div class="aui-palace-grid-text">
-								<h2>二维码</h2>
-							</div>
-						</a>
-						<a href="javascript:;" class="aui-palace-grid">
-							<div class="aui-palace-grid-icon">
-								<img src="images/nav-002.png" alt="">
-							</div>
-							<div class="aui-palace-grid-text">
-								<h2>订单</h2>
-							</div>
-						</a>
-						<a href="javascript:;" class="aui-palace-grid">
-							<div class="aui-palace-grid-icon">
-								<img src="images/nav-003.png" alt="">
-							</div>
-							<div class="aui-palace-grid-text">
-								<h2>优惠卷</h2>
-							</div>
-						</a>
-						<a href="javascript:;" class="aui-palace-grid">
-							<div class="aui-palace-grid-icon">
-								<img src="images/nav-004.png" alt="">
-							</div>
-							<div class="aui-palace-grid-text">
-								<h2>积分明细</h2>
-							</div>
-						</a>
-						<a href="javascript:;" class="aui-palace-grid">
-							<div class="aui-palace-grid-icon">
-								<img src="images/nav-005.png" alt="">
-							</div>
-							<div class="aui-palace-grid-text">
-								<h2>附近门店</h2>
-							</div>
-						</a>
+						</div>
 					</div>
+					<view>
+						<i-grid style="text-align: center;">
+							<i-grid-item>
+								<div>
+									<i-icon type="barrage_fill" size="38" />
+								</div>
+								<div>二维码</div>
+							</i-grid-item>
+							<i-grid-item>
+								<div>
+									<i-icon type="interactive" size="38" />
+								</div>
+								<div>附近门店</div>
+							</i-grid-item>
+							<i-grid-item>
+								<div>
+									<i-icon type="barrage_fill" size="38" />
+								</div>
+								<div>优惠领劵</div>
+							</i-grid-item>
+						</i-grid>
+						<i-grid style="text-align: center;">
+							<i-grid-item>
+								<div>
+									<i-icon type="feedback" size="38" />
+								</div>
+								<div>积分记录</div>
+							</i-grid-item>
+							<i-grid-item>
+								<div>
+									<i-icon type="barrage_fill" size="38" />
+								</div>
+								<div>订单</div>
+							</i-grid-item>
+							<i-grid-item>
+								<div>
+									<i-icon type="coupons_fill" size="38" />
+								</div>
+								<div>我的卡卷</div>
+							</i-grid-item>
+						</i-grid>
+						<i-grid style="text-align: center;">
+							<i-grid-item>
+								<div>
+									<i-icon type="emoji" size="38" />
+								</div>
+								<div>会员权益</div>
+							</i-grid-item>
+							<i-grid-item>
+								<div>
+									<i-icon type="collection" size="38" />
+								</div>
+								<div>我的顾问</div>
+							</i-grid-item>
+							<i-grid-item>
+								<div>
+									<i-icon type="dynamic_fill" size="38" />
+								</div>
+								<div>意见反馈</div>
+							</i-grid-item>
+						</i-grid>
+					</view>
+
 				</div>
 				<div class="aui-white-box">
 					<div class="aui-flex">
@@ -103,32 +110,22 @@
 							<h2>我的资产</h2>
 						</div>
 					</div>
-					<div class="aui-palace aui-palace-one">
-						<a href="javascript:;" class="aui-palace-grid">
-							<div class="aui-palace-grid-text">
-								<p><em>￥</em>0</p>
-								<h2>回馈金</h2>
-							</div>
-						</a>
-						<a href="javascript:;" class="aui-palace-grid">
-							<div class="aui-palace-grid-text">
-								<p>12</p>
-								<h2>优惠券</h2>
-							</div>
-						</a>
-						<a href="javascript:;" class="aui-palace-grid">
-							<div class="aui-palace-grid-text">
-								<p>12</p>
+					<i-row style="text-align: center;font-size: 32rpx;">
+						<i-col span="6" i-class="col-class" style="font-size: 32rpx;">
+							<div>
+								<h1>30000</h1>
 								<h2>积分</h2>
 							</div>
-						</a>
-						<a href="javascript:;" class="aui-palace-grid">
-							<div class="aui-palace-grid-text">
-								<p>12</p>
-								<h2>红包</h2>
-							</div>
-						</a>
-					</div>
+						</i-col>
+						<i-col span="6" i-class="col-class">
+							<h1>0</h1>
+							<h2>赏金</h2>
+						</i-col>
+						<i-col span="6" i-class="col-class">
+						</i-col>
+						<i-col span="6" i-class="col-class">
+						</i-col>
+					</i-row>
 				</div>
 			</section>
 		</section>
@@ -154,6 +151,6 @@
 	}
 </script>
 
-<style>
+<style scoped>
 
 </style>
