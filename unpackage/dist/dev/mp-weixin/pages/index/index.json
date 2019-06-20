@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "iview-weapp",
+  "usingComponents": {
+    "i-grid": "/wxcomponents/iview/grid/index",
+    "i-grid-item": "/wxcomponents/iview/grid-item/index",
+    "i-grid-icon": "/wxcomponents/iview/grid-icon/index",
+    "i-grid-label": "/wxcomponents/iview/grid-label/index"
+  }
+}

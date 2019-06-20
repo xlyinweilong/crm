@@ -1,0 +1,29 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/basics/layout",
+    "pages/basics/background",
+    "pages/basics/text",
+    "pages/basics/icon",
+    "pages/basics/button",
+    "pages/basics/design",
+    "pages/basics/tag",
+    "pages/basics/avatar",
+    "pages/basics/progress",
+    "pages/basics/shadow",
+    "pages/basics/loading"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {
+    "basics": "/pages/basics/home",
+    "cu-custom": "/colorui/components/cu-custom"
+  },
+  "sitemapLocation": "sitemap.json"
+}
