@@ -1,3 +1,87 @@
+.header {
+	/* background-image: url('../../static/images/header.png');background-size：cover; */
+}
+
+.header .user-img {
+    width: 105rpx;
+    height: 105rpx;
+    border-radius: 100%;
+    overflow: hidden;
+    border: 2rpx solid rgba(255,255,255,0.7);
+    margin-right: 0.5rem;
+	position :absolute;
+	z-index: 100;
+	top:118rpx;
+	left: 322rpx;
+}
+
+.header .user-img .user-img-image{
+	width: 105rpx;
+	height: 105rpx;
+}
+
+.header .user-center{
+	width:100%;
+	position :absolute;
+	z-index: 100;
+	top:223rpx;
+}
+
+.header .user-center .user-name{
+	color:#ffffff;
+	text-align: center;
+	font-size:28rpx;
+}
+
+.header .user-center .user-card-no{
+	color:#ffffff;
+	text-align: center;
+	font-size:28rpx;
+}
+
+.header .user-center .user-card-tips{
+	color:#ffffff;
+	text-align: center;
+	font-size:19rpx;
+}
+
+.header .user-qrcode{
+	padding-top: 5rpx;
+	border-top-left-radius:2em;
+	border-bottom-left-radius:2em;
+	position :absolute;
+	width: 150rpx;
+	height: 45rpx;
+	z-index: 100;
+	top:98rpx;
+	right: 10rpx;
+	background-color: #ffffe3;
+}
+
+.header .user-qrcode .iconfont{
+	font-size: 36rpx;
+	font-weight:bold;
+	text-align: right;
+}
+
+.header .user-qrcode .user-qrcode-name{
+	letter-spacing:8rpx;
+	font-weight:bold;
+	font-size: 20rpx;
+	text-align: center;
+}
+
+.header .user-qrcode .user-qrcode-enname{
+	font-size: 10rpx;
+	letter-spacing:0rpx;
+	text-align: center;
+}
+
+
+
+
+
+
 html,body {
     color: #333;
     margin: 0;

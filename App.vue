@@ -1,5 +1,6 @@
 <script>
 	import '@/static/iconfont.css'
+	import '@/static/css/front.css'
 		
 	export default {
 		onLaunch: function() {

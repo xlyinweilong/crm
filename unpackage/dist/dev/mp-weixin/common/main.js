@@ -80,7 +80,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-__webpack_require__(/*! @/static/iconfont.css */ "../../../workspace2/crm/static/iconfont.css");var _default =
+__webpack_require__(/*! @/static/iconfont.css */ "../../../workspace2/crm/static/iconfont.css");
+__webpack_require__(/*! @/static/css/front.css */ "../../../workspace2/crm/static/css/front.css");var _default =
 
 {
   onLaunch: function onLaunch() {

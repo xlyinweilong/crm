@@ -247,6 +247,17 @@ createPage(_index.default);
 
 /***/ }),
 
+/***/ "../../../workspace2/crm/static/css/front.css":
+/*!**********************************************!*\
+  !*** F:/workspace2/crm/static/css/front.css ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "../../../workspace2/crm/static/css/style.css":
 /*!**********************************************!*\
   !*** F:/workspace2/crm/static/css/style.css ***!
