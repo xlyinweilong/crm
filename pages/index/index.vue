@@ -2,8 +2,8 @@
 	<view style="padding-left: 10rpx;padding-right: 10rpx;">
 		<!-- header -->
 		<div class="header">
-			<!-- <image mode="aspectFit" style="width: 100%;" src="../../static/images/header_nike.jpg" /> -->
-			<image mode="aspectFit" style="width: 100%;" src="../../static/images/header.png" />
+			<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/header_nike.jpg" /> -->
+			<image mode="widthFix" style="width: 100%;" src="../../static/images/header.png" />
 			<div class="user-img">
 				<image class="user-img-image" src="../../static/images/user.png" />
 			</div>
@@ -24,7 +24,15 @@
 				</i-row>
 			</div>
 			<div class="user-info">
-				
+				<i-row>
+					<i-col span="6" offset="4">
+						<span class="iconfont icon-wode"></span>
+					</i-col>
+					<i-col span="14">
+						<div class="user-info-name">我的资料</div>
+						<div class="user-info-enname">My Information</div>
+					</i-col>
+				</i-row>
 			</div>
 		</div>
 		<!-- tickets -->

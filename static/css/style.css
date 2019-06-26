@@ -28,6 +28,7 @@
 }
 
 .header .user-center .user-name{
+	padding-top: 10rpx;
 	color:#ffffff;
 	text-align: center;
 	font-size:28rpx;
@@ -53,7 +54,7 @@
 	width: 150rpx;
 	height: 45rpx;
 	z-index: 100;
-	top:98rpx;
+	top:60rpx;
 	right: 10rpx;
 	background-color: #ffffe3;
 }
@@ -72,6 +73,38 @@
 }
 
 .header .user-qrcode .user-qrcode-enname{
+	font-size: 10rpx;
+	letter-spacing:0rpx;
+	text-align: center;
+}
+
+.header .user-info{
+	padding-top: 5rpx;
+	border-top-left-radius:2em;
+	border-bottom-left-radius:2em;
+	position :absolute;
+	width: 150rpx;
+	height: 45rpx;
+	z-index: 100;
+	top:135rpx;
+	right: 10rpx;
+	background-color: #ffffe3;
+}
+
+.header .user-info .iconfont{
+	font-size: 36rpx;
+	font-weight:bold;
+	text-align: right;
+}
+
+.header .user-info .user-info-name{
+	letter-spacing:0rpx;
+	font-weight:bold;
+	font-size: 20rpx;
+	text-align: center;
+}
+
+.header .user-info .user-info-enname{
 	font-size: 10rpx;
 	letter-spacing:0rpx;
 	text-align: center;
