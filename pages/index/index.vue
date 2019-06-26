@@ -1,6 +1,7 @@
 <template>
 	<view style="padding-left: 10rpx;padding-right: 10rpx;">
 		<!-- header -->
+		<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/123456.jpg" /> -->
 		<div class="header">
 			<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/header_nike.jpg" /> -->
 			<image mode="widthFix" style="width: 100%;" src="../../static/images/header.png" />
@@ -37,12 +38,33 @@
 		</div>
 		<!-- tickets -->
 		<div class="tickets">
-			<i-row gutter="18">
-				<i-col span="12" i-class="tickets-row-col">
-					
+			<i-row>
+				<i-col span="12" i-class="tickets-row-col-left">
+					<i-button i-class="tickets-div">
+						<i-row>
+							<i-col span="12">
+								<span class="tickets-icon iconfont icon-wodeyouhuijuan"></span>
+							</i-col>
+							<i-col span="12">
+								3张
+							</i-col>
+						</i-row>
+					</i-button>
+					<div class="tickets-div">
+						<i-row>
+							<i-col span="12">
+								<span class="tickets-icon iconfont icon-wodeyouhuijuan"></span>
+							</i-col>
+							<i-col span="12">
+								3张
+							</i-col>
+						</i-row>
+					</div>
 				</i-col>
-				<i-col span="12" i-class="tickets-row-col">
-					
+				<i-col span="12" i-class="tickets-row-col-right">
+					<div class="tickets-div">
+						<span class="tickets-icon iconfont icon-jifen"></span>
+					</div>
 				</i-col>
 			</i-row>
 		</div>
@@ -51,7 +73,7 @@
 
 <script>
 	import '@/static/css/style.css'
-	
+
 	export default {
 		components: {},
 		data() {

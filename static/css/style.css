@@ -11,7 +11,7 @@
     margin-right: 0.5rem;
 	position :absolute;
 	z-index: 100;
-	top:118rpx;
+	top:114rpx;
 	left: 322rpx;
 }
 
@@ -113,18 +113,31 @@
 }
 
 .tickets{
-	
+	padding-top: 130rpx;
 }
 
-.tickets .tickets-row-col{
+.tickets .tickets-row-col-left{
+	padding-right: 15rpx;
+}
+
+.tickets .tickets-row-col-right{
+	padding-left: 15rpx;
+}
+
+.tickets .tickets-div{
 	text-align: center;
 	background-color:#5f5150;
-	height: 200rpx;
+	height: 150rpx;
 	border:1rpx solid;
-	border-radius:20rpx;
+	border-radius:15rpx;
+	color: #FFFFFF;
+	font-size: 60rpx;
+	padding-top:25rpx;
 }
 
-
+.tickets .tickets-icon{
+	font-size: 80rpx;
+}
 
 html,body {
     color: #333;

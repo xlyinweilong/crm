@@ -5,6 +5,7 @@
 			"style": {
 				"navigationBarTitleText": "iview-weapp",
 				"usingComponents": {
+					"i-button": "/wxcomponents/iview/button/index",
 					"i-grid": "/wxcomponents/iview/grid/index",
 					"i-grid-item": "/wxcomponents/iview/grid-item/index",
 					"i-grid-icon": "/wxcomponents/iview/grid-icon/index",
@@ -12,8 +13,8 @@
 					"i-icon": "/wxcomponents/iview/icon/index",
 					"i-row": "/wxcomponents/iview/row/index",
 					"i-col": "/wxcomponents/iview/col/index",
-					"van-row": "/wxcomponents/to/vant-weapp/dist/row/index",
-					"van-col": "/wxcomponents/to/vant-weapp/dist/col/index"
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
 				}
 			}
 		},
