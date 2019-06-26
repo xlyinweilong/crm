@@ -35,12 +35,14 @@
 }
 
 .header .user-center .user-card-no{
+	padding-top: 10rpx;
 	color:#ffffff;
 	text-align: center;
 	font-size:28rpx;
 }
 
 .header .user-center .user-card-tips{
+	padding-top: 1rpx;
 	color:#ffffff;
 	text-align: center;
 	font-size:19rpx;
@@ -110,8 +112,17 @@
 	text-align: center;
 }
 
+.tickets{
+	
+}
 
-
+.tickets .tickets-row-col{
+	text-align: center;
+	background-color:#5f5150;
+	height: 200rpx;
+	border:1rpx solid;
+	border-radius:20rpx;
+}
 
 
 

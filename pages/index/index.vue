@@ -37,10 +37,13 @@
 		</div>
 		<!-- tickets -->
 		<div class="tickets">
-			<i-row>
-				<i-col span="8" i-class="col-class">col-8</i-col>
-				<i-col span="8" i-class="col-class">col-8</i-col>
-				<i-col span="8" i-class="col-class">col-8</i-col>
+			<i-row gutter="18">
+				<i-col span="12" i-class="tickets-row-col">
+					
+				</i-col>
+				<i-col span="12" i-class="tickets-row-col">
+					
+				</i-col>
 			</i-row>
 		</div>
 	</view>
