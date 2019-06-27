@@ -1,7 +1,7 @@
 <template>
 	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
 		<!-- header -->
-		<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/123456.jpg" /> -->
+		<image mode="widthFix" style="width: 100%;" src="../../static/images/123456.jpg" />
 		<view class="header">
 			<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/header_nike.jpg" /> -->
 			<image mode="widthFix" style="width: 100%;" src="../../static/images/header.png" />
@@ -43,7 +43,7 @@
 					<button class="tickets-div">
 						<i-row>
 							<i-col span="9">
-								<div style="padding-top: 8rpx;">
+								<div style="padding-top: 5rpx;">
 									<span class="tickets-icon iconfont icon-youhuijuan"></span>
 									<div style="font-size: 20rpx;">优惠卷</div>
 								</div>
@@ -63,7 +63,7 @@
 					<button class="tickets-div">
 						<i-row>
 							<i-col span="10">
-								<div style="padding-top: 8rpx;">
+								<div style="padding-top: 5rpx;">
 									<span class="tickets-icon iconfont icon-jifenchaxun"></span>
 									<div style="font-size: 20rpx;">积分查询</div>
 								</div>
@@ -80,6 +80,37 @@
 					</button>
 				</i-col>
 			</i-row>
+			<div class="icons">
+				<i-row>
+					<i-col span="8">
+						<div><span class="iconfont icon-huiyuanquanyi"></span></div>
+						<div class="wenzi">会员权益</div>
+					</i-col>
+					<i-col span="8">
+						<div><span class="iconfont icon-chakandingdan"></span></div>
+						<div>查看单据</div>
+					</i-col>
+					<i-col span="8">
+						<div><span class="iconfont icon-zhuanshuguwen"></span></div>
+						<div>专属顾问</div>
+					</i-col>
+				</i-row>
+				<i-row>
+					<i-col span="8">
+						<div><span class="iconfont icon-jifenshangcheng"></span></div>
+						<div>积分商城</div>
+					</i-col>
+					<i-col span="8">
+						<div><span class="iconfont icon-guanfangshangcheng"></span></div>
+						<div>官方商城</div>
+					</i-col>
+					<i-col span="8">
+						<div><span class="iconfont icon-fujinmendian"></span></div>
+						<div>附近门店</div>
+					</i-col>
+				</i-row>
+				
+			</div>
 		</view>
 	</view>
 </template>
