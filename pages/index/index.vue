@@ -1,8 +1,8 @@
 <template>
-	<view style="padding-left: 10rpx;padding-right: 10rpx;">
+	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
 		<!-- header -->
 		<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/123456.jpg" /> -->
-		<div class="header">
+		<view class="header">
 			<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/header_nike.jpg" /> -->
 			<image mode="widthFix" style="width: 100%;" src="../../static/images/header.png" />
 			<div class="user-img">
@@ -35,39 +35,52 @@
 					</i-col>
 				</i-row>
 			</div>
-		</div>
+		</view>
 		<!-- tickets -->
-		<div class="tickets">
+		<view class="tickets">
 			<i-row>
 				<i-col span="12" i-class="tickets-row-col-left">
-					<i-button i-class="tickets-div">
+					<button class="tickets-div">
 						<i-row>
-							<i-col span="12">
-								<span class="tickets-icon iconfont icon-wodeyouhuijuan"></span>
+							<i-col span="9">
+								<div style="padding-top: 8rpx;">
+									<span class="tickets-icon iconfont icon-wodeyouhuijuan"></span>
+									<div style="font-size: 20rpx;">优惠卷</div>
+								</div>
+							</i-col>
+							<i-col span="1">
+								<div class="shuxian"></div>
 							</i-col>
 							<i-col span="12">
-								3张
+								<div style="padding-top: 19rpx;">
+									<span class="count">3</span><span class="danwei">张</span>
+								</div>
 							</i-col>
 						</i-row>
-					</i-button>
-					<div class="tickets-div">
-						<i-row>
-							<i-col span="12">
-								<span class="tickets-icon iconfont icon-wodeyouhuijuan"></span>
-							</i-col>
-							<i-col span="12">
-								3张
-							</i-col>
-						</i-row>
-					</div>
+					</button>
 				</i-col>
 				<i-col span="12" i-class="tickets-row-col-right">
-					<div class="tickets-div">
-						<span class="tickets-icon iconfont icon-jifen"></span>
-					</div>
+					<button class="tickets-div">
+						<i-row>
+							<i-col span="10">
+								<div style="padding-top: 8rpx;">
+									<span class="tickets-icon iconfont icon-jifen"></span>
+									<div style="font-size: 20rpx;">积分查询</div>
+								</div>
+							</i-col>
+							<i-col span="1">
+								<div class="shuxian"></div>
+							</i-col>
+							<i-col span="11">
+								<div style="padding-top: 19rpx;">
+									<span class="count">3529</span><span class="danwei">分</span>
+								</div>
+							</i-col>
+						</i-row>
+					</button>
 				</i-col>
 			</i-row>
-		</div>
+		</view>
 	</view>
 </template>
 

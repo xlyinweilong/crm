@@ -1,5 +1,6 @@
 .header {
 	/* background-image: url('../../static/images/header.png');background-size：cover; */
+	/* margin-bottom: 200rpx; */
 }
 
 .header .user-img {
@@ -113,15 +114,15 @@
 }
 
 .tickets{
-	padding-top: 130rpx;
+	padding-top: 12rpx;
 }
 
 .tickets .tickets-row-col-left{
-	padding-right: 15rpx;
+	padding-right: 9rpx;
 }
 
 .tickets .tickets-row-col-right{
-	padding-left: 15rpx;
+	padding-left: 9rpx;
 }
 
 .tickets .tickets-div{
@@ -131,12 +132,27 @@
 	border:1rpx solid;
 	border-radius:15rpx;
 	color: #FFFFFF;
-	font-size: 60rpx;
+	font-size: 50rpx;
 	padding-top:25rpx;
+	padding-bottom: 25rpx;
 }
 
 .tickets .tickets-icon{
-	font-size: 80rpx;
+	font-size: 40rpx;
+}
+
+.tickets .shuxian{
+	height: 100rpx;
+	border-left:1px dashed #FFFFFF;
+}
+
+.tickets .count{
+	font-size: 48rpx;
+}
+
+.tickets .danwei{
+	margin-left: 6rpx;
+	font-size: 21rpx;
 }
 
 html,body {
