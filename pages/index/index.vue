@@ -16,7 +16,7 @@
 			<div class="user-qrcode">
 				<i-row>
 					<i-col span="6" offset="4">
-						<span class="iconfont icon-ico"></span>
+						<span class="iconfont icon-huiyuanma"></span>
 					</i-col>
 					<i-col span="14">
 						<div class="user-qrcode-name">会员码</div>
@@ -27,7 +27,7 @@
 			<div class="user-info">
 				<i-row>
 					<i-col span="6" offset="4">
-						<span class="iconfont icon-wode"></span>
+						<span class="iconfont icon-wodeziliao"></span>
 					</i-col>
 					<i-col span="14">
 						<div class="user-info-name">我的资料</div>
@@ -44,7 +44,7 @@
 						<i-row>
 							<i-col span="9">
 								<div style="padding-top: 8rpx;">
-									<span class="tickets-icon iconfont icon-wodeyouhuijuan"></span>
+									<span class="tickets-icon iconfont icon-youhuijuan"></span>
 									<div style="font-size: 20rpx;">优惠卷</div>
 								</div>
 							</i-col>
@@ -64,7 +64,7 @@
 						<i-row>
 							<i-col span="10">
 								<div style="padding-top: 8rpx;">
-									<span class="tickets-icon iconfont icon-jifen"></span>
+									<span class="tickets-icon iconfont icon-jifenchaxun"></span>
 									<div style="font-size: 20rpx;">积分查询</div>
 								</div>
 							</i-col>
