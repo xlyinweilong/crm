@@ -13,7 +13,7 @@
 	position :absolute;
 	z-index: 100;
 	top:114rpx;
-	left: 322rpx;
+	left: 332rpx;
 }
 
 .header .user-img .user-img-image{
@@ -173,6 +173,15 @@
 	margin-top: 12rpx;
 	font-size: 24rpx;
 	font-weight:bold;
+}
+
+.footer1{
+	padding-top: 60rpx;
+}
+
+.footer2{ 
+	padding-top: 10rpx;
+	padding-bottom: 30rpx;
 }
 
 html,body {

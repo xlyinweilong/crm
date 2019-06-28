@@ -1,7 +1,7 @@
 <template>
 	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
 		<!-- header -->
-		<image mode="widthFix" style="width: 100%;" src="../../static/images/123456.jpg" />
+		<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/123456.jpg" /> -->
 		<view class="header">
 			<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/header_nike.jpg" /> -->
 			<image mode="widthFix" style="width: 100%;" src="../../static/images/header.png" />
@@ -109,8 +109,13 @@
 						<div class="wenzi">附近门店</div>
 					</i-col>
 				</i-row>
-				
 			</div>
+			<view class="footer1">
+				<image mode="widthFix" style="width: 100%;" src="../../static/images/footer1.png" />
+			</view>
+			<view class="footer2">
+				<image mode="widthFix" style="width: 100%;" src="../../static/images/footer2.jpg" />
+			</view>
 		</view>
 	</view>
 </template>
