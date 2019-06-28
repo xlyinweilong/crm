@@ -156,11 +156,23 @@
 }
 
 .icons{
-	
+	text-align: center;
+}
+
+.icons .icons-row{
+	padding-left: 15rpx;
+	padding-right: 15rpx;
+	margin-top: 70rpx;
 }
 
 .icons .iconfont{
 	font-size: 65rpx;
+}
+
+.icons .wenzi{
+	margin-top: 12rpx;
+	font-size: 24rpx;
+	font-weight:bold;
 }
 
 html,body {

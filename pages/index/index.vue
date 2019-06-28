@@ -81,32 +81,32 @@
 				</i-col>
 			</i-row>
 			<div class="icons">
-				<i-row>
+				<i-row i-class="icons-row">
 					<i-col span="8">
 						<div><span class="iconfont icon-huiyuanquanyi"></span></div>
 						<div class="wenzi">会员权益</div>
 					</i-col>
 					<i-col span="8">
 						<div><span class="iconfont icon-chakandingdan"></span></div>
-						<div>查看单据</div>
+						<div class="wenzi">查看单据</div>
 					</i-col>
 					<i-col span="8">
 						<div><span class="iconfont icon-zhuanshuguwen"></span></div>
-						<div>专属顾问</div>
+						<div class="wenzi">专属顾问</div>
 					</i-col>
 				</i-row>
-				<i-row>
+				<i-row i-class="icons-row">
 					<i-col span="8">
 						<div><span class="iconfont icon-jifenshangcheng"></span></div>
-						<div>积分商城</div>
+						<div class="wenzi">积分商城</div>
 					</i-col>
 					<i-col span="8">
 						<div><span class="iconfont icon-guanfangshangcheng"></span></div>
-						<div>官方商城</div>
+						<div class="wenzi">官方商城</div>
 					</i-col>
 					<i-col span="8">
 						<div><span class="iconfont icon-fujinmendian"></span></div>
-						<div>附近门店</div>
+						<div class="wenzi">附近门店</div>
 					</i-col>
 				</i-row>
 				
