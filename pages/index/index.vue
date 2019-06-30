@@ -13,7 +13,7 @@
 				<div class="user-card-no">VIP:78985541</div>
 				<div class="user-card-tips">有效期至永久有效</div>
 			</div>
-			<div class="user-qrcode">
+			<div class="user-qrcode" @click="setShowMembershipCode">
 				<i-row>
 					<i-col span="6" offset="4">
 						<span class="iconfont icon-huiyuanma"></span>
@@ -111,30 +111,71 @@
 				</i-row>
 			</div>
 			<view class="footer1">
-				<image mode="widthFix" style="width: 100%;" src="../../static/images/footer1.png" />
+				<uni-swiper-dot :info="info" :current="current" field="content" :mode="'long'">
+					<swiper style="height: 200rpx;" @change="change">
+						<swiper-item v-for="(item ,index) in info" :key="index">
+							<view class="swiper-item">
+								<image style="height: 200rpx;width: 100%;" :src="item.url" />
+							</view>
+						</swiper-item>
+					</swiper>
+				</uni-swiper-dot>
 			</view>
 			<view class="footer2">
 				<image mode="widthFix" style="width: 100%;" src="../../static/images/footer2.jpg" />
 			</view>
 		</view>
+		<van-dialog use-slot :show="showMembershipCode" @close="onShowMembershipCodeClose" :showConfirmButton="false"
+		 :closeOnClickOverlay="true">
+			<view>
+				<tki-barcode ref="barcode" :show="true" :onval="true" :val="val" :opations="opt"/>
+			</view>
+		</van-dialog>
 	</view>
 </template>
 
 <script>
 	import '@/static/css/style.css'
+	import uniSwiperDot from "@/components/uni-ui/uni-swiper-dot/uni-swiper-dot.vue"
+	import tkiBarcode from "@/components/tki-barcode/tki-barcode.vue"
 
 	export default {
-		components: {},
+		components: {
+			uniSwiperDot,
+			tkiBarcode
+		},
 		data() {
 			return {
-				title: 'Hello'
+				title: 'Hello',
+				current: 0,
+				info: [{
+					url: '../../static/images/footer1.png'
+				}, {
+					url: '../../static/images/footer1.png'
+				}, {
+					url: '../../static/images/footer1.png'
+				}],
+				showMembershipCode: false,
+				opt: {
+                    displayValue: false,
+                    format: 'code128'
+                },
+				val:'123123123'
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-
+			change(e) {
+				this.current = e.detail.current;
+			},
+			setShowMembershipCode() {
+				this.showMembershipCode = true
+			},
+			onShowMembershipCodeClose() {
+				this.showMembershipCode = false
+			},
 		}
 	}
 </script>

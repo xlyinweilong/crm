@@ -57,7 +57,7 @@
 	width: 150rpx;
 	height: 45rpx;
 	z-index: 100;
-	top:60rpx;
+	top:180rpx;
 	right: 10rpx;
 	background-color: #ffffe3;
 }
@@ -89,7 +89,7 @@
 	width: 150rpx;
 	height: 45rpx;
 	z-index: 100;
-	top:135rpx;
+	top:250rpx;
 	right: 10rpx;
 	background-color: #ffffe3;
 }
@@ -162,7 +162,7 @@
 .icons .icons-row{
 	padding-left: 15rpx;
 	padding-right: 15rpx;
-	margin-top: 70rpx;
+	margin-top: 40rpx;
 }
 
 .icons .iconfont{
@@ -176,12 +176,13 @@
 }
 
 .footer1{
-	padding-top: 60rpx;
+	padding-top: 40rpx;
+	width: 100%;
+
 }
 
 .footer2{ 
 	padding-top: 10rpx;
-	padding-bottom: 30rpx;
 }
 
 html,body {
