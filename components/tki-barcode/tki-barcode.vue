@@ -1,6 +1,5 @@
 <template xlang="wxml" minapp="mpvue">
 	<view class="tki-barcode">
-		<!-- <canvas class="tki-barcode-canvas" canvas-id="tki-barcode-canvas" :width="canvasWidth" :height="canvasHeight" /> -->
 		<canvas class="tki-barcode-canvas" :canvas-id="cid" :style="{width:canvasWidth+'px',height:canvasHeight+'px'}" />
 		<image v-show="show" :src="result" :style="{width:canvasWidth+'px',height:canvasHeight+'px'}" />
 	</view>
@@ -181,12 +180,12 @@ export default {
 </script>
 <style>
 .tki-barcode {
-	position: relative;
+	/* position: relative; */
 }
 .tki-barcode-canvas {
-	position: fixed; 
+/* 	position: fixed; 
 	top: -99999upx;
 	left: -99999upx;
-	z-index: -99999;
+	z-index: -99999; */
 }
 </style>

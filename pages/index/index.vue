@@ -1,9 +1,7 @@
 <template>
 	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
 		<!-- header -->
-		<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/123456.jpg" /> -->
 		<view class="header">
-			<!-- <image mode="widthFix" style="width: 100%;" src="../../static/images/header_nike.jpg" /> -->
 			<image mode="widthFix" style="width: 100%;" src="../../static/images/header.png" />
 			<div class="user-img">
 				<image class="user-img-image" src="../../static/images/user.png" />
@@ -13,7 +11,7 @@
 				<div class="user-card-no">VIP:78985541</div>
 				<div class="user-card-tips">有效期至永久有效</div>
 			</div>
-			<div class="user-qrcode" @click="setShowMembershipCode">
+			<div class="user-qrcode" @click="showMembershipCode = true">
 				<i-row>
 					<i-col span="6" offset="4">
 						<span class="iconfont icon-huiyuanma"></span>
@@ -123,26 +121,20 @@
 			</view>
 			<view class="footer2">
 				<image mode="widthFix" style="width: 100%;" src="../../static/images/footer2.jpg" />
-			</view>
+			</view>	
 		</view>
-		<van-dialog use-slot :show="showMembershipCode" @close="onShowMembershipCodeClose" :showConfirmButton="false"
-		 :closeOnClickOverlay="true">
-			<view>
-				<tki-barcode ref="barcode" :show="true" :onval="true" :val="val" :opations="opt"/>
-			</view>
-		</van-dialog>
+		<membershipCode  :showMembershipCode.sync="showMembershipCode"/>
 	</view>
 </template>
 
 <script>
 	import '@/static/css/style.css'
-	import uniSwiperDot from "@/components/uni-ui/uni-swiper-dot/uni-swiper-dot.vue"
-	import tkiBarcode from "@/components/tki-barcode/tki-barcode.vue"
+	import membershipCode from "./membershipCode.vue"
+	
 
 	export default {
 		components: {
-			uniSwiperDot,
-			tkiBarcode
+			membershipCode
 		},
 		data() {
 			return {
@@ -157,25 +149,18 @@
 				}],
 				showMembershipCode: false,
 				opt: {
-                    displayValue: false,
-                    format: 'code128'
-                },
-				val:'123123123'
+					displayValue: false,
+					format: 'code128'
+				},
+				val: '123123123'
 			}
 		},
 		onLoad() {
-
 		},
 		methods: {
 			change(e) {
 				this.current = e.detail.current;
-			},
-			setShowMembershipCode() {
-				this.showMembershipCode = true
-			},
-			onShowMembershipCodeClose() {
-				this.showMembershipCode = false
-			},
+			}
 		}
 	}
 </script>

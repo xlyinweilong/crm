@@ -13,6 +13,15 @@
 			}
 		},
 		{
+			"path": "pages/index/membershipCode",
+			"style": {
+				"navigationBarTitleText": "iview-weapp",
+				"usingComponents": {
+					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
+			}
+		},
+		{
 			"path": "pages/basics/layout",
 			"style": {}
 		},
