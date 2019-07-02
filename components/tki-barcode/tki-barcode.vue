@@ -1,8 +1,8 @@
 <template xlang="wxml" minapp="mpvue">
-	<view class="tki-barcode">
+	<!-- <view class="tki-barcode"> -->
 		<canvas class="tki-barcode-canvas" :canvas-id="cid" :style="{width:canvasWidth+'px',height:canvasHeight+'px'}" />
-		<image v-show="show" :src="result" :style="{width:canvasWidth+'px',height:canvasHeight+'px'}" />
-	</view>
+		<!-- <image v-show="show" :src="result" :style="{width:canvasWidth+'px',height:canvasHeight+'px'}" /> -->
+	<!-- </view> -->
 </template>
 
 <script>
@@ -42,8 +42,8 @@ export default {
 					// text: "1234567890",//覆盖显示的文本
 					textAlign: "center",//设置文本的水平对齐方式
 					textPosition: "bottom",//设置文本的垂直位置
-					textMargin: 0,//设置条形码和文本之间的间距
-					fontSize: 24,//设置文本的大小
+					textMargin: 2,//设置条形码和文本之间的间距
+					fontSize: 30,//设置文本的大小
 					fontColor: "#000000",//设置文本的颜色
 					lineColor: "#000000",//设置条形码的颜色
 					background: "#FFFFFF",//设置条形码的背景色
@@ -125,10 +125,6 @@ export default {
 			this.result = res;
 			this.$emit('result', res)
 		},
-		_result(res) {
-			this.result = res;
-			this.$emit('result', res)
-		},
 		_empty(v) {
 			let tp = typeof v,
 				rt = false;
@@ -183,6 +179,8 @@ export default {
 	/* position: relative; */
 }
 .tki-barcode-canvas {
+	display: block;
+	margin: 0 auto;
 /* 	position: fixed; 
 	top: -99999upx;
 	left: -99999upx;

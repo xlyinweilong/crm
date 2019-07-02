@@ -1,8 +1,8 @@
 <template xlang="wxml" minapp="mpvue">
-	<!-- <view class="tki-qrcode"> -->
+	<view class="tki-qrcode">
 		<canvas class="tki-qrcode-canvas" :canvas-id="cid" :style="{width:cpSize+'px',height:cpSize+'px'}" />
 		<!-- <image v-show="show" :src="result" :style="{width:cpSize+'px',height:cpSize+'px'}" /> -->
-	<!-- </view> -->
+	</view>
 </template>
 
 <script>
@@ -17,7 +17,7 @@ export default {
 		},
 		size: {
 			type: Number,
-			default: 280
+			default: 250
 		},
 		unit: {
 			type: String,
