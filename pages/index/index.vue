@@ -22,7 +22,7 @@
 					</i-col>
 				</i-row>
 			</div>
-			<div class="user-info">
+			<div class="user-info" @click="showMyInfo = true">
 				<i-row>
 					<i-col span="6" offset="4">
 						<span class="iconfont icon-wodeziliao"></span>
@@ -124,21 +124,21 @@
 			</view>	
 		</view>
 		<membershipCode  :showMembershipCode.sync="showMembershipCode"/>
+		<myInfo  :showMyInfo.sync="showMyInfo"/>
 	</view>
 </template>
 
 <script>
 	import '@/static/css/style.css'
 	import membershipCode from "./membershipCode.vue"
-	
+	import myInfo from "./myInfo.vue"
 
 	export default {
 		components: {
-			membershipCode
+			membershipCode,myInfo
 		},
 		data() {
 			return {
-				title: 'Hello',
 				current: 0,
 				info: [{
 					url: '../../static/images/footer1.png'
@@ -148,19 +148,12 @@
 					url: '../../static/images/footer1.png'
 				}],
 				showMembershipCode: false,
-				opt: {
-					displayValue: false,
-					format: 'code128'
-				},
-				val: '123123123'
+				showMyInfo:false
 			}
 		},
 		onLoad() {
 		},
 		methods: {
-			change(e) {
-				this.current = e.detail.current;
-			}
 		}
 	}
 </script>
