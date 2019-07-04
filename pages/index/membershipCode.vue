@@ -27,6 +27,7 @@
 				关闭
 			</div>
 		</view>
+		<van-datetime-picker type="date" bind:input="onInput" />
 	</van-dialog>
 </template>
 
@@ -47,6 +48,7 @@
 		},
 		data() {
 			return {
+				onInput:'',
 				showImage: false
 			}
 		},

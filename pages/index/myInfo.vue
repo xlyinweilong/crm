@@ -11,10 +11,8 @@
 				NO.<span>ZK890370</span>
 			</div>
 			<span class="iconfont icon-huiyuanka"></span>
-			<div class="user-img-div">
-				<div class="user-img">
-					<image class="user-img-image" src="../../static/images/user.png" />
-				</div>
+			<div class="user-img">
+				<image class="user-img-image" src="../../static/images/user.png" />
 			</div>
 			<div class="user-center">
 				<div class="user-name">Hi,大隆</div>
@@ -23,6 +21,24 @@
 				<tki-barcode ref="barcode" :val="'1234567890'" />
 			</div>
 			<div class="hr">
+				<hr />
+			</div>
+			<div class="input-div">
+				<input class="input" v-model="info.name" placeholder="姓名" />
+			</div>
+			<div class="input-div">
+				<input class="input" v-model="info.mobile" placeholder="手机" />
+			</div>
+			<div class="input-div">
+				<input class="input" v-model="info.sex" placeholder="性别" />
+			</div>
+			<div class="input-div">
+				<input class="input" :value="info.birthday" placeholder="生日" />
+			</div>
+			<div class="input-div">
+				<input class="input" v-model="info.address" placeholder="地址" />
+			</div>
+			<div style="margin-top: 30rpx;" class="hr">
 				<hr />
 			</div>
 			<div class="close" @click="save">
@@ -43,6 +59,13 @@
 		},
 		data() {
 			return {
+				info: {
+					name: '',
+					mobile: '',
+					sex: '',
+					birthday: '',
+					address: ''
+				},
 				showImage: false
 			}
 		},
@@ -96,32 +119,31 @@
 		top: 272rpx;
 		right: 95rpx;
 	}
-	
-	.myInfo .user-img-div{
-		position:absolute;
-		text-align: center;
-	}
 
 	.myInfo .user-img {
-		background-color:green;
-		position:relative;
 		margin: 0 auto;
+		position: relative;
+		margin-top: 25rpx;
 		width: 105rpx;
 		height: 105rpx;
 		border-radius: 100%;
 		overflow: hidden;
 		border: 2rpx solid rgba(255, 255, 255, 0.7);
-		margin-right: 0.5rem;
 	}
-	
-	.myInfo .user-img .user-img-image{
+
+	.myInfo .user-img .user-img-image {
 		width: 105rpx;
 		height: 105rpx;
 	}
 
+	.myInfo .user-center {
+		margin-top: 20rpx;
+		text-align: center;
+	}
+
 	.myInfo .hr {
 		padding-top: 20rpx;
-		padding-bottom: 23rpx;
+		padding-bottom: 10rpx;
 		padding-left: 45rpx;
 		padding-right: 45rpx;
 	}
@@ -133,10 +155,28 @@
 	}
 
 	.myInfo .close {
+		margin-top: 10rpx;
 		text-align: center;
 		font-size: 30rpx;
 		font-weight: bold;
 		color: #BF0000;
 		padding-bottom: 28rpx;
+	}
+	
+	.myInfo .input-div{
+		margin-top: 5rpx;
+		padding-left: 45rpx;
+		padding-right: 45rpx;
+	}
+	
+	.myInfo .input{
+		height: 60rpx;
+		border-color: #878787; 
+		border-style: solid; 
+		border-top-width: 0rpx;
+		border-right-width: 0rpx; 
+		border-bottom-width: 1rpx;
+		border-left-width: 0rpx;
+		padding-left: 10rpx;
 	}
 </style>

@@ -26,7 +26,10 @@
 			"style": {
 				"navigationBarTitleText": "iview-weapp",
 				"usingComponents": {
-					"van-dialog": "/wxcomponents/vant/dialog/index"
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					 "i-input": "/wxcomponents/iview/input/index",
+					 "van-popup": "/wxcomponents/vant/popup/index",
+					 "van-datetime-picker": "/wxcomponents/vant/datetime-picker/index"
 				}
 			}
 		},
