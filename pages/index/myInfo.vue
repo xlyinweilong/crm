@@ -1,51 +1,57 @@
 <template>
-	<van-dialog use-slot :show="showMyInfo" @close="onClose" :showConfirmButton="false" :closeOnClickOverlay="true">
-		<view class="myInfo">
-			<div class="image-div">
-				<image mode="widthFix" src="../../static/images/ticket_bg.png" />
-			</div>
-			<div class="gradename">
-				VIP银卡会员
-			</div>
-			<div class="code">
-				NO.<span>ZK890370</span>
-			</div>
-			<span class="iconfont icon-huiyuanka"></span>
-			<div class="user-img">
-				<image class="user-img-image" src="../../static/images/user.png" />
-			</div>
-			<div class="user-center">
-				<div class="user-name">Hi,大隆</div>
-			</div>
-			<div v-show="showImage" class="barcode">
-				<tki-barcode ref="barcode" :val="'1234567890'" />
-			</div>
-			<div class="hr">
-				<hr />
-			</div>
-			<div class="input-div">
-				<input class="input" v-model="info.name" placeholder="姓名" />
-			</div>
-			<div class="input-div">
-				<input class="input" v-model="info.mobile" placeholder="手机" />
-			</div>
-			<div class="input-div">
-				<input class="input" v-model="info.sex" placeholder="性别" />
-			</div>
-			<div class="input-div">
-				<input class="input" :value="info.birthday" placeholder="生日" />
-			</div>
-			<div class="input-div">
-				<input class="input" v-model="info.address" placeholder="地址" />
-			</div>
-			<div style="margin-top: 30rpx;" class="hr">
-				<hr />
-			</div>
-			<div class="close" @click="save">
-				确定
-			</div>
-		</view>
-	</van-dialog>
+	<view>
+		<van-dialog :zIndex="101" use-slot :show="showMyInfo" @close="onClose" :showConfirmButton="false"
+		 :closeOnClickOverlay="true">
+			<view class="myInfo">
+				<div class="image-div">
+					<image mode="widthFix" src="../../static/images/ticket_bg.png" />
+				</div>
+				<div class="gradename">
+					VIP银卡会员
+				</div>
+				<div class="code">
+					NO.<span>ZK890370</span>
+				</div>
+				<span class="iconfont icon-huiyuanka"></span>
+				<div class="user-img">
+					<image class="user-img-image" src="../../static/images/user.png" />
+				</div>
+				<div class="user-center">
+					<div class="user-name">Hi,大隆</div>
+				</div>
+				<div v-show="showImage" class="barcode">
+					<tki-barcode ref="barcode" :val="'1234567890'" />
+				</div>
+				<div class="hr">
+					<hr />
+				</div>
+				<div class="input-div">
+					<input class="input" v-model="info.name" placeholder="姓名" />
+				</div>
+				<div class="input-div">
+					<input class="input" v-model="info.mobile" placeholder="手机" />
+				</div>
+				<div class="input-div">
+					<input class="input" v-model="info.sex" placeholder="性别" />
+				</div>
+				<div class="input-div">
+					<input class="input" :readonly="true" @click="showPopup = true" :value="info.birthday" placeholder="生日" />
+				</div>
+				<div class="input-div">
+					<input class="input" v-model="info.address" placeholder="地址" />
+				</div>
+				<div style="margin-top: 30rpx;" class="hr">
+					<hr />
+				</div>
+				<div class="close" @click="save">
+					确定
+				</div>
+			</view>
+		</van-dialog>
+		<van-popup :z-index="102" :show="showPopup" position="bottom">
+			<van-datetime-picker @confirm="confirmDate" @cancel="showPopup = false" type="date" :value="birthday" :formatter="formatter"/>
+		</van-popup>
+	</view>
 </template>
 
 <script>
@@ -63,10 +69,12 @@
 					name: '',
 					mobile: '',
 					sex: '',
-					birthday: '',
+					birthday: '2019-05-07',
 					address: ''
 				},
-				showImage: false
+				birthday:'',
+				showImage: false,
+				showPopup: false
 			}
 		},
 		onLoad() {
@@ -79,6 +87,21 @@
 			},
 			save() {
 				this.onClose()
+			},
+			formatter(type, value) {
+				if (type === 'year') {
+					return `${value}年`;
+				} else if (type === 'month') {
+					return `${value}月`;
+				}else if (type === 'day') {
+					return `${value}日`;
+				}
+				return value;
+			},
+			confirmDate(val){
+				console.log(val)
+				this.info.birthday = val
+				this.showPopup = false
 			}
 		}
 	}
@@ -162,19 +185,19 @@
 		color: #BF0000;
 		padding-bottom: 28rpx;
 	}
-	
-	.myInfo .input-div{
+
+	.myInfo .input-div {
 		margin-top: 5rpx;
 		padding-left: 45rpx;
 		padding-right: 45rpx;
 	}
-	
-	.myInfo .input{
+
+	.myInfo .input {
 		height: 60rpx;
-		border-color: #878787; 
-		border-style: solid; 
+		border-color: #878787;
+		border-style: solid;
 		border-top-width: 0rpx;
-		border-right-width: 0rpx; 
+		border-right-width: 0rpx;
 		border-bottom-width: 1rpx;
 		border-left-width: 0rpx;
 		padding-left: 10rpx;
