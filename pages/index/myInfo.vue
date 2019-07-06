@@ -49,12 +49,14 @@
 			</view>
 		</van-dialog>
 		<van-popup :z-index="102" :show="showPopup" position="bottom">
-			<van-datetime-picker @confirm="confirmDate" @cancel="showPopup = false" type="date" :value="birthday" :formatter="formatter"/>
+			<van-datetime-picker :min-date="minDate" :max-date="maxDate" @confirm="confirmDate" @cancel="showPopup = false" type="date" :value="birthday" :formatter="formatter"/>
 		</van-popup>
 	</view>
 </template>
 
 <script>
+	import {format} from '@/utils/date.js'
+	
 	export default {
 		components: {},
 		props: {
@@ -69,10 +71,12 @@
 					name: '',
 					mobile: '',
 					sex: '',
-					birthday: '2019-05-07',
+					birthday: '',
 					address: ''
 				},
-				birthday:'',
+				birthday:new Date().getTime(),
+				maxDate:new Date().getTime(),
+				minDate:new Date(1949, 10, 1).getTime(),
 				showImage: false,
 				showPopup: false
 			}
@@ -99,9 +103,15 @@
 				return value;
 			},
 			confirmDate(val){
-				console.log(val)
-				this.info.birthday = val
+				console.log(this.birthday)
+				this.info.birthday = format(new Date(this.birthday),'yyyy-MM-dd')
 				this.showPopup = false
+			},
+			openDate(){
+				this.showImage = true
+				if(this.info.birthday != ''){
+					this.birthday = new Date(this.info.birthday).getTime()
+				}
 			}
 		}
 	}
