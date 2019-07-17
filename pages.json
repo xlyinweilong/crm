@@ -1,6 +1,18 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "iview-weapp",
+				"usingComponents": {
+					"i-row": "/wxcomponents/iview/row/index",
+					"i-col": "/wxcomponents/iview/col/index",
+					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "iview-weapp",
