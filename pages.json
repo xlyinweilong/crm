@@ -1,14 +1,27 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path": "pages/login/index",
 			"style": {
-				"navigationBarTitleText": "iview-weapp",
+				"navigationBarTitleText": "登录",
 				"usingComponents": {
 					"i-row": "/wxcomponents/iview/row/index",
 					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/register",
+			"style": {
+				"navigationBarTitleText": "员工账号绑定",
+				"usingComponents": {
+					"i-input": "/wxcomponents/iview/input/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index"
 				}
 			}
 		},
@@ -90,13 +103,31 @@
 			"style": {}
 		}
 	],
+	// "tabBar": {
+	//     "color": "#7a7e83",
+	//     "selectedColor": "#0faeff",
+	//     "backgroundColor": "#ffffff",
+	//     "list": [{
+	//         "pagePath": "pages/employ/register",
+	//         "text": "首页"
+	//     },
+	// 	{
+	// 	    "pagePath": "pages/basics/layout",
+	// 	    "text": "首页"
+	// 	}]
+	// },
 	"globalStyle": {
-		"navigationStyle": "custom",
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+	    "navigationBarTextStyle": "white",
+	    "navigationBarBackgroundColor": "#0faeff",
+	    "backgroundColor": "#fbf9fe"
 	},
+	// "globalStyle": {
+	// 	"navigationStyle": "custom",
+	// 	"navigationBarTextStyle": "black",
+	// 	"navigationBarTitleText": "uni-app",
+	// 	"navigationBarBackgroundColor": "#F8F8F8",
+	// 	"backgroundColor": "#F8F8F8"
+	// },
 	"condition" : { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
 		"list": [

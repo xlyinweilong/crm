@@ -1,7 +1,6 @@
 <template>
 	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
-
-
+		
 	</view>
 </template>
 
@@ -16,22 +15,19 @@
 		data() {
 			return {
 				current: 0,
-				info: [{
-					url: '../../static/images/footer1.png'
-				}, {
-					url: '../../static/images/footer1.png'
-				}, {
-					url: '../../static/images/footer1.png'
-				}],
 				showMembershipCode: false,
 				showMyInfo: false
 			}
 		},
-		onLoad() {
+		onLoad(query) {
 			let this_ = this
+			let scene = ''
+			if(query.scene){
+				scene = decodeURIComponent(query.scene)
+			}
+			console.log(scene)
 			wx.login({
 				success(res) {
-					console.log(res)
 					if (res.code) {
 						this_.$uniRequest.get('/api/small_procedures/login/login', {
 							data: {
@@ -39,7 +35,13 @@
 							}
 						}).then(res => {
 							wx.setStorage({key:'token',data:res.data})
-							console.log(response)
+							//登录成功后，判断参数内容
+							//是否为员工注册
+							if(scene.trim() == 'employ|register'){
+								//跳转到绑定页面
+								uni.redirectTo({url:'../employ/register'})
+							}	
+							console.log(res)
 						}).catch(error => {
 							console.log(error)
 						})
