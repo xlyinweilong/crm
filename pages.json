@@ -3,7 +3,7 @@
 		{
 			"path": "pages/login/index",
 			"style": {
-				"navigationBarTitleText": "登录",
+				"navigationBarTitleText": "",
 				"usingComponents": {
 					"i-row": "/wxcomponents/iview/row/index",
 					"i-col": "/wxcomponents/iview/col/index",
@@ -17,6 +17,7 @@
 			"style": {
 				"navigationBarTitleText": "员工账号绑定",
 				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
 					"i-input": "/wxcomponents/iview/input/index",
 					"van-field": "/wxcomponents/vant/field/index",
 					"van-cell": "/wxcomponents/vant/cell/index",
