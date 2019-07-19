@@ -11,7 +11,6 @@
 				 open-type="getUserInfo" @click="doBind">绑定</van-button>
 				<van-button :loading="loading" loading-text="绑定中..." :disabled="employCode == ''" type="primary" size="large"
 				 open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">绑定</van-button>
-
 			</van-cell-group>
 		</div>
 	</view>
@@ -68,7 +67,7 @@
 									})
 								},
 								fail() {
-									Toast('授权后可以绑定');
+									Toast('授权后可以绑定')
 								}
 							})
 						}

@@ -1,12 +1,11 @@
 <template>
 	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
-
 	</view>
 </template>
 
 <script>
 	import '@/static/css/style.css'
-
+	import Toast from '@/wxcomponents/vant/toast/toast';
 
 	export default {
 		components: {
@@ -27,17 +26,13 @@
 			wx.checkSession({
 				success() {
 					let token = wx.getStorageSync('token')
-					if (token == null || token.openid == null) {
+					if (token == null || token.token == null) {
 						this_.login()
 					} else {
-						this_.$uniRequest.get('/api/small_procedures/login/login_by_openid', {
-							data: {
-								openid: token.openid
-							}
-						}).then(res => {
-							this_.loginOk(res.data)
+						this_.$uniRequest.get('/api/small_procedures/login/is_login').then(res => {
+							console.log(res)
 						}).catch(error => {
-
+							this_.login()
 						})
 					}
 				},
@@ -52,7 +47,7 @@
 				wx.login({
 					success(res) {
 						if (res.code) {
-							this_.$uniRequest.get('/api/small_procedures/login/login_by_code', {
+							this_.$uniRequest.get('/api/small_procedures/login/login', {
 								data: {
 									code: res.code
 								}
@@ -60,7 +55,7 @@
 								this_.loginOk(res.data)
 								console.log(res)
 							}).catch(error => {
-								console.log(error)
+								Toast('服务器错误，请稍清理缓存重新进入')
 							})
 						}
 					}
@@ -71,6 +66,10 @@
 					key: 'token',
 					data: data
 				})
+				console.log(this.$uniRequest.beforeRequestFilter)
+				console.log(data.token)
+				console.log(this.$uniRequest)
+				this.$uniRequest.defaults.headers.common['X-Token'] = data.token
 				//登录成功后，判断参数内容
 				//是否为员工注册
 				if (this.scene.trim() == 'employ|register') {
