@@ -1,57 +1,58 @@
 {
-	"pages": [
-		// {
-		// 	"path": "pages/login/index",
-		// 	"style": {
-		// 		"navigationBarTitleText": "",
-		// 		"usingComponents": {
-		// 			"i-row": "/wxcomponents/iview/row/index",
-		// 			"i-col": "/wxcomponents/iview/col/index",
-		// 			"i-modal": "/wxcomponents/iview/modal/index",
-		// 			"van-dialog": "/wxcomponents/vant/dialog/index",
-		// 			"van-toast": "/wxcomponents/vant/toast/index"
-		// 		}
-		// 	},
-		// 	"app-plus": {
-		// 		"titleView": false
-		// 	}
-		// },
-		// {
-		// 	"path": "pages/employ/register",
-		// 	"style": {
-		// 		"navigationBarTitleText": "员工账号绑定",
-		// 		"navigationStyle": "default",
-		// 		"navigationBarTextStyle": "white",
-		// 		"navigationBarBackgroundColor": "#0faeff",
-		// 		"usingComponents": {
-		// 			"van-toast": "/wxcomponents/vant/toast/index",
-		// 			"i-input": "/wxcomponents/iview/input/index",
-		// 			"van-field": "/wxcomponents/vant/field/index",
-		// 			"van-cell": "/wxcomponents/vant/cell/index",
-		// 			"van-cell-group": "/wxcomponents/vant/cell-group/index",
-		// 			"van-button": "/wxcomponents/vant/button/index"
-		// 		}
-		// 	}
-		// },
-		// {
-		// 	"path": "pages/register/register",
-		// 	"style": {
-		// 		"navigationBarTitleText": "注册",
-		// 		"navigationStyle": "default",
-		// 		"navigationBarTextStyle": "white",
-		// 		"navigationBarBackgroundColor": "#0faeff",
-		// 		"usingComponents": {
-		// 			"van-toast": "/wxcomponents/vant/toast/index",
-		// 			"van-field": "/wxcomponents/vant/field/index",
-		// 			"van-row": "/wxcomponents/vant/row/index",
-		// 			"van-col": "/wxcomponents/vant/col/index",
-		// 			"van-cell": "/wxcomponents/vant/cell/index",
-		// 			"van-cell-group": "/wxcomponents/vant/cell-group/index",
-		// 			"van-switch-cell": "/wxcomponents/vant/switch-cell/index",
-		// 			"van-button": "/wxcomponents/vant/button/index"
-		// 		}
-		// 	}
-		// },
+	"pages": [{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents": {
+					"i-row": "/wxcomponents/iview/row/index",
+					"i-col": "/wxcomponents/iview/col/index",
+					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-loading": "/wxcomponents/vant/loading/index"
+				}
+			},
+			"app-plus": {
+				"titleView": false
+			}
+		},
+		{
+			"path": "pages/employ/register",
+			"style": {
+				"navigationBarTitleText": "员工账号绑定",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"i-input": "/wxcomponents/iview/input/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index"
+				}
+			}
+		},
+		{
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-switch-cell": "/wxcomponents/vant/switch-cell/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-popup": "/wxcomponents/vant/popup/index"
+				}
+			}
+		},
 		{
 			"path": "pages/register/signPhone",
 			"style": {

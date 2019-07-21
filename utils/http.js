@@ -1,7 +1,7 @@
-function isResponseOk(res) {
+export function isResponseOk(res) {
   if(res.data.code === 50008){
 	  uni.redirectTo({
-	  	url: '@pages/login/index'
+	  	url: '/pages/login/index'
 	  })
 	  return false
   }

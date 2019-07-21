@@ -1,17 +1,7 @@
 <template>
 	<view style="">
-		<div style="padding-top: 15rpx;padding-left: 30rpx;padding-right: 30rpx;">
-			<van-cell-group>
-				<van-field @input="inputEmployCode" :value="employCode" required clearable label="员工编号" placeholder="请输入员工编号" />
-			</van-cell-group>
-		</div>
-		<div style="padding-top: 30rpx;padding-left: 30rpx;padding-right: 30rpx;">
-			<van-cell-group>
-				<van-button :loading="loading" loading-text="绑定中..." :disabled="employCode == ''" type="primary" size="large"
-				 open-type="getUserInfo" @getuserinfo="doBind">绑定</van-button>
-			</van-cell-group>
-		</div>
-		<van-toast id="van-toast" />
+		员工进入后的首页
+		会员拉新使用自己的code生成小程序二维码
 	</view>
 </template>
 
@@ -40,13 +30,31 @@
 			},
 			doBind() {
 				let that = this
-				uni.getUserInfo({
-					provider: 'weixin',
-					success: function(infoRes) {
-						that.updateUserInfo(infoRes.userInfo)
-					},
-					fail:function(){
-						Toast('成为VIP需要您授权获取头像等信息')
+				// 查看是否授权
+				wx.getSetting({
+					success(res) {
+						if (res.authSetting['scope.userInfo']) {
+							wx.getUserInfo({
+								success: function(res) {
+									console.log(res.userInfo)
+									that.updateUserInfo(res.userInfo)
+								}
+							})
+						} else {
+							wx.authorize({
+								scope: 'scope.userInfo',
+								success() {
+									wx.getUserInfo({
+										success: function(res) {
+											that.updateUserInfo(res.userInfo)
+										}
+									})
+								},
+								fail() {
+									Toast('授权后可以绑定')
+								}
+							})
+						}
 					}
 				})
 			},

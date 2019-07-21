@@ -1,12 +1,14 @@
 <template>
-	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
+	<view style="">
 	</view>
 </template>
 
 <script>
 	import '@/static/css/style.css'
 	import Toast from '@/wxcomponents/vant/toast/toast'
-	import {isResponseOk} from '@/utils/http.js'
+	import {
+		isResponseOk
+	} from '@/utils/http.js'
 
 	export default {
 		components: {
@@ -14,60 +16,67 @@
 		},
 		data() {
 			return {
-				scene: '',
-				showMembershipCode: false,
-				showMyInfo: false
+				scene: ''
 			}
 		},
 		onLoad(query) {
-			console.log(this.$uniRequest.defaults)
-			let this_ = this
-			if (query.scene) {
-				this.scene = decodeURIComponent(query.scene)
-			}
-			wx.checkSession({
-				success() {
-					let token = wx.getStorageSync('token')
-					if (token == null || token.token == null) {
-						this_.login()
-					} else {
-						this_.$uniRequest.get('/api/small_procedures/login/is_login').then(res => {
-							if(res.data.code === 50008){
-								  uni.redirectTo({
-								  	url: '@pages/login/index'
-								  })
-							}
-							if(res.data.code != 0){
-								 Toast(res.data.msg)
-							}
-						}).catch(error => {
-							this_.login()
-						})
-					}
-				},
-				fail() {
-					this_.login()
-				}
-			})
+			this.onload(query)
 		},
 		methods: {
+			onload(query) {
+				let that = this
+				this.scene = query.scene
+				if (query.scene) {
+					this.scene = decodeURIComponent(query.scene)
+				}
+				wx.checkSession({
+					success() {
+						let token = wx.getStorageSync('token')
+						if (token == null || token.token == null) {
+							that.login()
+						} else {
+							that.$uniRequest.get('/api/small_procedures/login/is_login').then(res => {
+								if (res.data.code === 50008) {
+									wx.setStorageSync('token', null)
+									uni.redirectTo({
+										url: '/pages/login/index?scene=' + that.scene
+									})
+								}
+								if (res.data.code != 0) {
+									Toast(res.data.message)
+								}
+							}).catch(error => {
+								that.login()
+							})
+						}
+					},
+					fail() {
+						that.login()
+					}
+				})
+			},
 			login() {
-				let this_ = this
+				let that = this
 				wx.login({
 					success(res) {
 						if (res.code) {
-							this_.$uniRequest.get('/api/small_procedures/login/login', {
+							that.$uniRequest.get('/api/small_procedures/login/login', {
 								data: {
 									code: res.code
 								}
 							}).then(res => {
-								if(isResponseOk(res)){
-									this_.loginOk(res.data)
-								}else{
-									Toast(res.data.msg)
+								if (isResponseOk(res)) {
+									that.loginOk(res.data.data)
+								} else {
+									Toast(res.data.message)
 								}
 							}).catch(error => {
-								Toast('服务器错误，请稍清理缓存重新进入')
+								uni.showToast({
+									title: '服务器错误，请稍清理缓存重新进入'
+								})
+								setTimeout(() => {
+									uni.hideToast()
+								}, 2000)
 							})
 						}
 					}
@@ -78,28 +87,35 @@
 					key: 'token',
 					data: data
 				})
-				console.log(this.$uniRequest.beforeRequestFilter)
-				console.log(data.token)
-				console.log(this.$uniRequest)
 				this.$uniRequest.defaults.headers.common['X-Token'] = data.token
-				//登录成功后，判断参数内容
-				//是否为员工注册，员工获取头像就可以，手机号使用epr中的
-				if (this.scene.trim() == 'employ|register') {
-					//跳转到绑定页面
-					uni.redirectTo({
-						url: '../employ/register'
-					})
-				}
-				//如果没有注册，取注册，注册使用手机号
-				if(!data.isRegister){
+				if (data.isRegister) {
+					if (data.isEmploy) {
+						//判断是否员工
+						uni.redirectTo({
+							url: '/pages/employ/index'
+						})
+					} else {
+						uni.redirectTo({
+							url: '/pages/info/index'
+						})
+					}
+				} else {
+					//是否为员工注册，员工获取头像就可以，手机号使用epr中的
+					if (this.scene == 'employ|register') {
+						//跳转到绑定页面
+						uni.redirectTo({
+							url: '/pages/employ/register'
+						})
+						return
+					}
+					let parameter = ''
+					console.log(this.scene)
+					if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend|")) {
+						parameter = this.scene.replace("recommend|", "").trim()
+					}
 					//注册成新的会员
 					uni.redirectTo({
-						url: '@pages/register/register'
-					})
-				}else{
-					//
-					uni.redirectTo({
-						url: '@pages/info/index'
+						url: '/pages/register/register?scene=' + parameter
 					})
 				}
 			}
