@@ -4,11 +4,11 @@
 		<view class="header">
 			<image mode="widthFix" style="width: 100%;" src="../../static/images/header.png" />
 			<div class="user-img">
-				<image class="user-img-image" src="../../static/images/user.png" />
+				<image class="user-img-image" :src="avatarUrl" />
 			</div>
 			<div class="user-center">
-				<div class="user-name">Hi,大隆</div>
-				<div class="user-card-no">VIP:78985541</div>
+				<div class="user-name" v-if="nickName != ''">Hi,{{nickName}}</div>
+				<div class="user-card-no" v-if="cardCode != ''">VIP:{{cardCode}}</div>
 				<div class="user-card-tips">有效期至永久有效</div>
 			</div>
 			<div class="user-qrcode" @click="showMembershipCode = true">
@@ -139,6 +139,9 @@
 		},
 		data() {
 			return {
+				avatarUrl:'',
+				nickName:'',
+				cardCode:'',
 				current: 0,
 				info: [{
 					url: '../../static/images/footer1.png'
@@ -152,6 +155,13 @@
 			}
 		},
 		onLoad() {
+			let user = wx.getStorageSync('token')
+			this.avatarUrl = user.avatarUrl
+			this.nickName = user.nickName
+			this.cardCode = user.cardCode
+			if(this.avatarUrl == null || this.avatarUrl == ''){
+				this.avatarUrl = '../../static/images/user.png'
+			}
 		},
 		methods: {
 		}

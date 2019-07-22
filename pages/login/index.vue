@@ -101,7 +101,7 @@
 					}
 				} else {
 					//是否为员工注册，员工获取头像就可以，手机号使用epr中的
-					if (this.scene == 'employ|register') {
+					if (this.scene == 'employ,register') {
 						//跳转到绑定页面
 						uni.redirectTo({
 							url: '/pages/employ/register'
@@ -110,8 +110,8 @@
 					}
 					let parameter = ''
 					console.log(this.scene)
-					if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend|")) {
-						parameter = this.scene.replace("recommend|", "").trim()
+					if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend,")) {
+						parameter = this.scene.replace("recommend,", "").trim()
 					}
 					//注册成新的会员
 					uni.redirectTo({
