@@ -58,7 +58,7 @@
 					</button>
 				</i-col>
 				<i-col span="12" i-class="tickets-row-col-right">
-					<button class="tickets-div" @click="goPage('integral/list')">
+					<button class="tickets-div">
 						<i-row>
 							<i-col span="10">
 								<div style="padding-top: 5rpx;">
@@ -78,69 +78,18 @@
 					</button>
 				</i-col>
 			</i-row>
-			<div class="icons">
-				<i-row i-class="icons-row">
-					<i-col span="8">
-						<div><span class="iconfont icon-huiyuanquanyi"></span></div>
-						<div class="wenzi">会员权益</div>
-					</i-col>
-					<i-col span="8">
-						<div><span class="iconfont icon-chakandingdan"></span></div>
-						<div class="wenzi">查看单据</div>
-					</i-col>
-					<i-col span="8">
-						<div><span class="iconfont icon-zhuanshuguwen"></span></div>
-						<div class="wenzi">专属顾问</div>
-					</i-col>
-				</i-row>
-				<i-row i-class="icons-row">
-					<i-col span="8">
-						<div><span class="iconfont icon-jifenshangcheng"></span></div>
-						<div class="wenzi">积分商城</div>
-					</i-col>
-					<i-col span="8">
-						<div><span class="iconfont icon-guanfangshangcheng"></span></div>
-						<div class="wenzi">官方商城</div>
-					</i-col>
-					<i-col span="8">
-						<div><span class="iconfont icon-fujinmendian"></span></div>
-						<div class="wenzi">附近门店</div>
-					</i-col>
-				</i-row>
-			</div>
-			<view class="footer1">
-				<uni-swiper-dot :info="info" :current="current" field="content" :mode="'long'">
-					<swiper style="height: 200rpx;" @change="change">
-						<swiper-item v-for="(item ,index) in info" :key="index">
-							<view class="swiper-item">
-								<image style="height: 200rpx;width: 100%;" :src="item.url" />
-							</view>
-						</swiper-item>
-					</swiper>
-				</uni-swiper-dot>
-			</view>
-			<view class="footer2">
-				<image mode="widthFix" style="width: 100%;" src="../../static/images/footer2.jpg" />
-			</view>
+
 		</view>
-		<membershipCode :showMembershipCode.sync="showMembershipCode" />
-		<myInfo :showMyInfo.sync="showMyInfo" />
 		<van-dialog id="van-dialog" />
 	</view>
 </template>
 
 <script>
-	import '@/static/css/style.css'
-	import membershipCode from "./membershipCode.vue"
-	import myInfo from "./myInfo.vue"
 	import Dialog from 'wxcomponents/vant/dialog/dialog';
 
 
 	export default {
-		components: {
-			membershipCode,
-			myInfo
-		},
+		components: {},
 		data() {
 			return {
 				avatarUrl: '',
@@ -148,8 +97,8 @@
 				cardCode: '',
 				current: 0,
 				isEmploy: false,
-				coupon:0,
-				integral:0,
+				coupon: 0,
+				integral: 0,
 				info: [{
 					url: '../../static/images/footer1.png'
 				}, {
@@ -175,11 +124,14 @@
 			hasVipCard() {
 				if (!this.isEmploy) {
 					Dialog.confirm({
+						title: '标题',
 						message: '还未绑定会员卡，现在去绑定吗？'
 					}).then(() => {
+						console.log(111)
 						uni.redirectTo({
 							url: '/pages/bind_vip/bind_vip'
 						})
+					}).catch(() => {
 					})
 				}
 				return this.isEmploy
@@ -187,13 +139,6 @@
 			showFun(ele) {
 				if (this.hasVipCard()) {
 					ele = true
-				}
-			},
-			goPage(page){
-				if (this.hasVipCard()) {
-					uni.redirectTo({
-						url: '/pages/' + page
-					})
 				}
 			}
 		}

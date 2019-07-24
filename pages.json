@@ -125,6 +125,35 @@
 			}
 		},
 		{
+			"path": "pages/integral/list",
+			"style": {
+				"navigationBarTitleText": "积分列表",
+				"usingComponents": {
+					"i-row": "/wxcomponents/iview/row/index",
+					"i-col": "/wxcomponents/iview/col/index",
+					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
+			}
+		},
+		{
+			"path": "pages/bind_vip/bind_vip",
+			"style": {
+				"navigationBarTitleText": "会员卡绑定",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"i-input": "/wxcomponents/iview/input/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index"
+				}
+			}
+		},
+		{
 			"path": "pages/basics/layout",
 			"style": {}
 		},
