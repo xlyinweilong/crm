@@ -9,7 +9,7 @@
 			<div class="user-center">
 				<div class="user-name" v-if="nickName != ''">Hi,{{nickName}}</div>
 				<div class="user-card-no" v-if="cardCode != ''">VIP:{{cardCode}}</div>
-				<div class="user-card-tips">有效期至永久有效</div>
+				<div class="user-card-tips" v-if="cardCode != ''">有效期至永久有效</div>
 			</div>
 			<div class="user-qrcode" @click="showFun(showMembershipCode)">
 				<i-row>
@@ -145,7 +145,8 @@
 			return {
 				avatarUrl: '',
 				nickName: '',
-				cardCode: '',
+				cardCode:'',
+				cardList: [],
 				current: 0,
 				isEmploy: false,
 				coupon:0,
@@ -165,7 +166,7 @@
 			let user = wx.getStorageSync('token')
 			this.avatarUrl = user.avatarUrl
 			this.nickName = user.nickName
-			this.cardCode = user.cardCode
+			this.cardList = user.cardList
 			this.isEmploy = user.isEmploy
 			if (this.avatarUrl == null || this.avatarUrl == '') {
 				this.avatarUrl = '../../static/images/user.png'
@@ -173,11 +174,11 @@
 		},
 		methods: {
 			hasVipCard() {
-				if (!this.isEmploy) {
+				if (this.cardList.length == 0) {
 					Dialog.confirm({
 						message: '还未绑定会员卡，现在去绑定吗？'
 					}).then(() => {
-						uni.redirectTo({
+						uni.navigateTo({
 							url: '/pages/bind_vip/bind_vip'
 						})
 					})
@@ -191,7 +192,7 @@
 			},
 			goPage(page){
 				if (this.hasVipCard()) {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/pages/' + page
 					})
 				}

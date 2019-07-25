@@ -21,10 +21,6 @@
 				 size="large" open-type="getUserInfo" @getuserinfo="getUserInfo">绑定会员卡</van-button>
 			</van-cell-group>
 		</div>
-		<!-- <van-popup :show="showRegisterType" @close="onCloseRegisterType" position="bottom">
-			<van-button type="default" size="large" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">使用当前手机注册</van-button>
-			<van-button type="default" size="large">使用另一部手机注册</van-button>
-		</van-popup> -->
 		<van-toast id="van-toast" />
 	</view>
 </template>

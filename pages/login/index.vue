@@ -109,7 +109,6 @@
 						return
 					}
 					let parameter = ''
-					console.log(this.scene)
 					if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend,")) {
 						parameter = this.scene.replace("recommend,", "").trim()
 					}

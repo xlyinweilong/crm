@@ -43,7 +43,7 @@
 					if (isResponseOk(res)) {
 						Toast("绑定成功")
 						let user = wx.getStorageSync('token')
-						user.isEmploy = true
+						user.cardList = res.data
 						wx.setStorageSync('token', user)
 						uni.redirectTo({
 							url: '/pages/info/index'
