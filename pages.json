@@ -127,12 +127,17 @@
 		{
 			"path": "pages/integral/list",
 			"style": {
-				"navigationBarTitleText": "积分列表",
+				"navigationBarTitleText": "我的积分",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
 					"i-row": "/wxcomponents/iview/row/index",
 					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index"
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index"
 				}
 			}
 		},

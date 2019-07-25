@@ -11,7 +11,7 @@
 				<div class="user-card-no" v-if="cardCode != ''">VIP:{{cardCode}}</div>
 				<div class="user-card-tips" v-if="cardCode != ''">有效期至永久有效</div>
 			</div>
-			<div class="user-qrcode" @click="showFun(showMembershipCode)">
+			<div class="user-qrcode" @click="showMembershipCodeFun">
 				<i-row>
 					<i-col span="6" offset="4">
 						<span class="iconfont icon-huiyuanma"></span>
@@ -22,7 +22,7 @@
 					</i-col>
 				</i-row>
 			</div>
-			<div class="user-info" @click="showFun(showMyInfo)">
+			<div class="user-info" @click="showMyInfoFun">
 				<i-row>
 					<i-col span="6" offset="4">
 						<span class="iconfont icon-wodeziliao"></span>
@@ -171,6 +171,9 @@
 			if (this.avatarUrl == null || this.avatarUrl == '') {
 				this.avatarUrl = '../../static/images/user.png'
 			}
+			if(this.cardList.length > 0){
+				this.cardCode = this.cardList[0].vipCode
+			}
 		},
 		methods: {
 			hasVipCard() {
@@ -183,11 +186,16 @@
 						})
 					})
 				}
-				return this.isEmploy
+				return true
 			},
-			showFun(ele) {
+			showMembershipCodeFun() {
 				if (this.hasVipCard()) {
-					ele = true
+					this.showMembershipCode = true
+				}
+			},
+			showMyInfoFun() {
+				if (this.hasVipCard()) {
+					this.showMyInfo = true
 				}
 			},
 			goPage(page){
