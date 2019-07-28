@@ -1,23 +1,28 @@
-<template>
-	<view style="background-color:#cccccc">
+<template style="background-color:#cccccc">
+	<view class="integral" style="background-color:#cccccc">
 		<!-- header -->
 		<div style="text-align: center;background-color: #615451;height: 360rpx;">
-			<div class="white" style="padding-top:65rpx;font-size: 22rpx;">剩余积分</div>
-			<div class="white" style="padding-top:12rpx;font-size: 95rpx;">35393<span style="font-size: 30rpx;">分</span></div>
-			<div class="white" style="padding-top:6rpx;font-size: 18rpx;">累计消费：380000分</div>
+			<div class="white" style="padding-top:55rpx;font-size: 20rpx;">剩余积分</div>
+			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">35393<span style="font-size: 30rpx;">分</span></div>
+			<div class="white" style="padding-top:5rpx;font-size: 18rpx;">累计消费：380000分</div>
 		</div>
 		<div>
-		<!-- 	<div class="tabDiv">
-				<div>
-					<span class="tabSpan">积分交易</span>
-					<span class="tabSpan">储值交易</span>
+			<div class="tabDiv">
+				<i-row span="10">
+					<i-col span="12" i-class="active"><span class="iconfont icon-jifenliebiao-wodejifen" />积分交易</i-col>
+					<i-col span="12" i-class="tabSpan"><span class="iconfont icon-jifenliebiao-wodeyue" />储值交易</i-col>
+				</i-row>
+				<div class="tabs_content">
+					<table>
+						<hr>
+						<hd>时间</hd>
+						<hd>店铺</hd>
+						<hd>类型</hd>
+						<hd>积分</hd>
+						</hr>
+					</table>
 				</div>
-			</div> -->
-
-			<van-tabs  custom-class="customClass" nav-class="navClass" tab-class="tabClass" @click="onClickTab">
-				<van-tab tab-class="tabClass" title="标签 1">内容 1</van-tab>
-				<van-tab tab-class="tabClass" title="标签 2">内容 2</van-tab>
-			</van-tabs>
+			</div>
 		</div>
 		<van-dialog id="van-dialog" />
 	</view>
@@ -94,8 +99,8 @@
 	.white {
 		color: #FFFFFF;
 	}
-	
-	.customClass{
+
+	.customClass {
 		margin-left: 25rpx;
 		margin-right: 25rpx;
 	}
@@ -105,17 +110,50 @@
 		border: 1px solid;
 	}
 
-	.tabClass {
+	.tabClass {}
+
+	.active {
+		font-size: 28rpx;
+		font-weight: 800;
+		color: #C80000;
+		padding-top: 20rpx;
+		padding-bottom: 20rpx;
+		border-top-left-radius: 18rpx;
+		border-top-right-radius: 18rpx;
+		background-color: #FFFFFF;
 	}
 
 	.tabSpan {
-		width: 50%;
-		box-shadow: 10px 10px 5px #888888;
-		border-radius: 25px;
+		font-size: 28rpx;
+		font-weight: 800;
+		padding-top: 20rpx;
+		padding-bottom: 20rpx;
+		border-top-left-radius: 18rpx;
+		border-top-right-radius: 18rpx;
+		background-color: #cccccc;
 	}
 
+
 	.tabDiv {
-		background-color: #FFFFFF;
+		position: relative;
+		top: -80rpx;
+		/* border-radius: 5px; */
+		margin-left: 30rpx;
+		margin-right: 30rpx;
+		/* display: flex; */
+		/* background-color: #FFFFFF; */
 		text-align: center;
+	}
+
+	.tabs_content {
+		height: 200rpx;
+		background-color: #FFFFFF;
+		border-bottom-right-radius: 18rpx;
+		border-bottom-left-radius: 18rpx;
+	}
+
+	.integral .iconfont {
+		font-size: 34rpx;
+		margin-right: 8rpx;
 	}
 </style>
