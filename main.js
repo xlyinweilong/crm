@@ -2,11 +2,10 @@ import Vue from 'vue'
 import App from './App'
 
 import uniRequest from 'uni-request'
-uniRequest.defaults.baseURL = 'http://192.168.1.113:9090/crm'
-// uniRequest.defaults.headers.common['Authorization'] = AUTH_TOKEN
+uniRequest.defaults.baseURL = 'http://172.18.1.109:9090/crm'
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json'
-// Vue.prototype.$HOST='http://172.18.1.109:9090/crm'
 Vue.prototype.$uniRequest = uniRequest
+
 import basics from './pages/basics/home.vue'
 Vue.component('basics',basics)
 

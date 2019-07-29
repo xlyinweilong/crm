@@ -13,14 +13,16 @@
 					<i-col span="12" i-class="tabSpan"><span class="iconfont icon-jifenliebiao-wodeyue" />储值交易</i-col>
 				</i-row>
 				<div class="tabs_content">
-					<table>
-						<hr>
-						<hd>时间</hd>
-						<hd>店铺</hd>
-						<hd>类型</hd>
-						<hd>积分</hd>
-						</hr>
-					</table>
+					<i-row span="22">
+						<i-col span="8" i-class="tab_header">时间</i-col>
+						<i-col span="8" i-class="tab_header">类型</i-col>
+						<i-col span="8" i-class="tab_header">积分</i-col>
+					</i-row>
+					<i-row span="22">
+						<i-col span="8" i-class="tab_td">2019年07月29</i-col>
+						<i-col span="8" i-class="tab_td">积分调整</i-col>
+						<i-col span="8" i-class="tab_td">354492分</i-col>
+					</i-row>
 				</div>
 			</div>
 		</div>
@@ -29,13 +31,18 @@
 </template>
 
 <script>
-	import Dialog from 'wxcomponents/vant/dialog/dialog';
+	import Dialog from 'wxcomponents/vant/dialog/dialog'
+	import Toast from '@/wxcomponents/vant/toast/toast'
+	import {
+		isResponseOk
+	} from '@/utils/http.js'
 
 
 	export default {
 		components: {},
 		data() {
 			return {
+				list: [],
 				avatarUrl: '',
 				nickName: '',
 				cardCode: '',
@@ -63,8 +70,21 @@
 			if (this.avatarUrl == null || this.avatarUrl == '') {
 				this.avatarUrl = '../../static/images/user.png'
 			}
+			this.getList()
 		},
 		methods: {
+			getList() {
+				this.$uniRequest.get('/api/small_procedures/vip/my_integral_list').then(res => {
+					if (isResponseOk(res)) {
+						console.log(res.data.data)
+					} else {
+						Toast(res.data.message)
+					}
+				}).catch(error => {
+					console.log(error)
+				})
+				// this.list.push()
+			},
 			onClickTab() {
 
 			},
@@ -137,11 +157,8 @@
 	.tabDiv {
 		position: relative;
 		top: -80rpx;
-		/* border-radius: 5px; */
 		margin-left: 30rpx;
 		margin-right: 30rpx;
-		/* display: flex; */
-		/* background-color: #FFFFFF; */
 		text-align: center;
 	}
 
@@ -150,10 +167,27 @@
 		background-color: #FFFFFF;
 		border-bottom-right-radius: 18rpx;
 		border-bottom-left-radius: 18rpx;
+		padding-left: 30rpx;
+		padding-right: 30rpx;
 	}
 
 	.integral .iconfont {
 		font-size: 34rpx;
 		margin-right: 8rpx;
+	}
+
+	.integral .tab_header {
+		font-size: 30rpx;
+		margin-top: 25rpx;
+		font-weight: 800;
+		padding-bottom: 15rpx;
+		border-bottom: 4rpx solid #706000;
+	}
+
+	.integral .tab_td {
+		height: 80rpx;
+		font-size: 28rpx;
+		padding-top: 17rpx;
+		border-bottom: 2rpx solid #706000;
 	}
 </style>

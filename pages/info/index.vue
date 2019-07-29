@@ -145,12 +145,12 @@
 			return {
 				avatarUrl: '',
 				nickName: '',
-				cardCode:'',
+				cardCode: '',
 				cardList: [],
 				current: 0,
 				isEmploy: false,
-				coupon:0,
-				integral:0,
+				coupon: 0,
+				integral: 0,
 				info: [{
 					url: '../../static/images/footer1.png'
 				}, {
@@ -171,7 +171,7 @@
 			if (this.avatarUrl == null || this.avatarUrl == '') {
 				this.avatarUrl = '../../static/images/user.png'
 			}
-			if(this.cardList.length > 0){
+			if (this.cardList.length > 0) {
 				this.cardCode = this.cardList[0].vipCode
 			}
 		},
@@ -184,9 +184,11 @@
 						uni.navigateTo({
 							url: '/pages/bind_vip/bind_vip'
 						})
-					})
+					}).catch(() => {})
+					return false
+				} else {
+					return true
 				}
-				return true
 			},
 			showMembershipCodeFun() {
 				if (this.hasVipCard()) {
@@ -198,7 +200,7 @@
 					this.showMyInfo = true
 				}
 			},
-			goPage(page){
+			goPage(page) {
 				if (this.hasVipCard()) {
 					uni.navigateTo({
 						url: '/pages/' + page
