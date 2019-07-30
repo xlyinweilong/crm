@@ -18,11 +18,13 @@
 						<i-col span="8" i-class="tab_header">类型</i-col>
 						<i-col span="8" i-class="tab_header">积分</i-col>
 					</i-row>
-					<i-row span="22">
-						<i-col span="8" i-class="tab_td">2019年07月29</i-col>
-						<i-col span="8" i-class="tab_td">积分调整</i-col>
-						<i-col span="8" i-class="tab_td">354492分</i-col>
-					</i-row>
+					<view v-for="ele in list">{{ele}}
+						<i-row span="22">
+							<i-col span="8" i-class="tab_td"><span>{{ele.operationDate}}</span></i-col>
+							<i-col span="8" i-class="tab_td">{{ele.operationName}}</i-col>
+							<i-col span="8" i-class="tab_td">354492分</i-col>
+						</i-row>
+					</view>
 				</div>
 			</div>
 		</div>
@@ -70,13 +72,21 @@
 			if (this.avatarUrl == null || this.avatarUrl == '') {
 				this.avatarUrl = '../../static/images/user.png'
 			}
+			this.list = []
 			this.getList()
 		},
 		methods: {
 			getList() {
-				this.$uniRequest.get('/api/small_procedures/vip/my_integral_list').then(res => {
+				this.$uniRequest.get('/api/small_procedures/vip/my_integral_list', {
+					data: {
+						pageIndex: 1,
+						pageSize: 10
+					}
+				}).then(res => {
+					// console.log(res.data.data.content)
 					if (isResponseOk(res)) {
-						console.log(res.data.data)
+						res.data.data.content.foreach(c => this.list.push(c))
+						// console.log(res.data.data)
 					} else {
 						Toast(res.data.message)
 					}
