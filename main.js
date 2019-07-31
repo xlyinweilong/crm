@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App'
 
 import uniRequest from 'uni-request'
-uniRequest.defaults.baseURL = 'http://172.18.1.109:9090/crm'
+uniRequest.defaults.baseURL = 'http://192.168.1.113:9090/crm'
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json'
 Vue.prototype.$uniRequest = uniRequest
 
