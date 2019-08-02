@@ -1,18 +1,6 @@
 {
 	"pages": [
 		{
-			"path": "pages/bind_vip/valid_code",
-			"style": {
-				"navigationBarTitleText": "请输入验证码",
-				"navigationStyle": "default",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#0faeff",
-				"usingComponents": {
-					"van-toast": "/wxcomponents/vant/toast/index"
-				}
-			}
-		},
-		{
 			"path": "pages/login/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -171,7 +159,6 @@
 				}
 			}
 		},
-		
 		{
 			"path": "pages/basics/layout",
 			"style": {}
