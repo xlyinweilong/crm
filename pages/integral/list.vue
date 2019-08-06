@@ -9,8 +9,8 @@
 		<div>
 			<div class="tabDiv">
 				<i-row span="10">
-					<i-col span="12" i-class="active"><span class="iconfont icon-jifenliebiao-wodejifen" />积分交易</i-col>
-					<i-col span="12" i-class="tabSpan"><span class="iconfont icon-jifenliebiao-wodeyue" />储值交易</i-col>
+					<view @click="onClickTab(1)"><i-col span="12" :i-class="tab == 1 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodejifen" />积分交易</i-col></view>
+					<view @click="onClickTab(2)"><i-col span="12" :i-class="tab == 2 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodeyue" />储值交易</i-col></view>
 				</i-row>
 				<div class="tabs_content">
 					<i-row span="22">
@@ -18,49 +18,45 @@
 						<i-col span="8" i-class="tab_header">类型</i-col>
 						<i-col span="8" i-class="tab_header">积分</i-col>
 					</i-row>
-					<view v-for="ele in list">{{ele}}
+					<view v-for="ele in list">
 						<i-row span="22">
 							<i-col span="8" i-class="tab_td"><span>{{ele.operationDate}}</span></i-col>
 							<i-col span="8" i-class="tab_td">{{ele.operationName}}</i-col>
-							<i-col span="8" i-class="tab_td">354492分</i-col>
+							<i-col span="8" i-class="tab_td">{{ele.integral}}分</i-col>
 						</i-row>
 					</view>
+					<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;">
+						<div>加载更多</div>
+						<div class="iconfont icon-xiangxia"></div>
+					</div>
+					<div v-show="loading"><uni-load-more status="loading" /></div>
+					<div v-show="noMore"><uni-load-more status="noMore" /></div>
 				</div>
 			</div>
 		</div>
-		<van-dialog id="van-dialog" />
 	</view>
 </template>
 
 <script>
 	import Dialog from 'wxcomponents/vant/dialog/dialog'
-	import Toast from '@/wxcomponents/vant/toast/toast'
+	import uniLoadMore from "components/uni-load-more/uni-load-more.vue"
 	import {
 		isResponseOk
 	} from '@/utils/http.js'
 
 
 	export default {
-		components: {},
+		components: {uniLoadMore},
 		data() {
 			return {
+				loading : false,
 				list: [],
-				avatarUrl: '',
-				nickName: '',
 				cardCode: '',
-				current: 0,
-				isEmploy: false,
+				pageIndex: 0,
 				coupon: 0,
 				integral: 0,
-				info: [{
-					url: '../../static/images/footer1.png'
-				}, {
-					url: '../../static/images/footer1.png'
-				}, {
-					url: '../../static/images/footer1.png'
-				}],
-				showMembershipCode: false,
-				showMyInfo: false
+				noMore:false,
+				tab:1
 			}
 		},
 		onLoad() {
@@ -77,26 +73,31 @@
 		},
 		methods: {
 			getList() {
-				this.$uniRequest.get('/api/small_procedures/vip/my_integral_list', {
-					data: {
-						pageIndex: 1,
-						pageSize: 10
-					}
-				}).then(res => {
-					// console.log(res.data.data.content)
-					if (isResponseOk(res)) {
-						res.data.data.content.foreach(c => this.list.push(c))
-						// console.log(res.data.data)
-					} else {
-						Toast(res.data.message)
-					}
-				}).catch(error => {
-					console.log(error)
-				})
-				// this.list.push()
+				this.pageIndex = 0
+				this.list = []
+				this.more()
 			},
-			onClickTab() {
-
+			more(){
+				if(!this.loading){
+					this.loading = true
+					this.pageIndex += 1
+					this.$uniRequest.get('/api/small_procedures/vip/my_integral_list', {
+						data: {
+							pageIndex: this.pageIndex,
+							pageSize: 10
+						}
+					}).then(res => {
+						res.data.content.forEach(c => this.list.push(c))
+						this.noMore = this.list.length >= res.data.totalElements
+					}).finally(error => {
+						this.loading = false
+					})
+				}
+			},
+			onClickTab(tab) {
+				this.tab = tab
+				this.noMore = false
+				this.getList()
 			},
 			hasVipCard() {
 				if (!this.isEmploy) {
@@ -173,7 +174,7 @@
 	}
 
 	.tabs_content {
-		height: 200rpx;
+		height: 100%;
 		background-color: #FFFFFF;
 		border-bottom-right-radius: 18rpx;
 		border-bottom-left-radius: 18rpx;

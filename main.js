@@ -33,8 +33,21 @@ uniRequest.interceptors.request.use(
 	});
 
 // 响应拦截
-uniRequest.interceptors.response.use(function(response) {
-	return Promise.resolve(response);
+uniRequest.interceptors.response.use(function(res) {
+	if (res.data.code === 50008) {
+		uni.redirectTo({
+			url: '/pages/login/index'
+		})
+		return Promise.reject()
+	}
+	if (res.data.code != 0) {
+		wx.showToast({
+			title: res.data.message,
+			icon: 'none'
+		})
+		return Promise.reject()
+	}
+	return Promise.resolve(res.data)
 }, function(error) {
 	console.log('返回进入拦截失败')
 	return Promise.reject(error);

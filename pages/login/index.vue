@@ -36,14 +36,14 @@
 							that.login()
 						} else {
 							that.$uniRequest.get('/api/small_procedures/login/is_login').then(res => {
-								if (res.data.code === 50008) {
+								if (res.code === 50008) {
 									wx.setStorageSync('token', null)
 									uni.redirectTo({
 										url: '/pages/login/index?scene=' + that.scene
 									})
 								}
-								if (res.data.code != 0) {
-									Toast(res.data.message)
+								if (res.code != 0) {
+									Toast(res.message)
 								}
 							}).catch(error => {
 								that.login()
@@ -66,9 +66,9 @@
 								}
 							}).then(res => {
 								if (isResponseOk(res)) {
-									that.loginOk(res.data.data)
+									that.loginOk(res.data)
 								} else {
-									Toast(res.data.message)
+									Toast(res.message)
 								}
 							}).catch(error => {
 								uni.showToast({
