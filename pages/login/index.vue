@@ -29,31 +29,7 @@
 				if (query.scene) {
 					this.scene = decodeURIComponent(query.scene)
 				}
-				wx.checkSession({
-					success() {
-						let token = wx.getStorageSync('token')
-						if (token == null || token.token == null) {
-							that.login()
-						} else {
-							that.$uniRequest.get('/api/small_procedures/login/is_login').then(res => {
-								if (res.code === 50008) {
-									wx.setStorageSync('token', null)
-									uni.redirectTo({
-										url: '/pages/login/index?scene=' + that.scene
-									})
-								}
-								if (res.code != 0) {
-									Toast(res.message)
-								}
-							}).catch(error => {
-								that.login()
-							})
-						}
-					},
-					fail() {
-						that.login()
-					}
-				})
+				this.login()
 			},
 			login() {
 				let that = this
@@ -65,11 +41,11 @@
 									code: res.code
 								}
 							}).then(res => {
-								if (isResponseOk(res)) {
+								// if (isResponseOk(res)) {
 									that.loginOk(res.data)
-								} else {
-									Toast(res.message)
-								}
+								// } else {
+								// 	Toast(res.message)
+								// }
 							}).catch(error => {
 								uni.showToast({
 									title: '服务器错误，请稍清理缓存重新进入'
@@ -100,7 +76,6 @@
 						})
 					}
 				} else {
-					//是否为员工注册，员工获取头像就可以，手机号使用epr中的
 					if (this.scene == 'employ,register') {
 						//跳转到绑定页面
 						uni.redirectTo({
