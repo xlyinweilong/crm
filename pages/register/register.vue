@@ -1,45 +1,30 @@
 <template>
-	<view style="">
-		<div style="padding-top: 15rpx;padding-left: 30rpx;padding-right: 30rpx;">
-			<van-switch-cell title="我有会员卡" :checked="hasVipCard" @change="onChangeHasVipCard" />
+	<view class="register">
+		<div class="bgdiv">
+			<div><i class="iconfont icon-login"></i></div>
+			<p class="bgp">小程序由智胜开发，向其提供一下授权既可继续操作</p>
 		</div>
-		<div v-show="!hasVipCard" style="padding-top: 30rpx;padding-left: 30rpx;padding-right: 30rpx;">
-			<van-cell-group>
-				<van-button :loading="loading" loading-text="注册中..." type="primary" size="large" open-type="getUserInfo"
-				 @getuserinfo="createNew">注册成为新会员</van-button>
-			</van-cell-group>
-			<p style="text-align: center;font-size:20rpx;color:#909399">会员卡不在身边，可注册成新会员后，在个人中心绑定已有会员卡</p>
+		<div>
+			<p style="font-size:25rpx;padding-top: 20rpx;">
+				<checkbox-group>
+					<label>
+						<checkbox class="checkbox" :disabled="true" :checked="true" />
+						<span style="padding-left: 7rpx;vertical-align:middle;">获得您的公开信息（昵称、头像等）</span>
+					</label>
+				</checkbox-group>
+			</p>
+			<button class="submit" :loading="loading" open-type="getUserInfo" @getuserinfo="getUserInfo" type="warn">确认登录</button>
 		</div>
-		<div v-show="hasVipCard" style="padding-top: 15rpx;padding-left: 30rpx;padding-right: 30rpx;">
-			<van-cell-group>
-				<van-field @input="inputVipCode" :value="vipCode" required clearable label="会员卡号" placeholder="请输入会员卡号" />
-			</van-cell-group>
-		</div>
-		<div v-show="hasVipCard" style="padding-top: 30rpx;padding-left: 30rpx;padding-right: 30rpx;">
-			<van-cell-group>
-				<van-button v-show="!hasVipCard" :loading="loading" loading-text="绑定中..." :disabled="vipCode == ''" type="primary"
-				 size="large" open-type="getUserInfo" @getuserinfo="getUserInfo">绑定会员卡</van-button>
-			</van-cell-group>
-		</div>
-		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
-	import Toast from '@/wxcomponents/vant/toast/toast'
-	import {
-		isResponseOk
-	} from '@/utils/http.js'
-
 	export default {
 		components: {
 
 		},
 		data() {
 			return {
-				showRegisterType: false,
-				hasVipCard: false,
-				vipCode: '',
 				loading: false,
 				scene: ''
 			}
@@ -50,19 +35,6 @@
 			}
 		},
 		methods: {
-			onChangeHasVipCard(e) {
-				this.hasVipCard = e.detail
-			},
-			onCloseRegisterType() {
-				this.showRegisterType = false
-			},
-			inputVipCode(e) {
-				this.vipCode = e.detail
-			},
-			createNew() {
-				this.vipCode = ''
-				this.getUserInfo()
-			},
 			getUserInfo() {
 				let that = this
 				uni.getUserInfo({
@@ -71,36 +43,64 @@
 						that.register(infoRes.userInfo)
 					},
 					fail: function() {
-						Toast('成为VIP需要您授权获取头像等信息')
+						wx.showToast({
+							title: '成为VIP需要您授权获取头像等信息',
+							icon: 'none'
+						})
 					}
 				})
 			},
 			register(userInfo) {
 				this.loading = true
 				userInfo.vipCode = this.vipCode
-				if(this.scene != null && this.scene != ''){
+				if (this.scene != null && this.scene != '') {
 					userInfo.recommendOpenId = this.scene
 				}
 				this.$uniRequest.post('/api/small_procedures/login/register', userInfo).then(res => {
-					if (isResponseOk(res)) {
-						uni.redirectTo({
-							url: '/pages/info/index'
-						})
-					} else {
-						Toast(res.data.message)
-					}
+					//跳转到绑定会员卡
+					uni.redirectTo({
+						url: '/pages/bind_vip/bind_vip'
+					})
 				}).finally(() => this.loading = false)
 			}
 		}
 	}
 </script>
 
-<style scoped>
-	image {
-		will-change: transform
+<style>
+	page {
+		background-color: #FFFFFF;
 	}
 </style>
+<style scoped>
 
-<style>
+	.register .iconfont {
+		padding-top: 75rpx;
+		font-size: 200rpx;
+		color: #FFFFFF;
+	}
 
+	.register .bgdiv {
+		height: 450rpx;
+		background-color: #766c6a;
+		text-align: center;
+	}
+
+	.register .bgdiv .bgp {
+		color: #FFFFFF;
+		padding: 10rpx 160rpx 0rpx 160rpx;
+	}
+
+	.register .checkbox {
+		vertical-align: middle;
+		transform: scale(0.6);
+		color: #dad8d7
+	}
+
+	.register .submit {
+		font-size: 32rpx;
+		border-radius: 2em;
+		margin: 45rpx 60rpx 0 60rpx;
+		background: #AE0000;
+	}
 </style>

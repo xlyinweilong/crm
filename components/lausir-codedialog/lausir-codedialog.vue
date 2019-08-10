@@ -17,8 +17,8 @@
 				</view>
 			</view>
 			<view class="dialog-ft">
-				<view v-if="countdown==60" @click="resend" class="resend">重新发送</view>
-				<view v-if="countdown<60" class="countdown">{{countdown}}s</view>
+				<view v-if="countdown==0" @click="resend" class="resend">重新发送</view>
+				<view v-if="countdown<=60 && countdown>0" class="countdown">{{countdown}}s</view>
 			</view>
 		</view>
 
@@ -92,13 +92,9 @@
 		watch:{
 			show:function(){
 				if(this.show){
-					if(!this.suspend){
 						this.init();
-					}
 				}else{
-					if(!this.suspend){
-						this.clearTimer();
-					}
+					this.clearTimer();
 					this.clearCode();
 				}
 			}
@@ -106,16 +102,10 @@
 		,
 		methods: {
 			init: function() {
-				var codeAry = [];
-				for (var i = 0; i < this.len; i++) {
-					codeAry.push({
-						val: ""
-					}) 
-				}
-				this.codeAry = codeAry;
-				this.currItem = 0;
+				this.clearCode();
 				if (this.autoCountdown) {
 					this.startTimer();
+					this.countdown = 60
 				}
 			},
 			bindKeyEvent: function(e) {
@@ -143,7 +133,14 @@
 				}
 			},
 			clearCode: function() {
-				this.init();
+				var codeAry = [];
+				for (var i = 0; i < this.len; i++) {
+					codeAry.push({
+						val: ""
+					}) 
+				}
+				this.codeAry = codeAry;
+				this.currItem = 0;
 			},
 			deleteCode: function() {
 				if (this.currItem > 0) {
@@ -169,7 +166,7 @@
 				var _this = this;
 				clearInterval(_this.cTimer);
 				_this.cTimer = null;
-				_this.countdown = 60;
+				_this.countdown = 0;
 			},
 			getCodeValue:function(){
 				var codeStr = "";
@@ -182,7 +179,7 @@
 				this.callResult.type = type;
 				if(type == 1){
 					this.callResult.code = this.getCodeValue();
-					this.clearTimer();
+					//this.clearTimer();
 				}else{
 					this.suspend = true;
 					this.callResult.code = null;
@@ -197,7 +194,6 @@
 					_this.init();
 				}
 				_this.$emit("change", _this.callResult);
-				
 			}
 			
 		}

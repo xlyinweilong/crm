@@ -6,8 +6,8 @@ uniRequest.defaults.baseURL = 'http://192.168.1.113:9090/crm'
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json'
 Vue.prototype.$uniRequest = uniRequest
 
-import basics from './pages/basics/home.vue'
-Vue.component('basics', basics)
+// import basics from './pages/basics/home.vue'
+// Vue.component('basics', basics)
 
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom', cuCustom)

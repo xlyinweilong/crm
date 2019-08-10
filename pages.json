@@ -54,21 +54,7 @@
 		{
 			"path": "pages/register/register",
 			"style": {
-				"navigationBarTitleText": "注册",
-				"navigationStyle": "default",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#0faeff",
-				"usingComponents": {
-					"van-toast": "/wxcomponents/vant/toast/index",
-					"van-field": "/wxcomponents/vant/field/index",
-					"van-row": "/wxcomponents/vant/row/index",
-					"van-col": "/wxcomponents/vant/col/index",
-					"van-cell": "/wxcomponents/vant/cell/index",
-					"van-cell-group": "/wxcomponents/vant/cell-group/index",
-					"van-switch-cell": "/wxcomponents/vant/switch-cell/index",
-					"van-button": "/wxcomponents/vant/button/index",
-					"van-popup": "/wxcomponents/vant/popup/index"
-				}
+				"navigationBarTitleText": ""
 			}
 		},
 		{
@@ -145,10 +131,10 @@
 		{
 			"path": "pages/bind_vip/bind_vip",
 			"style": {
-				"navigationBarTitleText": "会员卡绑定",
+				"navigationBarTitleText": "填写手机号",
 				"navigationStyle": "default",
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#0faeff",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
 					"van-toast": "/wxcomponents/vant/toast/index",
 					"i-input": "/wxcomponents/iview/input/index",

@@ -6,9 +6,6 @@
 <script>
 	import '@/static/css/style.css'
 	import Toast from '@/wxcomponents/vant/toast/toast'
-	import {
-		isResponseOk
-	} from '@/utils/http.js'
 
 	export default {
 		components: {
@@ -41,18 +38,12 @@
 									code: res.code
 								}
 							}).then(res => {
-								// if (isResponseOk(res)) {
-									that.loginOk(res.data)
-								// } else {
-								// 	Toast(res.message)
-								// }
+								that.loginOk(res.data)
 							}).catch(error => {
-								uni.showToast({
-									title: '服务器错误，请稍清理缓存重新进入'
+								wx.showToast({
+									title: '服务器错误，请稍清理缓存重新进入',
+									icon: 'none'
 								})
-								setTimeout(() => {
-									uni.hideToast()
-								}, 2000)
 							})
 						}
 					}
@@ -71,9 +62,16 @@
 							url: '/pages/employ/index'
 						})
 					} else {
-						uni.redirectTo({
-							url: '/pages/info/index'
-						})
+						//判断是否已经绑定卡
+						if (data.cardList.length == 0) {
+							uni.redirectTo({
+								url: '/pages/bind_vip/bind_vip'
+							})
+						} else {
+							uni.redirectTo({
+								url: '/pages/info/index'
+							})
+						}
 					}
 				} else {
 					if (this.scene == 'employ,register') {
