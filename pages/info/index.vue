@@ -71,7 +71,7 @@
 							</i-col>
 							<i-col span="11">
 								<div style="padding-top: 19rpx;">
-									<span class="count">{{integral}}</span><span class="danwei">分</span>
+									<span class="count">{{userInfo.totalIntegral}}</span><span class="danwei">分</span>
 								</div>
 							</i-col>
 						</i-row>
@@ -150,7 +150,6 @@
 				current: 0,
 				isEmploy: false,
 				coupon: 0,
-				integral: 0,
 				info: [{
 					url: '../../static/images/footer1.png'
 				}, {
@@ -159,7 +158,10 @@
 					url: '../../static/images/footer1.png'
 				}],
 				showMembershipCode: false,
-				showMyInfo: false
+				showMyInfo: false,
+				userInfo: {
+					totalIntegral: 0
+				}
 			}
 		},
 		onLoad() {
@@ -174,8 +176,18 @@
 			if (this.cardList.length > 0) {
 				this.cardCode = this.cardList[0].vipCode
 			}
+			this.myInfo()
 		},
 		methods: {
+			myInfo() {
+				wx.showLoading({
+					title: '加载中',
+				})
+				this.$uniRequest.get('/api/small_procedures/vip/my_info').then(res => {
+					this.userInfo = res.data
+					wx.setStorageSync('userInfo', this.userInfo)
+				}).finally(() => wx.hideLoading())
+			},
 			hasVipCard() {
 				if (this.cardList.length == 0) {
 					Dialog.confirm({
@@ -184,7 +196,7 @@
 						uni.navigateTo({
 							url: '/pages/bind_vip/bind_vip'
 						})
-					}).catch(() => {})
+					})
 					return false
 				} else {
 					return true
@@ -210,6 +222,7 @@
 		}
 	}
 </script>
+
 
 <style scoped>
 	image {

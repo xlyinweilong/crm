@@ -47,7 +47,6 @@
 					this.$uniRequest.post('/api/small_procedures/login/bind_vip_call_wechat', {
 						iv: e.detail.iv,encryptedData:e.detail.encryptedData
 					}).then(res => {
-						wx.hideLoading()
 						let user = wx.getStorageSync('token')
 						user.cardList = res.data
 						wx.setStorageSync('token', user)
@@ -56,7 +55,7 @@
 						uni.redirectTo({
 							url: '/pages/info/index'
 						})
-					}).finally(() => this.loading = false)
+					}).finally(() => wx.hideLoading())
 				}
 			},
 			inputUserPhone(e) {
