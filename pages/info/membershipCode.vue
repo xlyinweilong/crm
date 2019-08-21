@@ -1,21 +1,25 @@
 <template>
-	<van-dialog use-slot :show="showMembershipCode" @close="onClose" :showConfirmButton="false" :closeOnClickOverlay="true">
-		<view class="membershipCode">
-			<div class="image-div">
-				<image mode="widthFix" src="../../static/images/ticket_bg.png" />
+	<view>
+		<view class="myInfo">
+			<div v-if="cardImageUrl != null && cardImageUrl != ''" class="image-div">
+				<image class="image" mode="widthFix" :src="baseUrl + cardImageUrl" />
+				<div class="gradename">
+					{{gradeName}}
+				</div>
+				<div class="code">
+					NO.<span>{{cardCode}}</span>
+				</div>
+				<span class="iconfont icon-huiyuanka"></span>
 			</div>
-			<div class="gradename">
-				VIP银卡会员
+			<div class="button">
+				<span class="left" @click="goPage('bind_vip/bind_vip')">会员卡绑定</span>
+				<span class="right marginLeft" @click="goPage('info/changeVipCard')">切换当前会员</span>
 			</div>
-			<div class="code">
-				NO.<span>ZK890370</span>
-			</div>
-			<span class="iconfont icon-huiyuanka"></span>
 			<div v-show="showImage" class="qrcode">
-				<tki-qrcode ref="qrcode" :val="'123'" />
+				<tki-qrcode ref="qrcode" :val="cardCode" />
 			</div>
 			<div v-show="showImage" class="barcode">
-				<tki-barcode ref="barcode" :val="'1234567890'" />
+				<tki-barcode ref="barcode" :val="cardCode" />
 			</div>
 			<div class="info">
 				使用时请出示给店员
@@ -23,12 +27,8 @@
 			<div class="hr">
 				<hr />
 			</div>
-			<div class="close" @click="onClose">
-				关闭
-			</div>
 		</view>
-		<van-datetime-picker type="date" bind:input="onInput" />
-	</van-dialog>
+	</view>
 </template>
 
 <script>
@@ -40,86 +40,125 @@
 			tkiBarcode,
 			tkiQrcode
 		},
-		props: {
-			showMembershipCode: {
-				type: Boolean,
-				default: false
-			}
-		},
 		data() {
 			return {
-				onInput:'',
-				showImage: false
+				cardImageUrl: '',
+				gradeName: '',
+				cardCode: '',
+				baseUrl: this.$baseURL + '/static/images/card/',
+				loading: false,
+				showImage:true
 			}
 		},
 		onLoad() {
-
+			this.init()
+		},
+		onPullDownRefresh() {
+			this.init()
 		},
 		methods: {
-			onClose() {
-				this.showImage = false
-				this.$emit('update:showMembershipCode', false)
-			}
-		},
-		watch: {
-			showMembershipCode: function(n, o) {
-				if (n) {
-					this.$nextTick(() => setTimeout(() => this.showImage = true, 400))
+			init() {
+				let user = wx.getStorageSync('token')
+				this.avatarUrl = user.avatarUrl
+				this.nickName = user.nickName
+				if (user.cardList.length > 0 && user.defaultVipErpId) {
+					this.cardCode = user.cardList.find(c => c.vipErpId == user.defaultVipErpId).vipCode
 				}
+				let grade = wx.getStorageSync('grade')
+				if (grade != null) {
+					this.cardImageUrl = grade.cardImageUrl
+					this.gradeName = grade.name
+				}
+				this.getGradeInfo()
+			},
+			getGradeInfo() {
+				this.$uniRequest.get('/api/small_procedures/vip_grade/info').then(res => {
+					this.cardImageUrl = res.data.cardImageUrl
+					this.gradeName = res.data.name
+					wx.setStorageSync('grade', res.data)
+					uni.stopPullDownRefresh()
+				}).finally(() => wx.hideLoading())
+			},
+			goPage(page) {
+				uni.navigateTo({
+					url: '/pages/' + page
+				})
 			}
 		}
 	}
 </script>
-
 <style>
-	.membershipCode .image-div {
-		text-align: center;
-		padding-top: 50rpx;
-		padding-left: 50rpx;
-		padding-right: 50rpx;
+	page {
+		background-color: #FFFFFF;
+	}
+</style>
+<style scoped>
+	.myInfo .value-class {
+		flex: none !important;
 	}
 
-	.membershipCode .gradename {
+	.myInfo .image-div {
+		text-align: center;
+		margin-top: 50rpx;
+	}
+
+	.myInfo .image {
+		width: 520rpx;
+		height: 310rpx;
+	}
+
+	.myInfo .gradename {
 		color: #FFFFFF;
 		font-size: 31rpx;
 		position: absolute;
 		z-index: 200;
 		top: 85rpx;
-		left: 95rpx;
+		left: 155rpx;
 	}
 
-	.membershipCode .code {
+	.myInfo .code {
 		color: #FFFFFF;
-		font-size: 22rpx;
+		font-size: 20rpx;
+		position: absolute;
+		z-index: 200;
+		top: 305rpx;
+		left: 145rpx;
+	}
+
+	.myInfo .icon-huiyuanka {
+		color: #FFFFFF;
+		font-size: 38rpx;
 		position: absolute;
 		z-index: 200;
 		top: 295rpx;
-		left: 95rpx;
+		right: 135rpx;
 	}
 
-	.membershipCode .icon-huiyuanka {
-		color: #FFFFFF;
-		font-size: 42rpx;
-		position: absolute;
-		z-index: 200;
-		top: 272rpx;
-		right: 95rpx;
-	}
 
-	.membershipCode .qrcode {
-		padding-top: 25rpx;
+	.myInfo .button {
+		margin-top: 10rpx;
 		text-align: center;
-		margin: 0 auto;
-		width: 250upx;
+		font-size: 23rpx;
 	}
 
-	.membershipCode .barcode {
-		padding-top: 25rpx;
-		text-align: center;
-		margin: 0 auto;
+	.myInfo .marginLeft {
+		margin-left: 80rpx;
 	}
 
-	.membershipCode .info {
+	.myInfo .left {
+		font-weight: 800;
+		color: #000000;
+		border-bottom: 3rpx solid #000000;
+	}
+
+	.myInfo .right {
+		font-weight: 800;
+		color: #C80000;
+		border-bottom: 3rpx solid #C80000;
+	}
+
+
+	.myInfo .info {
 		padding-top: 35rpx;
 		color: #000000;
 		text-align: center;
@@ -127,24 +166,22 @@
 		font-weight: bold;
 	}
 
-	.membershipCode .hr {
-		padding-top: 20rpx;
-		padding-bottom: 23rpx;
+	.myInfo .hr {
+		height: 1px;
 		padding-left: 45rpx;
 		padding-right: 45rpx;
 	}
-
-	.membershipCode hr {
-		height: 1px;
-		border: none;
-		border-top: 1px solid #000000;
-	}
-
-	.membershipCode .close {
+	
+	.myInfo .qrcode {
+		padding-top: 45rpx;
 		text-align: center;
-		font-size: 30rpx;
-		font-weight: bold;
-		color: #BF0000;
-		padding-bottom: 28rpx;
+		margin: 0 auto;
+		width: 350upx;
+	}
+	
+	.myInfo .barcode {
+		padding-top: 45rpx;
+		text-align: center;
+		margin: 0 auto;
 	}
 </style>

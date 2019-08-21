@@ -57,6 +57,7 @@
 					userInfo.recommendOpenId = this.scene
 				}
 				this.$uniRequest.post('/api/small_procedures/login/register', userInfo).then(res => {
+					wx.setStorageSync('token', res.data)
 					//跳转到绑定会员卡
 					uni.redirectTo({
 						url: '/pages/bind_vip/bind_vip'

@@ -1,6 +1,5 @@
 {
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/login/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -60,33 +59,13 @@
 		{
 			"path": "pages/info/index",
 			"style": {
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "用户中心",
 				"usingComponents": {
 					"i-row": "/wxcomponents/iview/row/index",
 					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index"
-				}
-			}
-		},
-		{
-			"path": "pages/info/membershipCode",
-			"style": {
-				"navigationBarTitleText": "会员卡",
-				"usingComponents": {
-					"van-dialog": "/wxcomponents/vant/dialog/index"
-				}
-			}
-		},
-		{
-			"path": "pages/info/myInfo",
-			"style": {
-				"navigationBarTitleText": "个人信息",
-				"usingComponents": {
-					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"i-input": "/wxcomponents/iview/input/index",
-					"van-popup": "/wxcomponents/vant/popup/index",
-					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index"
 				}
 			}
 		},
@@ -104,6 +83,98 @@
 					"van-cell": "/wxcomponents/vant/cell/index",
 					"van-cell-group": "/wxcomponents/vant/cell-group/index",
 					"van-button": "/wxcomponents/vant/button/index"
+				}
+			}
+		},
+		{
+			"path": "pages/info/myInfo",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "个人资料",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-radio": "/wxcomponents/vant/radio/index",
+					"van-radio-group": "/wxcomponents/vant/radio-group/index",
+					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index"
+				}
+			}
+		},
+		{
+			"path": "pages/info/membershipCode",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "会员码",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-radio": "/wxcomponents/vant/radio/index",
+					"van-radio-group": "/wxcomponents/vant/radio-group/index",
+					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index"
+				}
+			}
+		},
+		{
+			"path": "pages/info/changeVipCard",
+			"style": {
+				"navigationBarTitleText": "会员卡管理",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-radio": "/wxcomponents/vant/radio/index",
+					"van-radio-group": "/wxcomponents/vant/radio-group/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
+				}
+			}
+		},
+		{
+			"path": "pages/channel/nearby",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "附近门店",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"van-search": "/wxcomponents/vant/search/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index",
+					"van-icon": "/wxcomponents/vant/icon/index"
+				}
+			}
+		},
+		{
+			"path": "pages/sale_bill/list",
+			"style": {
+				"navigationBarTitleText": "消费记录",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"i-row": "/wxcomponents/iview/row/index",
+					"i-col": "/wxcomponents/iview/col/index",
+					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index"
 				}
 			}
 		},

@@ -48,7 +48,8 @@
 						iv: e.detail.iv,encryptedData:e.detail.encryptedData
 					}).then(res => {
 						let user = wx.getStorageSync('token')
-						user.cardList = res.data
+						user.cardList = res.data.list
+						user.defaultVipErpId = res.data.defaultVipErpId
 						wx.setStorageSync('token', user)
 						this.showCodeDialog = false
 						//跳转到首页
@@ -104,7 +105,8 @@
 				}).then(res => {
 					wx.hideLoading()
 					let user = wx.getStorageSync('token')
-					user.cardList = res.data
+					user.cardList = res.data.list
+					user.defaultVipErpId = res.data.defaultVipErpId
 					wx.setStorageSync('token', user)
 					this.showCodeDialog = false
 					//跳转到首页

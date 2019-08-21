@@ -17,7 +17,7 @@ export default {
 		},
 		size: {
 			type: Number,
-			default: 250
+			default: 350
 		},
 		unit: {
 			type: String,

@@ -11,7 +11,7 @@
 				<div class="user-card-no" v-if="cardCode != ''">VIP:{{cardCode}}</div>
 				<div class="user-card-tips" v-if="cardCode != ''">有效期至永久有效</div>
 			</div>
-			<div class="user-qrcode" @click="showMembershipCodeFun">
+			<div class="user-qrcode" @click="goPage('info/membershipCode')">
 				<i-row>
 					<i-col span="6" offset="4">
 						<span class="iconfont icon-huiyuanma"></span>
@@ -22,7 +22,7 @@
 					</i-col>
 				</i-row>
 			</div>
-			<div class="user-info" @click="showMyInfoFun">
+			<div class="user-info" @click="goPage('info/myInfo')">
 				<i-row>
 					<i-col span="6" offset="4">
 						<span class="iconfont icon-wodeziliao"></span>
@@ -85,8 +85,10 @@
 						<div class="wenzi">会员权益</div>
 					</i-col>
 					<i-col span="8">
-						<div><span class="iconfont icon-chakandingdan"></span></div>
-						<div class="wenzi">查看单据</div>
+						<div @click="goPage('sale_bill/list')">
+							<div><span class="iconfont icon-chakandingdan"></span></div>
+							<div class="wenzi">查看单据</div>
+						</div>
 					</i-col>
 					<i-col span="8">
 						<div><span class="iconfont icon-zhuanshuguwen"></span></div>
@@ -103,8 +105,10 @@
 						<div class="wenzi">官方商城</div>
 					</i-col>
 					<i-col span="8">
-						<div><span class="iconfont icon-fujinmendian"></span></div>
-						<div class="wenzi">附近门店</div>
+						<div @click="goPage('channel/nearby')">
+							<div><span class="iconfont icon-fujinmendian"></span></div>
+							<div class="wenzi">附近门店</div>
+						</div>
 					</i-col>
 				</i-row>
 			</div>
@@ -123,24 +127,17 @@
 				<image mode="widthFix" style="width: 100%;" src="../../static/images/footer2.jpg" />
 			</view>
 		</view>
-		<membershipCode :showMembershipCode.sync="showMembershipCode" />
-		<myInfo :showMyInfo.sync="showMyInfo" />
 		<van-dialog id="van-dialog" />
 	</view>
 </template>
 
 <script>
 	import '@/static/css/style.css'
-	import membershipCode from "./membershipCode.vue"
-	import myInfo from "./myInfo.vue"
 	import Dialog from 'wxcomponents/vant/dialog/dialog';
 
 
 	export default {
-		components: {
-			membershipCode,
-			myInfo
-		},
+		components: {},
 		data() {
 			return {
 				avatarUrl: '',
@@ -164,28 +161,39 @@
 				}
 			}
 		},
+		onPullDownRefresh() {
+			this.init(true)
+		},
 		onLoad() {
-			let user = wx.getStorageSync('token')
-			this.avatarUrl = user.avatarUrl
-			this.nickName = user.nickName
-			this.cardList = user.cardList
-			this.isEmploy = user.isEmploy
-			if (this.avatarUrl == null || this.avatarUrl == '') {
-				this.avatarUrl = '../../static/images/user.png'
-			}
-			if (this.cardList.length > 0) {
-				this.cardCode = this.cardList[0].vipCode
-			}
-			this.myInfo()
+			this.init(false)
 		},
 		methods: {
-			myInfo() {
-				wx.showLoading({
-					title: '加载中',
-				})
+			init(reflush) {
+				let user = wx.getStorageSync('token')
+				this.avatarUrl = user.avatarUrl
+				this.nickName = user.nickName
+				this.cardList = user.cardList
+				this.isEmploy = user.isEmploy
+				if (this.avatarUrl == null || this.avatarUrl == '') {
+					this.avatarUrl = '../../static/images/user.png'
+				}
+				if (this.cardList.length > 0 && user.defaultVipErpId) {
+					this.cardCode = this.cardList.find(c => c.vipErpId == user.defaultVipErpId).vipCode
+				}
+				this.myInfo(reflush)
+			},
+			myInfo(reflush) {
+				if (!reflush) {
+					wx.showLoading({
+						title: '加载中',
+					})
+				}
 				this.$uniRequest.get('/api/small_procedures/vip/my_info').then(res => {
 					this.userInfo = res.data
 					wx.setStorageSync('userInfo', this.userInfo)
+					if (reflush) {
+						uni.stopPullDownRefresh()
+					}
 				}).finally(() => wx.hideLoading())
 			},
 			hasVipCard() {
@@ -200,16 +208,6 @@
 					return false
 				} else {
 					return true
-				}
-			},
-			showMembershipCodeFun() {
-				if (this.hasVipCard()) {
-					this.showMembershipCode = true
-				}
-			},
-			showMyInfoFun() {
-				if (this.hasVipCard()) {
-					this.showMyInfo = true
 				}
 			},
 			goPage(page) {

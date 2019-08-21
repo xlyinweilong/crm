@@ -2,36 +2,38 @@
 	<view class="integral">
 		<!-- header -->
 		<div v-show="tab == 1" style="text-align: center;background-color: #615451;height: 360rpx;">
-			<div class="white" style="padding-top:55rpx;font-size: 20rpx;">剩余积分</div>
-			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{userInfo.totalIntegral}}<span style="font-size: 30rpx;">分</span></div>
-			<div class="white" style="padding-top:5rpx;font-size: 18rpx;">累计消费：{{totalUserdIntegral}}分</div>
+			<div class="white" style="padding-top:55rpx;font-size: 20rpx;">累计金额</div>
+			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{totalSale.totalAmount}}<span style="font-size: 30rpx;">元</span></div>
+			<div class="white" style="padding-top:5rpx;font-size: 18rpx;">累计数量：{{totalSale.totalCount}}</div>
 		</div>
 		<div v-show="tab == 2" style="text-align: center;background-color: #615451;height: 360rpx;">
-			<div class="white" style="padding-top:55rpx;font-size: 20rpx;">现金余额</div>
-			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{totalAmount}}<span style="font-size: 30rpx;">分</span></div>
-			<div class="white" style="padding-top:5rpx;font-size: 18rpx;">累计消费：{{totalUsedAmount}}元</div>
+			<div class="white" style="padding-top:55rpx;font-size: 20rpx;">累计金额</div>
+			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{totalReturn.totalAmount}}<span style="font-size: 30rpx;">元</span></div>
+			<div class="white" style="padding-top:5rpx;font-size: 18rpx;">累计数量：{{totalReturn.totalCount}}</div>
 		</div>
 		<div>
 			<div class="tabDiv">
 				<i-row span="10">
 					<view @click="onClickTab(1)">
-						<i-col span="12" :i-class="tab == 1 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodejifen" />积分交易</i-col>
+						<i-col span="12" :i-class="tab == 1 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodeyue" />购买单据</i-col>
 					</view>
 					<view @click="onClickTab(2)">
-						<i-col span="12" :i-class="tab == 2 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodeyue" />储值交易</i-col>
+						<i-col span="12" :i-class="tab == 2 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodeyue" />退货单据</i-col>
 					</view>
 				</i-row>
 				<div v-show="tab == 1" class="tabs_content">
 					<i-row span="22">
-						<i-col span="8" i-class="tab_header">时间</i-col>
-						<i-col span="8" i-class="tab_header">类型</i-col>
-						<i-col span="8" i-class="tab_header">积分</i-col>
+						<i-col span="6" i-class="tab_header">时间</i-col>
+						<i-col span="6" i-class="tab_header">商品</i-col>
+						<i-col span="6" i-class="tab_header">颜色</i-col>
+						<i-col span="6" i-class="tab_header">金额</i-col>
 					</i-row>
 					<view v-for="ele in list">
 						<i-row span="22">
-							<i-col span="8" i-class="tab_td"><span>{{ele.operationDate}}</span></i-col>
-							<i-col span="8" i-class="tab_td">{{ele.operationName}}</i-col>
-							<i-col span="8" i-class="tab_td">{{ele.integral}}分</i-col>
+							<i-col span="6" i-class="tab_td"><span>{{ele.billDate}}</span></i-col>
+							<i-col span="6" i-class="tab_td">{{ele.goodsName}}</i-col>
+							<i-col span="6" i-class="tab_td">{{ele.colorName}}</i-col>
+							<i-col span="6" i-class="tab_td">{{ele.billAmount}}</i-col>
 						</i-row>
 					</view>
 					<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;">
@@ -47,15 +49,17 @@
 				</div>
 				<div v-show="tab == 2" class="tabs_content">
 					<i-row span="22">
-						<i-col span="8" i-class="tab_header">时间</i-col>
-						<i-col span="8" i-class="tab_header">类型</i-col>
-						<i-col span="8" i-class="tab_header">金额</i-col>
+						<i-col span="6" i-class="tab_header">时间</i-col>
+						<i-col span="6" i-class="tab_header">商品</i-col>
+						<i-col span="6" i-class="tab_header">颜色</i-col>
+						<i-col span="6" i-class="tab_header">金额</i-col>
 					</i-row>
 					<view v-for="ele in list">
 						<i-row span="22">
-							<i-col span="8" i-class="tab_td"><span>{{ele.operationDate}}</span></i-col>
-							<i-col span="8" i-class="tab_td">{{ele.operationName}}</i-col>
-							<i-col span="8" i-class="tab_td">{{ele.amount}}元</i-col>
+							<i-col span="6" i-class="tab_td"><span>{{ele.billDate}}</span></i-col>
+							<i-col span="6" i-class="tab_td">{{ele.goodsName}}</i-col>
+							<i-col span="6" i-class="tab_td">{{ele.colorName}}</i-col>
+							<i-col span="6" i-class="tab_td">{{ele.billAmount}}</i-col>
 						</i-row>
 					</view>
 					<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;">
@@ -84,8 +88,14 @@
 		},
 		data() {
 			return {
-				totalAmount:0,
-				totalUsedAmount:0,
+				totalSale: {
+					totalAmount: 0,
+					totalCount: 0
+				},
+				totalReturn: {
+					totalAmount: 0,
+					totalCount: 0
+				},
 				loading: false,
 				list: [],
 				cardCode: '',
@@ -93,11 +103,7 @@
 				coupon: 0,
 				integral: 0,
 				noMore: false,
-				tab: 1,
-				userInfo: {
-					totalIntegral: 0
-				},
-				totalUserdIntegral:0
+				tab: 1
 			}
 		},
 		onLoad() {
@@ -112,8 +118,8 @@
 			}
 			this.list = []
 			this.getList()
-			this.getSumUsedIntegral()
-			this.getSumUsedAmount()
+			this.getTotal("SALE")
+			this.getTotal("RETURN")
 		},
 		methods: {
 			getList() {
@@ -125,12 +131,12 @@
 				if (!this.loading) {
 					this.loading = true
 					this.pageIndex += 1
-					let url = this.tab === 1 ? '/api/small_procedures/vip/my_integral_list' :
-						'/api/small_procedures/vip/my_stored_card_log_list'
-					this.$uniRequest.get(url, {
+					let type = this.tab === 1 ? 'SALE' : 'RETURN'
+					this.$uniRequest.get('/api/small_procedures/vip/my_sale_list', {
 						data: {
 							pageIndex: this.pageIndex,
-							pageSize: 10
+							pageSize: 10,
+							type: type
 						}
 					}).then(res => {
 						res.data.content.forEach(c => this.list.push(c))
@@ -140,15 +146,17 @@
 					})
 				}
 			},
-			getSumUsedIntegral(){
-				this.$uniRequest.get('/api/small_procedures/vip/sum_used_integral').then(res => {
-					this.totalUserdIntegral = res.data
-				})
-			},
-			getSumUsedAmount(){
-				this.$uniRequest.get('/api/small_procedures/vip/sum_amount').then(res => {
-					this.totalAmount = res.data.totalAmount
-					this.totalUsedAmount=res.data.totalUsedAmount
+			getTotal(type) {
+				this.$uniRequest.get('/api/small_procedures/vip/my_sale_total', {
+					data: {
+						type: type
+					}
+				}).then(res => {
+					if (type == "SALE") {
+						this.totalSale = res.data
+					} else {
+						this.totalReturn = res.data
+					}
 				})
 			},
 			onClickTab(tab) {
@@ -238,5 +246,8 @@
 		font-size: 28rpx;
 		padding-top: 17rpx;
 		border-bottom: 2rpx solid #706000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 </style>
