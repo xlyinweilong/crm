@@ -179,6 +179,25 @@
 			}
 		},
 		{
+			"path": "pages/vip/power",
+			"style": {
+				"navigationBarTitleText": "会员权益",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"i-row": "/wxcomponents/iview/row/index",
+					"i-col": "/wxcomponents/iview/col/index",
+					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-notify": "/wxcomponents/vant/notify/index"
+				}
+			}
+		},
+		{
 			"path": "pages/basics/layout",
 			"style": {}
 		},

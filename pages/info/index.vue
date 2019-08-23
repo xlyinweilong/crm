@@ -81,8 +81,10 @@
 			<div class="icons">
 				<i-row i-class="icons-row">
 					<i-col span="8">
-						<div><span class="iconfont icon-huiyuanquanyi"></span></div>
-						<div class="wenzi">会员权益</div>
+						<div @click="goPage('vip/power')">
+							<div><span class="iconfont icon-huiyuanquanyi"></span></div>
+							<div class="wenzi">会员权益</div>
+						</div>
 					</i-col>
 					<i-col span="8">
 						<div @click="goPage('sale_bill/list')">
