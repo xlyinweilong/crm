@@ -57,8 +57,6 @@
 		onLoad() {
 			let user = wx.getStorageSync('token')
 			this.vipCardId = user.defaultVipErpId
-			console.log(this.vipCardId)
-
 			this.loadMyVipCards()
 		},
 		methods: {
