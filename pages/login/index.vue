@@ -59,7 +59,10 @@
 				if (this.scene == 'employ,register') {
 					//判断是否已经注册为员工
 					if (data.isEmploy){
-						//调转员工首页TODO
+						//调转员工首页
+						uni.redirectTo({
+							url: '/pages/employ/index'
+						})
 					}else{
 						//跳转注册/绑定员工页面
 						uni.redirectTo({

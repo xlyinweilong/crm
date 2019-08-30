@@ -58,12 +58,10 @@
 				}
 				form.code = this.employCode
 				this.$uniRequest.post('/api/small_procedures/employ/bind', form).then(res => {
-					if (isResponseOk(res)) {
-						Toast(res.data.message)
-						//TODO 跳转到员工首页
-					} else {
-						Toast(res.data.message)
-					}
+					Toast(res.message)
+					uni.redirectTo({
+						url: '/pages/employ/index'
+					})
 				}).finally(() => this.loading = false)
 			}
 		}
