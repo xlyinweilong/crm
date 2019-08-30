@@ -55,40 +55,47 @@
 					data: data
 				})
 				this.$uniRequest.defaults.headers.common['X-Token'] = data.token
-				if (data.isRegister) {
-					if (data.isEmploy) {
-						//判断是否员工
-						uni.redirectTo({
-							url: '/pages/employ/index'
-						})
-					} else {
-						//判断是否已经绑定卡
-						if (data.cardList.length == 0) {
-							uni.redirectTo({
-								url: '/pages/bind_vip/bind_vip'
-							})
-						} else {
-							uni.redirectTo({
-								url: '/pages/info/index'
-							})
-						}
-					}
-				} else {
-					if (this.scene == 'employ,register') {
-						//跳转到绑定页面
+				//是否员工扫码进入
+				if (this.scene == 'employ,register') {
+					//判断是否已经注册为员工
+					if (data.isEmploy){
+						//调转员工首页TODO
+					}else{
+						//跳转注册/绑定员工页面
 						uni.redirectTo({
 							url: '/pages/employ/register'
 						})
 						return
 					}
-					let parameter = ''
-					if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend,")) {
-						parameter = this.scene.replace("recommend,", "").trim()
+				}else{
+					if (data.isRegister) {
+						if (data.isEmploy) {
+							//判断是否员工
+							uni.redirectTo({
+								url: '/pages/employ/index'
+							})
+						} else {
+							//判断是否已经绑定卡
+							if (data.cardList.length == 0) {
+								uni.redirectTo({
+									url: '/pages/bind_vip/bind_vip'
+								})
+							} else {
+								uni.redirectTo({
+									url: '/pages/info/index'
+								})
+							}
+						}
+					} else {
+						//注册成新的会员
+						let parameter = ''
+						if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend,")) {
+							parameter = this.scene.replace("recommend,", "").trim()
+						}
+						uni.redirectTo({
+							url: '/pages/register/register?scene=' + parameter
+						})
 					}
-					//注册成新的会员
-					uni.redirectTo({
-						url: '/pages/register/register?scene=' + parameter
-					})
 				}
 			}
 		}

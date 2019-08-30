@@ -2,7 +2,7 @@
 	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
 		<!-- header -->
 		<view class="header">
-			<image mode="widthFix" style="width: 100%;" src="../../static/images/header.png" />
+			<image mode="widthFix" style="width: 100%;" :src="headerUrl" />
 			<div class="user-img">
 				<image class="user-img-image" :src="avatarUrl" />
 			</div>
@@ -126,7 +126,7 @@
 				</uni-swiper-dot>
 			</view>
 			<view class="footer2">
-				<image mode="widthFix" style="width: 100%;" src="../../static/images/footer2.jpg" />
+				<image mode="widthFix" style="width: 100%;" :src="footerUrl" />
 			</view>
 		</view>
 		<van-dialog id="van-dialog" />
@@ -142,6 +142,7 @@
 		components: {},
 		data() {
 			return {
+				headerUrl: "../../static/images/header.png",
 				avatarUrl: '',
 				nickName: '',
 				cardCode: '',
@@ -160,7 +161,8 @@
 				showMyInfo: false,
 				userInfo: {
 					totalIntegral: 0
-				}
+				},
+				footerUrl: "../../static/images/footer2.jpg"
 			}
 		},
 		onPullDownRefresh() {
@@ -183,6 +185,21 @@
 					this.cardCode = this.cardList.find(c => c.vipErpId == user.defaultVipErpId).vipCode
 				}
 				this.myInfo(reflush)
+				//查询图片等信息
+				this.$uniRequest.get('/api/diy_ui/info').then(res => {
+					if (res.data.infoBackImageUrl != null) {
+						this.headerUrl = this.$baseImageURL + res.data.infoBackImageUrl
+					}
+					if (res.data.infoFooterImageUrl != null) {
+						this.footerUrl = this.$baseImageURL + res.data.infoFooterImageUrl
+					}
+					if (res.data.fileList.length > 0) {
+						this.info = res.data.fileList.map(f => ({
+							url: this.$baseImageURL + f
+						}))
+					}
+					console.log(this.info)
+				})
 			},
 			myInfo(reflush) {
 				if (!reflush) {
