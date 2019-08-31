@@ -10,6 +10,7 @@
 				<div class="user-name" v-if="nickName != ''">Hi,{{nickName}}</div>
 				<div class="user-card-no" v-if="cardCode != ''">VIP:{{cardCode}}</div>
 				<div class="user-card-tips" v-if="cardCode != ''">有效期至永久有效</div>
+				<div @click="changeRole" class="user-name" v-if="isEmploy">切换角色</div>
 			</div>
 			<div class="user-qrcode" @click="goPage('info/membershipCode')">
 				<i-row>
@@ -135,7 +136,7 @@
 
 <script>
 	import '@/static/css/style.css'
-	import Dialog from 'wxcomponents/vant/dialog/dialog';
+	import Dialog from 'wxcomponents/vant/dialog/dialog'
 
 
 	export default {
@@ -198,7 +199,6 @@
 							url: this.$baseImageURL + f
 						}))
 					}
-					console.log(this.info)
 				})
 			},
 			myInfo(reflush) {
@@ -235,6 +235,17 @@
 						url: '/pages/' + page
 					})
 				}
+			},
+			changeRole() {
+				Dialog.confirm({
+				  title: '切换角色',
+				  message: '确认切换成员工吗？'
+				}).then(() => {
+					uni.redirectTo({
+						url: '/pages/employ/index'
+					})
+				}).catch(() => {
+				})
 			}
 		}
 	}

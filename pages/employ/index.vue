@@ -1,19 +1,53 @@
 <template>
 	<view style="">
-		员工进入后的首页
-		会员拉新使用自己的code生成小程序二维码
+		<!-- 员工进入后的首页
+		会员拉新使用自己的code生成小程序二维码 -->
+		<div>
+			<i-grid>
+				<i-grid-item>
+					<div @click="changeRole">
+						<i-grid-icon>
+							<i-icon type="group" size="28" />
+						</i-grid-icon>
+						<i-grid-label>切换角色</i-grid-label>
+					</div>
+				</i-grid-item>
+				<i-grid-item>
+					<div @click="myQrCode">
+						<i-grid-icon>
+							<i-icon type="scan" size="28" />
+						</i-grid-icon>
+						<i-grid-label>二维码</i-grid-label>
+					</div>
+				</i-grid-item>
+				<i-grid-item>
+					<div @click="myReferrals">
+						<i-grid-icon>
+							<i-icon type="financial_fill" size="28" />
+						</i-grid-icon>
+						<i-grid-label>我的拉新</i-grid-label>
+					</div>
+				</i-grid-item>
+				<i-grid-item>
+					<div @click="myVip">
+						<i-grid-icon>
+							<i-icon type="addressbook" size="28" />
+						</i-grid-icon>
+						<i-grid-label>我的顾客</i-grid-label>
+					</div>
+				</i-grid-item>
+			</i-grid>
+		</div>
+		<van-dialog id="van-dialog" />
 	</view>
 </template>
 
 <script>
 	import Toast from '@/wxcomponents/vant/toast/toast'
-	import {
-		isResponseOk
-	} from '@/utils/http.js'
+	import Dialog from '@/wxcomponents/vant/dialog/dialog'
 
 	export default {
 		components: {
-
 		},
 		data() {
 			return {
@@ -25,65 +59,36 @@
 
 		},
 		methods: {
-			inputEmployCode(e) {
-				this.employCode = e.detail
-			},
-			doBind() {
-				let that = this
-				// 查看是否授权
-				wx.getSetting({
-					success(res) {
-						if (res.authSetting['scope.userInfo']) {
-							wx.getUserInfo({
-								success: function(res) {
-									console.log(res.userInfo)
-									that.updateUserInfo(res.userInfo)
-								}
-							})
-						} else {
-							wx.authorize({
-								scope: 'scope.userInfo',
-								success() {
-									wx.getUserInfo({
-										success: function(res) {
-											that.updateUserInfo(res.userInfo)
-										}
-									})
-								},
-								fail() {
-									Toast('授权后可以绑定')
-								}
-							})
-						}
-					}
+			changeRole() {
+				Dialog.confirm({
+				  title: '切换角色',
+				  message: '确认切换成会员吗？'
+				}).then(() => {
+					uni.redirectTo({
+						url: '/pages/info/index'
+					})
+				}).catch(() => {
 				})
 			},
-			updateUserInfo(userInfo) {
-				this.loading = true
-				let form = {}
-				if (userInfo != null) {
-					form = userInfo
-				}
-				form.code = this.employCode
-				this.$uniRequest.post('/api/small_procedures/employ/bind', form).then(res => {
-					if (isResponseOk(res)) {
-						Toast(res.data.message)
-						//TODO 跳转到员工首页
-					} else {
-						Toast(res.data.message)
-					}
-				}).finally(() => this.loading = false)
+			myQrCode() {
+				uni.navigateTo({
+					url: '/pages/employ/my_qrcode'
+				})
+			},
+			myReferrals(){
+				uni.navigateTo({
+					url: '/pages/employ/my_referrals'
+				})
+			},
+			myVip(){
+				uni.navigateTo({
+					url: '/pages/employ/my_vip'
+				})
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	image {
-		will-change: transform
-	}
-</style>
-
-<style>
-
+	
 </style>

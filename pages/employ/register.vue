@@ -17,9 +17,6 @@
 
 <script>
 	import Toast from '@/wxcomponents/vant/toast/toast'
-	import {
-		isResponseOk
-	} from '@/utils/http.js'
 
 	export default {
 		components: {
