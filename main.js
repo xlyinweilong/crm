@@ -2,8 +2,10 @@ import Vue from 'vue'
 import App from './App'
 
 import uniRequest from 'uni-request'
-Vue.prototype.$baseURL = 'http://192.168.1.113:9090/crm'
-Vue.prototype.$baseImageURL = 'http://192.168.1.113:8086/images/'
+// Vue.prototype.$baseURL = 'http://192.168.1.113:9090/crm'
+// Vue.prototype.$baseImageURL = 'http://192.168.1.113:8086/images/'
+Vue.prototype.$baseURL = 'https://crm.pengguantech.com/crm'
+Vue.prototype.$baseImageURL = 'https://crm.pengguantech.com/images/'
 uniRequest.defaults.baseURL = Vue.prototype.$baseURL
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json'
 Vue.prototype.$uniRequest = uniRequest
@@ -36,6 +38,7 @@ uniRequest.interceptors.request.use(
 
 // 响应拦截
 uniRequest.interceptors.response.use(function(res) {
+	wx.hideLoading()
 	if (res.data.code === 50008) {
 		uni.redirectTo({
 			url: '/pages/login/index'
@@ -45,7 +48,8 @@ uniRequest.interceptors.response.use(function(res) {
 	if (res.data.code != 0) {
 		wx.showToast({
 			title: res.data.message,
-			icon: 'none'
+			icon: 'none',
+			duration: 2000
 		})
 		return Promise.reject()
 	}
