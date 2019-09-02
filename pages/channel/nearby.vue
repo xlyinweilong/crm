@@ -81,7 +81,7 @@
 						uni.stopPullDownRefresh()
 					}
 					this.channelList = res.data
-				}).finally(() => wx.hideLoading())
+				})
 			}
 		}
 	}

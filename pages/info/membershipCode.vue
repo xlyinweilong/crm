@@ -77,7 +77,7 @@
 					this.gradeName = res.data.name
 					wx.setStorageSync('grade', res.data)
 					uni.stopPullDownRefresh()
-				}).finally(() => wx.hideLoading())
+				})
 			},
 			goPage(page) {
 				uni.navigateTo({

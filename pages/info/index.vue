@@ -213,7 +213,7 @@
 					if (reflush) {
 						uni.stopPullDownRefresh()
 					}
-				}).finally(() => wx.hideLoading())
+				})
 			},
 			hasVipCard() {
 				if (this.cardList.length == 0) {

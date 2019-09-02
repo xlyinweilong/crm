@@ -81,7 +81,7 @@
 				})
 				this.$uniRequest.get('/api/small_procedures/employ/load_my_qr_code').then(res => {
 					this.base64 = res.data
-				}).finally(() => wx.hideLoading())
+				})
 			},
 			loadMore() {
 				if (!this.loading) {

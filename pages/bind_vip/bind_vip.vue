@@ -56,7 +56,7 @@
 						uni.redirectTo({
 							url: '/pages/info/index'
 						})
-					}).finally(() => wx.hideLoading())
+					})
 				}
 			},
 			inputUserPhone(e) {
@@ -93,7 +93,7 @@
 						userPhone: this.userPhone
 					}).then(res => {
 						res.resendCall()
-					}).finally(() => wx.hideLoading())
+					})
 				}
 			},
 			bindVip() {
@@ -103,7 +103,6 @@
 				this.$uniRequest.post('/api/small_procedures/login/bind_vip', {
 					msgCode: this.code
 				}).then(res => {
-					wx.hideLoading()
 					let user = wx.getStorageSync('token')
 					user.cardList = res.data.list
 					user.defaultVipErpId = res.data.defaultVipErpId

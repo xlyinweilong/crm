@@ -160,7 +160,7 @@
 					this.gradeName = res.data.name
 					wx.setStorageSync('grade', res.data)
 					uni.stopPullDownRefresh()
-				}).finally(() => wx.hideLoading())
+				})
 			},
 			confirm(e) {
 				wx.showLoading({
@@ -176,7 +176,7 @@
 					this.info.birthday = this.getText(user.birthdayStr)
 					this.birthday = user.birthday
 					this.onClose()
-				}).finally(() => wx.hideLoading())
+				})
 			},
 			saveSex() {
 				wx.showLoading({
@@ -191,7 +191,7 @@
 					wx.setStorageSync('token', user)
 					this.info.sex = this.getText(user.sexStr)
 					this.onCloseSex()
-				}).finally(() => wx.hideLoading())
+				})
 			},
 			saveDate() {
 				this.loading = true

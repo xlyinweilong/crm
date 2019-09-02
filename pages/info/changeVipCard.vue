@@ -70,7 +70,6 @@
 				this.loading = true
 				this.$uniRequest.get('/api/small_procedures/vip/my_card_list').then(res => this.list = res.data).finally(() => {
 					this.loading = false
-					wx.hideLoading()
 				})
 			},
 			setVipId(ele) {
@@ -94,7 +93,6 @@
 					this.onClose()
 				}).finally(() => {
 					this.loading = false
-					wx.hideLoading()
 				})
 			}
 		}
