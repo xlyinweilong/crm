@@ -16,6 +16,9 @@
 					</div>
 				</van-col>
 			</van-row>
+			<div>
+				<span @click="mapGoTo">导航</span>
+			</div>
 		</div>
 	</view>
 </template>
@@ -39,6 +42,9 @@
 			this.getLocation(true)
 		},
 		methods: {
+			mapGoTo(){
+				
+			},
 			getLocation(reflush) {
 				let _this = this
 				wx.getSetting({

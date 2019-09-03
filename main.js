@@ -2,11 +2,12 @@ import Vue from 'vue'
 import App from './App'
 
 import uniRequest from 'uni-request'
-// Vue.prototype.$baseURL = 'http://192.168.1.113:9090/crm'
-// Vue.prototype.$baseImageURL = 'http://192.168.1.113:8086/images/'
-Vue.prototype.$baseURL = 'https://crm.pengguantech.com/crm'
-Vue.prototype.$baseImageURL = 'https://crm.pengguantech.com/images/'
+Vue.prototype.$baseURL = 'http://192.168.1.113:9090/crm'
+Vue.prototype.$baseImageURL = 'http://192.168.1.113:8086/images/'
+// Vue.prototype.$baseURL = 'https://crm.pengguantech.com/crm'
+// Vue.prototype.$baseImageURL = 'https://crm.pengguantech.com/images/'
 uniRequest.defaults.baseURL = Vue.prototype.$baseURL
+// uniRequest.defaults.headers['tn_id'] = 'jljy'
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json'
 Vue.prototype.$uniRequest = uniRequest
 
