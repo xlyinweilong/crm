@@ -204,7 +204,8 @@
 					"van-search": "/wxcomponents/vant/search/index",
 					"van-row": "/wxcomponents/vant/row/index",
 					"van-col": "/wxcomponents/vant/col/index",
-					"van-icon": "/wxcomponents/vant/icon/index"
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			}
 		},

@@ -12,7 +12,7 @@
 				<div class="user-card-tips" v-if="cardCode != ''">有效期至永久有效</div>
 				<div @click="changeRole" class="user-name" v-if="isEmploy">切换角色</div>
 			</div>
-			<div class="user-qrcode" @click="goPage('info/membershipCode')">
+			<div class="user-qrcode" @click="goPage('info/membershipCode')" hover-class="user-info-hover">
 				<i-row>
 					<i-col span="6" offset="4">
 						<span class="iconfont icon-huiyuanma"></span>
@@ -23,7 +23,7 @@
 					</i-col>
 				</i-row>
 			</div>
-			<div class="user-info" @click="goPage('info/myInfo')">
+			<div class="user-info" @click="goPage('info/myInfo')" hover-class="user-info-hover">
 				<i-row>
 					<i-col span="6" offset="4">
 						<span class="iconfont icon-wodeziliao"></span>
@@ -59,7 +59,7 @@
 					</button>
 				</i-col>
 				<i-col span="12" i-class="tickets-row-col-right">
-					<button class="tickets-div" @click="goPage('integral/list')">
+					<button class="tickets-div" @click="goPage('integral/list')" hover-class="user-info-hover">
 						<i-row>
 							<i-col span="10">
 								<div style="padding-top: 5rpx;">
@@ -82,13 +82,13 @@
 			<div class="icons">
 				<i-row i-class="icons-row">
 					<i-col span="8">
-						<div @click="goPage('vip/power')">
+						<div @click="goPage('vip/power')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-huiyuanquanyi"></span></div>
 							<div class="wenzi">会员权益</div>
 						</div>
 					</i-col>
 					<i-col span="8">
-						<div @click="goPage('sale_bill/list')">
+						<div @click="goPage('sale_bill/list')"  hover-class="user-info-hover">
 							<div><span class="iconfont icon-chakandingdan"></span></div>
 							<div class="wenzi">查看单据</div>
 						</div>
@@ -108,7 +108,7 @@
 						<div class="wenzi">官方商城</div>
 					</i-col>
 					<i-col span="8">
-						<div @click="goPage('channel/nearby')">
+						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-fujinmendian"></span></div>
 							<div class="wenzi">附近门店</div>
 						</div>
@@ -255,5 +255,9 @@
 <style scoped>
 	image {
 		will-change: transform
+	}
+	
+	.user-info-hover{
+		color: #C80000;
 	}
 </style>
