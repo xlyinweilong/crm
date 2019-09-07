@@ -12,13 +12,13 @@
 				<span class="iconfont icon-huiyuanka"></span>
 			</div>
 			<div class="button">
-				<span class="left" @click="goPage('bind_vip/bind_vip')">会员卡绑定</span>
+				<span class="left" @click="goPage('bind_vip/bind_vip')" hover-class="button-hover">会员卡绑定</span>
 				<span class="right marginLeft" @click="goPage('info/changeVipCard')">切换当前会员</span>
 			</div>
-			<div v-show="showImage" class="qrcode">
-				<tki-qrcode ref="qrcode" :val="cardCode" />
+			<div class="qrcode">
+				<tki-qrcode ref="qrcode" :size="400" :val="cardCode"/>
 			</div>
-			<div v-show="showImage" class="barcode">
+			<div class="barcode">
 				<tki-barcode ref="barcode" :val="cardCode" />
 			</div>
 			<div class="info">
@@ -70,12 +70,17 @@
 					this.gradeName = grade.name
 				}
 				this.getGradeInfo()
+				
 			},
 			getGradeInfo() {
+				wx.showLoading({
+					title: '加载中',
+				})
 				this.$uniRequest.get('/api/small_procedures/vip_grade/info').then(res => {
 					this.cardImageUrl = res.data.cardImageUrl
 					this.gradeName = res.data.name
 					wx.setStorageSync('grade', res.data)
+					this.$refs.qrcode._makeCode()
 					uni.stopPullDownRefresh()
 				})
 			},
@@ -176,12 +181,17 @@
 		padding-top: 45rpx;
 		text-align: center;
 		margin: 0 auto;
-		width: 350upx;
+		width: 450upx;
 	}
 	
 	.myInfo .barcode {
 		padding-top: 45rpx;
 		text-align: center;
 		margin: 0 auto;
+		width: 450upx;
+	}
+	
+	.button-hover{
+		color: #C80000;
 	}
 </style>

@@ -112,7 +112,8 @@
 					"i-row": "/wxcomponents/iview/row/index",
 					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index"
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-notice-bar": "/wxcomponents/vant/notice-bar/index"
 				}
 			}
 		},
@@ -128,8 +129,7 @@
 					"i-input": "/wxcomponents/iview/input/index",
 					"van-field": "/wxcomponents/vant/field/index",
 					"van-cell": "/wxcomponents/vant/cell/index",
-					"van-cell-group": "/wxcomponents/vant/cell-group/index",
-					"van-button": "/wxcomponents/vant/button/index"
+					"van-cell-group": "/wxcomponents/vant/cell-group/index"
 				}
 			}
 		},
@@ -149,7 +149,9 @@
 					"van-radio": "/wxcomponents/vant/radio/index",
 					"van-radio-group": "/wxcomponents/vant/radio-group/index",
 					"van-popup": "/wxcomponents/vant/popup/index",
-					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index"
+					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
+					"van-tag": "/wxcomponents/vant/tag/index",
+					"van-icon": "/wxcomponents/vant/icon/index"
 				}
 			}
 		},

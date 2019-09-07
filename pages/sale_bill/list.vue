@@ -1,7 +1,7 @@
 <template>
 	<view class="integral">
 		<!-- header -->
-		<div v-show="tab == 1" style="text-align: center;background-color: #615451;height: 360rpx;">
+		<!-- <div v-show="tab == 1" style="text-align: center;background-color: #615451;height: 360rpx;">
 			<div class="white" style="padding-top:55rpx;font-size: 20rpx;">累计金额</div>
 			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{totalSale.totalAmount}}<span style="font-size: 30rpx;">元</span></div>
 			<div class="white" style="padding-top:5rpx;font-size: 18rpx;">累计数量：{{totalSale.totalCount}}</div>
@@ -10,7 +10,7 @@
 			<div class="white" style="padding-top:55rpx;font-size: 20rpx;">累计金额</div>
 			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{totalReturn.totalAmount}}<span style="font-size: 30rpx;">元</span></div>
 			<div class="white" style="padding-top:5rpx;font-size: 18rpx;">累计数量：{{totalReturn.totalCount}}</div>
-		</div>
+		</div> -->
 		<div>
 			<div class="tabDiv">
 				<i-row span="10">
@@ -213,7 +213,7 @@
 
 	.integral .tabDiv {
 		position: relative;
-		top: -80rpx;
+		top: 15rpx;
 		margin-left: 30rpx;
 		margin-right: 30rpx;
 		text-align: center;

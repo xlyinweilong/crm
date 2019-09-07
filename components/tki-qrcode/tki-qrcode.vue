@@ -1,7 +1,7 @@
 <template xlang="wxml" minapp="mpvue">
 	<view class="tki-qrcode">
 		<canvas class="tki-qrcode-canvas" :canvas-id="cid" :style="{width:cpSize+'px',height:cpSize+'px'}" />
-		<!-- <image v-show="show" :src="result" :style="{width:cpSize+'px',height:cpSize+'px'}" /> -->
+		<image v-show="show" :src="result" :style="{width:cpSize+'px',height:cpSize+'px'}" />
 	</view>
 </template>
 
@@ -17,7 +17,7 @@ export default {
 		},
 		size: {
 			type: Number,
-			default: 350
+			default: 200
 		},
 		unit: {
 			type: String,
@@ -29,7 +29,7 @@ export default {
 		},
 		val: {
 			type: String,
-			default: '123456789'
+			default: ''
 		},
 		background: {
 			type: String,
@@ -61,7 +61,7 @@ export default {
 		},
 		loadMake: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 		usingComponents: {
 			type: Boolean,
@@ -69,7 +69,7 @@ export default {
 		},
 		showLoading: {
 			type: Boolean,
-			default: false
+			default: true
 		},
 		loadingText: {
 			type: String,
@@ -84,6 +84,7 @@ export default {
 	methods: {
 		_makeCode() {
 			let that = this
+			console.log(this.val)
 			if (!this._empty(this.val)) {
 				qrcode = new QRCode({
 					context: that, // 上下文环境
@@ -194,13 +195,12 @@ export default {
 </script>
 <style>
 .tki-qrcode {
-  /* position: relative; */
+  position: relative;
 }
 .tki-qrcode-canvas {
-	/* position: fixed; */
-/*  position: fixed;
-  top: -99999upx;
+  position: fixed;
+ top: -99999upx;
   left: -99999upx;
-  z-index: -99999; */
+  z-index: -99999;
 }
 </style>

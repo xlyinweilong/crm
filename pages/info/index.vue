@@ -1,6 +1,7 @@
 <template>
 	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
 		<!-- header -->
+		<van-notice-bar v-if="!isGodUserInfoIntegral && setUserInfoGiveIntegral > 0" mode="closeable" :text="'进入[我的资料],完善个人资料可以获得'+setUserInfoGiveIntegral+'积分'"/>
 		<view class="header">
 			<image mode="widthFix" style="width: 100%;" :src="headerUrl" />
 			<div class="user-img">
@@ -143,6 +144,8 @@
 		components: {},
 		data() {
 			return {
+				setUserInfoGiveIntegral:0,
+				isGodUserInfoIntegral:true,
 				headerUrl: "../../static/images/header.png",
 				avatarUrl: '',
 				nickName: '',
@@ -179,6 +182,8 @@
 				this.nickName = user.nickName
 				this.cardList = user.cardList
 				this.isEmploy = user.isEmploy
+				this.setUserInfoGiveIntegral = user.setUserInfoGiveIntegral
+				this.isGodUserInfoIntegral = user.isGodUserInfoIntegral
 				if (this.avatarUrl == null || this.avatarUrl == '') {
 					this.avatarUrl = '../../static/images/user.png'
 				}

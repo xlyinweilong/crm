@@ -30,23 +30,38 @@
 					 :maxlength="20" label="昵称" @change="changeNickname" />
 				</van-cell-group>
 			</div>
-			<div class="inputDiv">
+			<!-- <div class="inputDiv">
 				<van-cell-group custom-class="cellGroup">
 					<van-field input-class="input" custom-style="background-color: #F8F8F8;" title-width="40px" :value="info.name"
 					 :maxlength="20" label="姓名" @change="changeName" />
 				</van-cell-group>
-			</div>
-			<div class="inputDiv">
+			</div> -->
+			<!-- <div class="inputDiv">
 				<van-cell-group custom-class="cellGroup">
 					<van-cell @click="onOpenSex" custom-style="background-color: #F8F8F8;" title-width="40px" :border="false" title="性别"
 					 is-link :value="info.sex" />
 				</van-cell-group>
 
-			</div>
+			</div> -->
 			<div class="inputDiv">
 				<van-cell-group custom-class="cellGroup">
-					<van-cell @click="showBirthday = true" custom-style="background-color: #F8F8F8;" title-width="40px" :border="false"
-					 title="生日" is-link :value="info.birthday" />
+					<van-cell @click="showBirthday = true" custom-style="background-color: #F8F8F8;" title-width="120px" :border="false"
+					 is-link :value="info.birthday">
+						<view slot="title">
+							<span class="van-cell-text" style="margin-right: 8rpx;">生日</span>
+							<van-tag type="danger">
+								<!-- <van-icon size="28rpx" name="gift-o" /> -->会有小惊喜</van-tag>
+						</view>
+					</van-cell>
+				</van-cell-group>
+			</div>
+			<div class="inputDiv" v-for="field in fieldList">
+				<van-cell-group custom-class="cellGroup">
+					<van-field v-if="field.fieldType === 'string'" input-class="input" custom-style="background-color: #F8F8F8;"
+					 title-width="40px" :value="info['diy' + field.fieldIndex]" :maxlength="field.valueMaxLength" :label="field.fieldName"
+					 @change="changeStringDiy" @focus="focusStringDiy(field)" />
+					<van-cell v-if="field.fieldType === 'radio'" @click="onOpenDiy(field)" custom-style="background-color: #F8F8F8;" title-width="40px" :border="false" 
+					:title="field.fieldName" is-link :value="info['diy' + field.fieldIndex]" />
 				</van-cell-group>
 			</div>
 			<button :loading="loading" type="primary" class="submit" @click="saveDate">确认修改</button>
@@ -71,6 +86,19 @@
 				</van-radio-group>
 			</van-cell-group>
 		</van-popup>
+		<van-popup :show="showDiy" :safe-area-inset-bottom="false" position="bottom" z-index="201" @close="onCloseDiy">
+			<van-cell-group>
+				<van-cell>
+					<span @click="onCloseDiy" style="color:#1989fa;float: left;">取消</span>
+					<span @click="saveDiy" style="color:#1989fa">确定</span>
+				</van-cell>
+				<van-radio-group :value="tempRadioDiy">
+					<van-cell v-for="temp in tempRadioDiyList" @click="clickTemp(temp)" center clickable>
+						<van-radio :name="temp" checked-color="#07c160">{{temp}}</van-radio>
+					</van-cell>
+				</van-radio-group>
+			</van-cell-group>
+		</van-popup>
 	</view>
 </template>
 
@@ -89,25 +117,41 @@
 					nickname: "",
 					name: "",
 					sex: "",
-					birthday: ""
+					birthday: "",
+					diy1:"",
+					diy2:"",
+					diy3:"",
+					diy4:"",
+					diy5:"",
+					diy6:"",
+					diy7:"",
+					diy8:"",
+					diy9:"",
+					diy10:""
 				},
+				fieldList: [],
 				showBirthday: false,
 				birthday: new Date().getTime(),
 				maxDate: new Date().getTime(),
 				minDate: new Date(1960, 1, 1).getTime(),
 				showSex: false,
 				sex: "1",
-				loading: false
+				loading: false,
+				activityIndex: -1,
+				activityField: null,
+				showDiy:false,
+				tempRadioDiy:null,
+				tempRadioDiyList:[]
 			}
 		},
 		onLoad() {
 			this.init()
 		},
-		onPullDownRefresh(){
+		onPullDownRefresh() {
 			this.init()
 		},
 		methods: {
-			init(){
+			init() {
 				let user = wx.getStorageSync('token')
 				this.avatarUrl = user.avatarUrl
 				this.nickName = user.nickName
@@ -119,9 +163,23 @@
 					this.cardImageUrl = grade.cardImageUrl
 					this.gradeName = grade.name
 				}
+				let fieldList = wx.getStorageSync('fieldList')
+				if (fieldList != null) {
+					this.fieldList = fieldList
+				}
 				this.info.name = user.name == null ? "" : user.name
 				this.info.nickname = this.nickName == null ? "" : this.nickName
 				this.info.birthday = this.getText(user.birthdayStr)
+				this.info.diy1 = this.getNotNull(user.diy1)
+				this.info.diy2 = this.getNotNull(user.diy2)
+				this.info.diy3 = this.getNotNull(user.diy3)
+				this.info.diy4 = this.getNotNull(user.diy4)
+				this.info.diy5 = this.getNotNull(user.diy5)
+				this.info.diy6 = this.getNotNull(user.diy6)
+				this.info.diy7 = this.getNotNull(user.diy7)
+				this.info.diy8 = this.getNotNull(user.diy8)
+				this.info.diy9 = this.getNotNull(user.diy9)
+				this.info.diy10 = this.getNotNull(user.diy10)
 				this.info.sex = this.getText(user.sexStr)
 				if (user.birthday != null) {
 					this.birthday = user.birthday
@@ -143,6 +201,9 @@
 			getText(str) {
 				return str == null || str == "" ? "暂无数据" : str
 			},
+			getNotNull(str) {
+				return str == null ? "" : str
+			},
 			onClose() {
 				this.showBirthday = false
 			},
@@ -154,11 +215,43 @@
 			onCloseSex() {
 				this.showSex = false
 			},
+			onOpenDiy(field) {
+				this.activityField = field
+				this.activityIndex = field.fieldIndex
+				this.tempRadioDiy = this.info['diy' + this.activityIndex]
+				this.tempRadioDiyList = field.valueOptions.split(",")
+				// let user = wx.getStorageSync('token')
+				// this.setSex(user.sex)
+				this.showDiy = true
+			},
+			onCloseDiy() {
+				this.showDiy = false
+			},
+			clickTemp(temp){
+				this.tempRadioDiy = temp
+			},
+			saveDiy(){
+				this.info['diy' + this.activityIndex] = this.tempRadioDiy
+				this.onCloseDiy()
+			},
 			getGradeInfo() {
 				this.$uniRequest.get('/api/small_procedures/vip_grade/info').then(res => {
 					this.cardImageUrl = res.data.cardImageUrl
 					this.gradeName = res.data.name
 					wx.setStorageSync('grade', res.data)
+					this.getDiyUserInfoField()
+					// uni.stopPullDownRefresh()
+				})
+			},
+			getDiyUserInfoField() {
+				this.$uniRequest.get('/api/diy_user_info_field/list', {
+					data: {
+						pageIndex: 1,
+						pageSize: 100
+					}
+				}).then(res => {
+					this.fieldList = res.data.content
+					wx.setStorageSync('fieldList', this.fieldList)
 					uni.stopPullDownRefresh()
 				})
 			},
@@ -197,11 +290,28 @@
 				this.loading = true
 				this.$uniRequest.post('/api/small_procedures/user/save', {
 					nickName: this.info.nickname,
-					name: this.info.name
+					name: this.info.name,
+					diy1:this.info.diy1,diy2:this.info.diy2,diy3:this.info.diy3,
+					diy4:this.info.diy4,diy5:this.info.diy5,diy6:this.info.diy6,
+					diy7:this.info.diy7,diy8:this.info.diy8,diy9:this.info.diy9,
+					diy10:this.info.diy10
 				}).then(res => {
 					let user = wx.getStorageSync('token')
 					user.nickName = this.info.nickname
+					user.diy1 = this.info.diy1
+					user.diy2 = this.info.diy2
+					user.diy3 = this.info.diy3
+					user.diy4 = this.info.diy4
+					user.diy5 = this.info.diy5
+					user.diy6 = this.info.diy6
+					user.diy7 = this.info.diy7
+					user.diy8 = this.info.diy8
+					user.diy9 = this.info.diy9
+					user.diy10 = this.info.diy10
 					this.nickName = this.info.nickname
+					if(res.data.isGodUserInfoIntegral){
+						user.isGodUserInfoIntegral = true
+					}
 					wx.setStorageSync('token', user)
 					wx.showToast({
 						title: '修改成功',
@@ -213,6 +323,13 @@
 				uni.navigateTo({
 					url: '/pages/' + page
 				})
+			},
+			focusStringDiy(field) {
+				this.activityField = field
+				this.activityIndex = field.fieldIndex
+			},
+			changeStringDiy(e) {
+				this.info['diy' + this.activityIndex] = e.detail
 			}
 		}
 	}

@@ -1,8 +1,11 @@
 <template xlang="wxml" minapp="mpvue">
-	<!-- <view class="tki-barcode"> -->
+	<view class="tki-barcode">
+		<!-- <canvas class="tki-barcode-canvas" canvas-id="tki-barcode-canvas" :width="canvasWidth" :height="canvasHeight" /> -->
 		<canvas class="tki-barcode-canvas" :canvas-id="cid" :style="{width:canvasWidth+'px',height:canvasHeight+'px'}" />
-		<!-- <image v-show="show" :src="result" :style="{width:canvasWidth+'px',height:canvasHeight+'px'}" /> -->
-	<!-- </view> -->
+		<image v-show="show" :src="result" :style="{width:canvasWidth+'px',height:canvasHeight+'px'}" />
+		<!-- <canvas class="tki-barcode-canvas" :canvas-id="cid" style="width:350rpx" :style="{height:canvasHeight+'px'}" />
+		<image v-show="show" :src="result" style="width:350rpx" :style="{height:canvasHeight+'px'}"/> -->
+	</view>
 </template>
 
 <script>
@@ -36,14 +39,14 @@ export default {
 			default: function () {
 				return {
 					// format: "CODE128",//选择要使用的条形码类型 微信支持的条码类型有 code128\code39\ena13\ean8\upc\itf14\
-					width: 4,//设置条之间的宽度
+					width: 5,//设置条之间的宽度
 					height: 120,//高度
 					displayValue: true,//是否在条形码下方显示文字
 					// text: "1234567890",//覆盖显示的文本
 					textAlign: "center",//设置文本的水平对齐方式
 					textPosition: "bottom",//设置文本的垂直位置
-					textMargin: 2,//设置条形码和文本之间的间距
-					fontSize: 30,//设置文本的大小
+					textMargin: 0,//设置条形码和文本之间的间距
+					fontSize: 24,//设置文本的大小
 					fontColor: "#000000",//设置文本的颜色
 					lineColor: "#000000",//设置条形码的颜色
 					background: "#FFFFFF",//设置条形码的背景色
@@ -57,11 +60,11 @@ export default {
 		},
 		onval: {
 			type: Boolean,
-			default: false
+			default: true
 		},
 		loadMake: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 	},
 	data() {
@@ -87,12 +90,12 @@ export default {
 					that.opations.fontSize = uni.upx2px(that.opations.fontSize)
 				}
 			}
-			if (that._empty(that.opations.text)) {
-				that.opations.text = that.val
-			}
-			if (that._empty(that.opations.format)) {
+			// if (that._empty(that.opations.text)) {
+			that.opations.text = that.val
+			// }
+			// if (that._empty(that.opations.format)) {
 				that.opations.format = that.format
-			}
+			// }
 			new barCode(that,that.cid, that.opations,
 				function (res) { // 生成条形码款高回调
 					that.canvasWidth = res.width
@@ -100,7 +103,7 @@ export default {
 				},
 				function (res) { // 生成条形码的回调
 					that._result(res)
-				},
+				}
 			);
 		},
 		_clearCode() {
@@ -176,14 +179,12 @@ export default {
 </script>
 <style>
 .tki-barcode {
-	/* position: relative; */
+	position: relative;
 }
 .tki-barcode-canvas {
-	display: block;
-	margin: 0 auto;
-/* 	position: fixed; 
+	position: fixed; 
 	top: -99999upx;
 	left: -99999upx;
-	z-index: -99999; */
+	z-index: -99999;
 }
 </style>

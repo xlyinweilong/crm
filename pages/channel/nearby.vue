@@ -78,7 +78,7 @@
 					success: function(res) {
 						wx.openLocation({ //​使用微信内置地图查看位置。
 							latitude: channel.lat, //要去的纬度-地址
-							longitude: lng, //要去的经度-地址
+							longitude: channel.lng, //要去的经度-地址
 							name: channel.name,
 							address: channel.address
 						})
