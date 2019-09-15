@@ -1,7 +1,7 @@
 <template>
 	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
 		<!-- header -->
-		<van-notice-bar v-if="!isGodUserInfoIntegral && setUserInfoGiveIntegral > 0" mode="closeable" :text="'进入[我的资料],完善个人资料可以获得'+setUserInfoGiveIntegral+'积分'"/>
+		<van-notice-bar v-if="!isGodUserInfoIntegral && setUserInfoGiveIntegral > 0" mode="closeable" :text="'进入[我的资料],完善个人资料可以获得'+setUserInfoGiveIntegral+'积分'" />
 		<view class="header">
 			<image mode="widthFix" style="width: 100%;" :src="headerUrl" />
 			<div class="user-img">
@@ -40,7 +40,7 @@
 		<view class="tickets">
 			<i-row>
 				<i-col span="12" i-class="tickets-row-col-left">
-					<button class="tickets-div">
+					<button class="tickets-div" @click="goPage('ticket/list')" hover-class="user-info-hover">
 						<i-row>
 							<i-col span="9">
 								<div style="padding-top: 5rpx;">
@@ -53,7 +53,7 @@
 							</i-col>
 							<i-col span="12">
 								<div style="padding-top: 19rpx;">
-									<span class="count">{{coupon}}</span><span class="danwei">张</span>
+									<span class="count">{{userInfo.coupon}}</span><span class="danwei">张</span>
 								</div>
 							</i-col>
 						</i-row>
@@ -89,7 +89,7 @@
 						</div>
 					</i-col>
 					<i-col span="8">
-						<div @click="goPage('sale_bill/list')"  hover-class="user-info-hover">
+						<div @click="goPage('sale_bill/list')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-chakandingdan"></span></div>
 							<div class="wenzi">查看单据</div>
 						</div>
@@ -101,12 +101,16 @@
 				</i-row>
 				<i-row i-class="icons-row">
 					<i-col span="8">
-						<div><span class="iconfont icon-jifenshangcheng"></span></div>
-						<div class="wenzi">积分商城</div>
+						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-jifenshangcheng"></span></div>
+							<div class="wenzi">积分商城</div>
+						</div>
 					</i-col>
 					<i-col span="8">
-						<div><span class="iconfont icon-guanfangshangcheng"></span></div>
-						<div class="wenzi">官方商城</div>
+						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-guanfangshangcheng"></span></div>
+							<div class="wenzi">官方商城</div>
+						</div>
 					</i-col>
 					<i-col span="8">
 						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
@@ -144,8 +148,8 @@
 		components: {},
 		data() {
 			return {
-				setUserInfoGiveIntegral:0,
-				isGodUserInfoIntegral:true,
+				setUserInfoGiveIntegral: 0,
+				isGodUserInfoIntegral: true,
 				headerUrl: "../../static/images/header.png",
 				avatarUrl: '',
 				nickName: '',
@@ -164,6 +168,7 @@
 				showMembershipCode: false,
 				showMyInfo: false,
 				userInfo: {
+					coupon:0,
 					totalIntegral: 0
 				},
 				footerUrl: "../../static/images/footer2.jpg"
@@ -243,13 +248,12 @@
 			},
 			changeRole() {
 				Dialog.confirm({
-				  title: '切换角色',
-				  message: '确认切换成员工吗？'
+					title: '切换角色',
+					message: '确认切换成员工吗？'
 				}).then(() => {
 					uni.redirectTo({
 						url: '/pages/employ/index'
 					})
-				}).catch(() => {
 				})
 			}
 		}
@@ -261,8 +265,8 @@
 	image {
 		will-change: transform
 	}
-	
-	.user-info-hover{
+
+	.user-info-hover {
 		color: #C80000;
 	}
 </style>

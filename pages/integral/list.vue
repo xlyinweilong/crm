@@ -114,6 +114,10 @@
 			this.getList()
 			this.getSumUsedIntegral()
 			this.getSumUsedAmount()
+			this.$uniRequest.get('/api/small_procedures/vip/my_info').then(res => {
+				this.userInfo.totalIntegral = res.data.totalIntegral
+				wx.setStorageSync('userInfo', this.userInfo)
+			})
 		},
 		methods: {
 			getList() {

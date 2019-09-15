@@ -13,7 +13,7 @@
 					</div>
 				</i-grid-item>
 				<i-grid-item>
-					<div @click="myQrCode">
+					<div @click="goTo('employ/my_qrcode')">
 						<i-grid-icon>
 							<i-icon type="scan" size="28" />
 						</i-grid-icon>
@@ -21,7 +21,7 @@
 					</div>
 				</i-grid-item>
 				<i-grid-item>
-					<div @click="myReferrals">
+					<div @click="goTo('employ/my_referrals')">
 						<i-grid-icon>
 							<i-icon type="financial_fill" size="28" />
 						</i-grid-icon>
@@ -29,12 +29,28 @@
 					</div>
 				</i-grid-item>
 				<i-grid-item>
-					<div @click="myVip">
+					<div @click="goTo('employ/my_vip')">
 						<i-grid-icon>
 							<i-icon type="addressbook" size="28" />
 						</i-grid-icon>
 						<i-grid-label>我的顾客</i-grid-label>
 					</div>
+				</i-grid-item>
+			</i-grid>
+			<i-grid>
+				<i-grid-item>
+					<div @click="goTo('employ/ticket_list')">
+						<i-grid-icon>
+							<i-icon type="group" size="28" />
+						</i-grid-icon>
+						<i-grid-label>卡卷核销</i-grid-label>
+					</div>
+				</i-grid-item>
+				<i-grid-item>
+				</i-grid-item>
+				<i-grid-item>
+				</i-grid-item>
+				<i-grid-item>
 				</i-grid-item>
 			</i-grid>
 		</div>
@@ -70,19 +86,9 @@
 				}).catch(() => {
 				})
 			},
-			myQrCode() {
+			goTo(url){
 				uni.navigateTo({
-					url: '/pages/employ/my_qrcode'
-				})
-			},
-			myReferrals(){
-				uni.navigateTo({
-					url: '/pages/employ/my_referrals'
-				})
-			},
-			myVip(){
-				uni.navigateTo({
-					url: '/pages/employ/my_vip'
+					url: '/pages/' + url
 				})
 			}
 		}

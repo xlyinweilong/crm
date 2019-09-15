@@ -56,6 +56,7 @@
 				form.code = this.employCode
 				this.$uniRequest.post('/api/small_procedures/employ/bind', form).then(res => {
 					Toast(res.message)
+					//跳转到授权 TODO
 					uni.redirectTo({
 						url: '/pages/employ/index'
 					})

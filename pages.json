@@ -17,6 +17,15 @@
 			}
 		},
 		{
+			"path": "pages/bind_vip/authorization",
+			"style": {
+				"navigationBarTitleText": "正在授权",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white"
+			}
+		},
+		{
 			"path": "pages/integral/list",
 			"style": {
 				"navigationBarTitleText": "我的积分",
@@ -100,20 +109,45 @@
 		{
 			"path": "pages/register/register",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "",
+				"usingComponents": {
+					"van-field": "/wxcomponents/vant/field/index"
+				}
 			}
 		},
 		{
 			"path": "pages/info/index",
 			"style": {
 				"enablePullDownRefresh": true,
-				"navigationBarTitleText": "用户中心",
+				"navigationBarTitleText": "个人中心",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
 					"i-row": "/wxcomponents/iview/row/index",
 					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-notice-bar": "/wxcomponents/vant/notice-bar/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ticket/list",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "优惠卷",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"i-row": "/wxcomponents/iview/row/index",
+					"i-col": "/wxcomponents/iview/col/index",
+					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index",
+					"van-loading": "/wxcomponents/vant/loading/index"
 				}
 			}
 		},
@@ -263,6 +297,31 @@
 					"van-notify": "/wxcomponents/vant/notify/index",
 					"van-tab": "/wxcomponents/vant/tab/index",
 					"van-tabs": "/wxcomponents/vant/tabs/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/ticket_list",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "优惠卷核销",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"i-row": "/wxcomponents/iview/row/index",
+					"i-col": "/wxcomponents/iview/col/index",
+					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index",
+					"van-loading": "/wxcomponents/vant/loading/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index"
 				}
 			}
 		},

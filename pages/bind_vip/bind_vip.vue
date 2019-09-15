@@ -1,11 +1,18 @@
 <template>
 	<div class="bind">
+		<official-account></official-account>
 		<div class="iconfont-div">
 			<image style="height: 200rpx;" mode="aspectFit" src="../../static/images/mobile.png" />
 		</div>
-		<div class="user-phone">
-			<van-field type="number" custom-style="border-bottom:1px solid #000" :border="false" title-width="30px" @input="inputUserPhone"
-			 :maxlength="11" :value="userPhone" clearable label="+86" placeholder="请输入手机号" />
+		<div v-if="cardList.length == 0" class="user-name">
+			<van-field custom-style="border-bottom:1px solid #000" :border="false" title-width="35px" @input="inputUserName"
+			 :maxlength="20" :value="userName" clearable label="姓名" placeholder="真实姓名用于注册会员卡" />
+			<!-- <p class="tips"></p> -->
+		</div>
+		<div :class="{'user-name': cardList.length > 0,'user-phone':cardList.length == 0}">
+			<van-field type="number" custom-style="border-bottom:1px solid #000" :border="false" title-width="35px" @input="inputUserPhone"
+			 :maxlength="11" :value="userPhone" clearable label="+86" placeholder="使用【一键自动获取手机号】无需填写" />
+			<!-- <p class="tips"></p> -->
 		</div>
 		<div>
 			<button :loading="loading" type="primary" class="submit" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">一键自动获取手机号</button>
@@ -28,7 +35,9 @@
 				showCodeDialog: false,
 				userPhone: '',
 				loading: false,
-				code: ''
+				code: '',
+				userName: "",
+				cardList: []
 			}
 		},
 		computed: {
@@ -37,32 +46,81 @@
 				return myreg.test(this.userPhone)
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			let user = wx.getStorageSync('token')
+			if (user != null && user.cardList != null) {
+				this.cardList = user.cardList
+			}
+		},
 		methods: {
+			inputUserName(e) {
+				this.userName = e.detail
+			},
 			getPhoneNumber(e) {
-				if(e.detail.iv != null && e.detail.encryptedData != null){
+				if (this.cardList.length == 0 && this.userName == '') {
+					wx.showToast({
+						title: '请输入姓名',
+						icon: 'none'
+					})
+					return
+				}
+				if (e.detail.iv != null && e.detail.encryptedData != null) {
 					wx.showLoading({
 						title: '绑定中',
 					})
 					this.$uniRequest.post('/api/small_procedures/login/bind_vip_call_wechat', {
-						iv: e.detail.iv,encryptedData:e.detail.encryptedData
+						iv: e.detail.iv,
+						encryptedData: e.detail.encryptedData,
+						userName: this.userName
 					}).then(res => {
 						let user = wx.getStorageSync('token')
 						user.cardList = res.data.list
 						user.defaultVipErpId = res.data.defaultVipErpId
 						wx.setStorageSync('token', user)
 						this.showCodeDialog = false
-						//跳转到首页
-						uni.redirectTo({
-							url: '/pages/info/index'
-						})
+						this.createWeChartCard(res.data.list)
 					})
 				}
+			},
+			createWeChartCard(list) {
+				ni.redirectTo({
+					url: '/pages/info/index'
+				})
+				// let cardList = list.filter(l => !l.isCreateWeChart).map(l => ({
+				// 	cardId: l.cardId,
+				// 	cardExt: '{"code":"'+l.vipCode+'","openid":"","timestamp":'+l.timestamp+', "nonce_str":"'+l.nonceStr+'","signature":"'+l.signature+'"}'
+				// }))
+				// if (typeof wx.addCard === 'function') {
+				// 	wx.addCard({
+				// 		cardList: cardList, // 需要添加的卡券列表，cardExt内的签名使用公众号appid获取
+				// 		success: function(res) {
+				// 			let cardList = res.cardList; // 添加的卡券列表信息
+				// 			//发送一个请求设置这些已经注册过了
+				// 			console.log(cardList)
+				// 			//跳转到首页
+				// 			uni.redirectTo({
+				// 				url: '/pages/info/index'
+				// 			})
+				// 		}
+				// 	})
+				// }else{
+				// 	//跳转到首页
+				// 	uni.redirectTo({
+				// 		url: '/pages/info/index'
+				// 	})
+				// }
 			},
 			inputUserPhone(e) {
 				this.userPhone = e.detail
 			},
 			sendSms() {
+				if (this.cardList.length == 0 && this.userName == '') {
+					wx.showToast({
+						title: '请输入姓名',
+						icon: 'none'
+					})
+					return
+				}
 				if (this.userPhone == null || this.userPhone.length != 11 || !this.isPoneAvailable) {
 					wx.showToast({
 						title: '请输入合法的手机号',
@@ -101,17 +159,19 @@
 					title: '绑定中',
 				})
 				this.$uniRequest.post('/api/small_procedures/login/bind_vip', {
-					msgCode: this.code
+					msgCode: this.code,
+					userName: this.userName
 				}).then(res => {
 					let user = wx.getStorageSync('token')
 					user.cardList = res.data.list
 					user.defaultVipErpId = res.data.defaultVipErpId
 					wx.setStorageSync('token', user)
 					this.showCodeDialog = false
-					//跳转到首页
-					uni.redirectTo({
-						url: '/pages/info/index'
-					})
+					this.createWeChartCard(res.data.list)
+					// //跳转到首页
+					// uni.redirectTo({
+					// 	url: '/pages/info/index'
+					// })
 				}).finally(() => this.loading = false)
 			}
 
@@ -138,6 +198,10 @@
 	}
 
 	.bind .user-phone {
+		padding: 10rpx 50rpx 0rpx 50rpx;
+	}
+
+	.bind .user-name {
 		padding: 70rpx 50rpx 0rpx 50rpx;
 	}
 
@@ -162,6 +226,7 @@
 		margin-top: 5rpx;
 		color: #909399;
 		font-size: 22rpx;
+		/* font-size: 18rpx; */
 		text-align: center;
 	}
 </style>
