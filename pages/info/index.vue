@@ -73,7 +73,8 @@
 							</i-col>
 							<i-col span="11">
 								<div style="padding-top: 19rpx;">
-									<span class="count">{{userInfo.totalIntegral}}</span><span class="danwei">分</span>
+									<span class="count">{{totalIntegral}}</span>
+									<span class="danwei">{{totalIntegralStr}}分</span>
 								</div>
 							</i-col>
 						</i-row>
@@ -146,6 +147,38 @@
 
 	export default {
 		components: {},
+		computed: {
+			totalIntegral() {
+				if (this.userInfo.totalIntegral < 10000) {
+					return this.userInfo.totalIntegral
+				} else if (this.userInfo.totalIntegral < 100000) {
+					return Math.floor(this.userInfo.totalIntegral / 10000 * 10) / 10
+				} else if (this.userInfo.totalIntegral < 1000000) {
+					return Math.floor(this.userInfo.totalIntegral / 100000 * 10) / 10
+				} else if (this.userInfo.totalIntegral < 10000000) {
+					return Math.floor(this.userInfo.totalIntegral / 1000000* 10) / 10
+				} else if (this.userInfo.totalIntegral < 100000000) {
+					return Math.floor(this.userInfo.totalIntegral / 10000000 * 10) / 10
+				} else {
+					return '1+'
+				}
+			},
+			totalIntegralStr() {
+				if (this.userInfo.totalIntegral < 10000) {
+					return ''
+				} else if (this.userInfo.totalIntegral < 100000) {
+					return '万'
+				} else if (this.userInfo.totalIntegral < 1000000) {
+					return '十万'
+				} else if (this.userInfo.totalIntegral < 10000000) {
+					return '百万'
+				} else if (this.userInfo.totalIntegral < 100000000) {
+					return '千万'
+				} else {
+					return '亿'
+				}
+			}
+		},
 		data() {
 			return {
 				setUserInfoGiveIntegral: 0,
@@ -168,7 +201,7 @@
 				showMembershipCode: false,
 				showMyInfo: false,
 				userInfo: {
-					coupon:0,
+					coupon: 0,
 					totalIntegral: 0
 				},
 				footerUrl: "../../static/images/footer2.jpg"

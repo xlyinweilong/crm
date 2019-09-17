@@ -8,7 +8,7 @@
 		</div>
 		<div v-show="tab == 2" style="text-align: center;background-color: #615451;height: 360rpx;">
 			<div class="white" style="padding-top:55rpx;font-size: 20rpx;">现金余额</div>
-			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{totalAmount}}<span style="font-size: 30rpx;">分</span></div>
+			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{totalAmount}}<span style="font-size: 30rpx;">元</span></div>
 			<div class="white" style="padding-top:5rpx;font-size: 18rpx;">累计消费：{{totalUsedAmount}}元</div>
 		</div>
 		<div>
