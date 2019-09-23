@@ -4,12 +4,9 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"usingComponents": {
-					"i-row": "/wxcomponents/iview/row/index",
-					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-toast": "/wxcomponents/vant/toast/index",
-					"van-loading": "/wxcomponents/vant/loading/index"
+					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			},
 			"app-plus": {
@@ -26,6 +23,56 @@
 			}
 		},
 		{
+			"path": "pages/evaluate/index",
+			"style": {
+				"navigationBarTitleText": "评价管理",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white"
+			}
+		},
+		{
+			"path": "pages/evaluate/do_evaluate",
+			"style": {
+				"navigationBarTitleText": "发表评价",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"i-divider": "/wxcomponents/iview/divider/index",
+					"van-rate": "/wxcomponents/vant/rate/index",
+					"van-toast": "/wxcomponents/vant/toast/index"
+				}
+
+			}
+		},
+		{
+			"path": "pages/evaluate/evaluate",
+			"style": {
+				"navigationBarTitleText": "消费评价",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
+			}
+		},
+		{
+			"path": "pages/evaluate/complaint",
+			"style": {
+				"navigationBarTitleText": "投诉与建议",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-toast": "/wxcomponents/vant/toast/index"
+				}
+			}
+		},
+		{
 			"path": "pages/integral/list",
 			"style": {
 				"navigationBarTitleText": "我的积分",
@@ -33,12 +80,8 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
-					"i-row": "/wxcomponents/iview/row/index",
-					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-tab": "/wxcomponents/vant/tab/index",
-					"van-tabs": "/wxcomponents/vant/tabs/index"
+					"van-dialog": "/wxcomponents/vant/dialog/index"
 				}
 			}
 		},
@@ -51,11 +94,7 @@
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
 					"van-toast": "/wxcomponents/vant/toast/index",
-					"i-input": "/wxcomponents/iview/input/index",
-					"van-field": "/wxcomponents/vant/field/index",
-					"van-cell": "/wxcomponents/vant/cell/index",
-					"van-cell-group": "/wxcomponents/vant/cell-group/index",
-					"van-button": "/wxcomponents/vant/button/index"
+					"i-input": "/wxcomponents/iview/input/index"
 				}
 			}
 		},
@@ -73,7 +112,6 @@
 					"i-grid-label": "/wxcomponents/iview/grid-label/index",
 					"i-icon": "/wxcomponents/iview/icon/index",
 					"van-toast": "/wxcomponents/vant/toast/index",
-					"van-button": "/wxcomponents/vant/button/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index"
 				}
 			}
@@ -86,7 +124,6 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
-					"van-button": "/wxcomponents/vant/button/index"
 				}
 			}
 		},
@@ -99,9 +136,6 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
-					"i-row": "/wxcomponents/iview/row/index",
-					"i-col": "/wxcomponents/iview/col/index",
-					"van-button": "/wxcomponents/vant/button/index",
 					"van-search": "/wxcomponents/vant/search/index"
 				}
 			}
@@ -124,8 +158,6 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
-					"i-row": "/wxcomponents/iview/row/index",
-					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-notice-bar": "/wxcomponents/vant/notice-bar/index"
@@ -139,16 +171,7 @@
 				"navigationBarTitleText": "优惠卷",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
-				"usingComponents": {
-					"i-row": "/wxcomponents/iview/row/index",
-					"i-col": "/wxcomponents/iview/col/index",
-					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-tab": "/wxcomponents/vant/tab/index",
-					"van-tabs": "/wxcomponents/vant/tabs/index",
-					"van-loading": "/wxcomponents/vant/loading/index"
-				}
+				"navigationBarBackgroundColor": "white"
 			}
 		},
 		{
@@ -160,10 +183,7 @@
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
 					"van-toast": "/wxcomponents/vant/toast/index",
-					"i-input": "/wxcomponents/iview/input/index",
-					"van-field": "/wxcomponents/vant/field/index",
-					"van-cell": "/wxcomponents/vant/cell/index",
-					"van-cell-group": "/wxcomponents/vant/cell-group/index"
+					"i-input": "/wxcomponents/iview/input/index"
 				}
 			}
 		},
@@ -176,12 +196,6 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
-					"van-field": "/wxcomponents/vant/field/index",
-					"van-cell": "/wxcomponents/vant/cell/index",
-					"van-cell-group": "/wxcomponents/vant/cell-group/index",
-					"van-button": "/wxcomponents/vant/button/index",
-					"van-radio": "/wxcomponents/vant/radio/index",
-					"van-radio-group": "/wxcomponents/vant/radio-group/index",
 					"van-popup": "/wxcomponents/vant/popup/index",
 					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
 					"van-tag": "/wxcomponents/vant/tag/index",
@@ -199,11 +213,6 @@
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
 					"van-field": "/wxcomponents/vant/field/index",
-					"van-cell": "/wxcomponents/vant/cell/index",
-					"van-cell-group": "/wxcomponents/vant/cell-group/index",
-					"van-button": "/wxcomponents/vant/button/index",
-					"van-radio": "/wxcomponents/vant/radio/index",
-					"van-radio-group": "/wxcomponents/vant/radio-group/index",
 					"van-popup": "/wxcomponents/vant/popup/index",
 					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index"
 				}
@@ -217,8 +226,6 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
-					"van-cell": "/wxcomponents/vant/cell/index",
-					"van-cell-group": "/wxcomponents/vant/cell-group/index",
 					"van-radio": "/wxcomponents/vant/radio/index",
 					"van-radio-group": "/wxcomponents/vant/radio-group/index",
 					"van-icon": "/wxcomponents/vant/icon/index",
@@ -253,8 +260,6 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
-					"i-row": "/wxcomponents/iview/row/index",
-					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-tab": "/wxcomponents/vant/tab/index",
@@ -270,8 +275,6 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
-					"i-row": "/wxcomponents/iview/row/index",
-					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-tab": "/wxcomponents/vant/tab/index",
@@ -289,8 +292,6 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
-					"i-row": "/wxcomponents/iview/row/index",
-					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-icon": "/wxcomponents/vant/icon/index",
@@ -309,65 +310,20 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "white",
 				"usingComponents": {
-					"i-row": "/wxcomponents/iview/row/index",
-					"i-col": "/wxcomponents/iview/col/index",
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-tab": "/wxcomponents/vant/tab/index",
-					"van-tabs": "/wxcomponents/vant/tabs/index",
-					"van-loading": "/wxcomponents/vant/loading/index",
-					"van-toast": "/wxcomponents/vant/toast/index",
-					"van-field": "/wxcomponents/vant/field/index",
-					"van-button": "/wxcomponents/vant/button/index",
-					"van-field": "/wxcomponents/vant/field/index",
-					"van-cell": "/wxcomponents/vant/cell/index",
-					"van-cell-group": "/wxcomponents/vant/cell-group/index"
+					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			}
 		},
 		{
-			"path": "pages/basics/layout",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/background",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/text",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/icon",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/button",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/design",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/tag",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/avatar",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/progress",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/shadow",
-			"style": {}
-		},
-		{
-			"path": "pages/basics/loading",
-			"style": {}
+			"path": "pages/info/web",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white"
+			}
 		}
 	],
 	// "tabBar": {
@@ -392,7 +348,23 @@
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"backgroundColor": "#F8F8F8",
+		"usingComponents": {
+			"i-row": "/wxcomponents/iview/row/index",
+			"i-col": "/wxcomponents/iview/col/index",
+			"i-modal": "/wxcomponents/iview/modal/index",
+			"van-dialog": "/wxcomponents/vant/dialog/index",
+			"van-tab": "/wxcomponents/vant/tab/index",
+			"van-tabs": "/wxcomponents/vant/tabs/index",
+			"van-loading": "/wxcomponents/vant/loading/index",
+			"van-rate": "/wxcomponents/vant/rate/index",
+			"van-field": "/wxcomponents/vant/field/index",
+			"van-cell": "/wxcomponents/vant/cell/index",
+			"van-cell-group": "/wxcomponents/vant/cell-group/index",
+			"van-radio": "/wxcomponents/vant/radio/index",
+			"van-radio-group": "/wxcomponents/vant/radio-group/index",
+			"van-button": "/wxcomponents/vant/button/index"
+		}
 	},
 	"condition": { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)

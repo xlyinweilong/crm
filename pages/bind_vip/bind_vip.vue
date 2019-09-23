@@ -83,7 +83,7 @@
 				}
 			},
 			createWeChartCard(list) {
-				ni.redirectTo({
+				uni.redirectTo({
 					url: '/pages/info/index'
 				})
 				// let cardList = list.filter(l => !l.isCreateWeChart).map(l => ({

@@ -85,7 +85,7 @@
 							</i-col>
 						</i-row>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
@@ -103,7 +103,7 @@
 			iconDataList() {
 				let dataList = []
 				let index = this.ruleList.findIndex(r => this.erpId === r.gradeErpId)
-				if(index == null){
+				if (index == null) {
 					return dataList
 				}
 				this.ruleList.forEach(r => {
@@ -113,10 +113,10 @@
 					}
 					dataList.push(r)
 				})
-				if(index < 4){
-					dataList = dataList.slice(0,4)
-				}else{
-					dataList = dataList.slice(index -3,index+1)
+				if (index < 4) {
+					dataList = dataList.slice(0, 4)
+				} else {
+					dataList = dataList.slice(index - 3, index + 1)
 				}
 				return dataList
 			},
@@ -145,7 +145,8 @@
 				powerTemplateList: [],
 				powerList: [],
 				erpId: '',
-				ruleList: []
+				ruleList: [],
+				detailUrl: ''
 			}
 		},
 		onLoad() {
@@ -154,11 +155,21 @@
 			this.getGradeAll()
 			this.getGradeInfo()
 			this.getRuleList()
+			this.getConfig()
 		},
 		methods: {
+			getConfig() {
+				this.$uniRequest.get('/api/config/sysconfig/info', {
+					data: {
+						key: 'VIP_DETAIL'
+					}
+				}).then(res => {
+					this.detailUrl = res.data.configValue
+				})
+			},
 			goInfo() {
 				uni.navigateTo({
-					url: '/pages/vip/rule_power_info'
+					url: '/pages/info/web?url=' + encodeURIComponent(this.detailUrl)
 				})
 			},
 			isSuccessIcon(gradeErpId, template) {
@@ -224,15 +235,15 @@
 					this.ruleList = res.data
 				})
 			},
-			clickIconTabLeft(){
+			clickIconTabLeft() {
 				let index = this.ruleList.findIndex(r => this.erpId === r.gradeErpId)
-				if(index != null && index - 1 >= 0){
+				if (index != null && index - 1 >= 0) {
 					this.erpId = this.ruleList[index - 1].gradeErpId
 				}
 			},
-			clickIconTabRight(){
+			clickIconTabRight() {
 				let index = this.ruleList.findIndex(r => this.erpId === r.gradeErpId)
-				if(index != null && this.ruleList.length >= index + 2){
+				if (index != null && this.ruleList.length >= index + 2) {
 					this.erpId = this.ruleList[index + 1].gradeErpId
 				}
 			}
@@ -402,8 +413,8 @@
 		margin: 15rpx 8rpx 0rpx 8rpx;
 		border-bottom: 1rpx solid #89632E;
 	}
-	
-	.hr2{
+
+	.hr2 {
 		margin-bottom: 5rpx;
 		border-bottom: 1rpx solid #89632E;
 	}

@@ -96,19 +96,25 @@
 						</div>
 					</i-col>
 					<i-col span="8">
-						<div><span class="iconfont icon-zhuanshuguwen"></span></div>
+						<div @click="comingsone" hover-class="user-info-hover"><span class="iconfont icon-zhuanshuguwen"></span></div>
 						<div class="wenzi">专属顾问</div>
 					</i-col>
 				</i-row>
 				<i-row i-class="icons-row">
 					<i-col span="8">
+						<div @click="goPage('evaluate/index')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-pingjiaguanli"></span></div>
+							<div class="wenzi">评价管理</div>
+						</div>
+					</i-col>
+					<!-- <i-col span="8">
 						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-jifenshangcheng"></span></div>
 							<div class="wenzi">积分商城</div>
 						</div>
-					</i-col>
+					</i-col> -->
 					<i-col span="8">
-						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
+						<div @click="comingsone" hover-class="user-info-hover">
 							<div><span class="iconfont icon-guanfangshangcheng"></span></div>
 							<div class="wenzi">官方商城</div>
 						</div>
@@ -124,7 +130,7 @@
 			<view class="footer1">
 				<uni-swiper-dot :info="info" :current="current" field="content" :mode="'long'">
 					<swiper style="height: 200rpx;" @change="change">
-						<swiper-item v-for="(item ,index) in info" :key="index">
+						<swiper-item v-for="(item ,index) in info" :key="index" @click="goPageFooter(index)">
 							<view class="swiper-item">
 								<image style="height: 200rpx;width: 100%;" :src="item.url" />
 							</view>
@@ -132,7 +138,7 @@
 					</swiper>
 				</uni-swiper-dot>
 			</view>
-			<view class="footer2">
+			<view class="footer2" @click="goPageFooter2('info/web',footerUrlGoUrl)">
 				<image mode="widthFix" style="width: 100%;" :src="footerUrl" />
 			</view>
 		</view>
@@ -156,7 +162,7 @@
 				} else if (this.userInfo.totalIntegral < 1000000) {
 					return Math.floor(this.userInfo.totalIntegral / 100000 * 10) / 10
 				} else if (this.userInfo.totalIntegral < 10000000) {
-					return Math.floor(this.userInfo.totalIntegral / 1000000* 10) / 10
+					return Math.floor(this.userInfo.totalIntegral / 1000000 * 10) / 10
 				} else if (this.userInfo.totalIntegral < 100000000) {
 					return Math.floor(this.userInfo.totalIntegral / 10000000 * 10) / 10
 				} else {
@@ -204,7 +210,9 @@
 					coupon: 0,
 					totalIntegral: 0
 				},
-				footerUrl: "../../static/images/footer2.jpg"
+				footerUrl: "../../static/images/footer2.jpg",
+				footerUrlGoUrl: '',
+				fileListUrls:''
 			}
 		},
 		onPullDownRefresh() {
@@ -237,6 +245,8 @@
 					if (res.data.infoFooterImageUrl != null) {
 						this.footerUrl = this.$baseImageURL + res.data.infoFooterImageUrl
 					}
+					this.footerUrlGoUrl = res.data.infoFooterImageUrlGoUrl
+					this.fileListUrls = res.data.fileListUrls
 					if (res.data.fileList.length > 0) {
 						this.info = res.data.fileList.map(f => ({
 							url: this.$baseImageURL + f
@@ -278,6 +288,33 @@
 						url: '/pages/' + page
 					})
 				}
+			},
+			goPageFooter2(page, param){
+				if (this.hasVipCard()) {
+					if(param != null && param != ''){
+						uni.navigateTo({
+							url: '/pages/info/web?url=' + encodeURIComponent(param)
+						})
+					}
+				}
+			},
+			goPageFooter(index){
+				if (this.hasVipCard()) {
+					let param = this.fileListUrls.split(",")
+					if(param != null){
+						uni.navigateTo({
+							url: '/pages/info/web?url=' + encodeURIComponent(param)
+						})
+					}
+				}
+			},
+			comingsone() {
+				Dialog.alert({
+					title: '敬请期待',
+					message: '该功能稍后上线，敬请期待'
+				}).then(() => {
+					// on close
+				});
 			},
 			changeRole() {
 				Dialog.confirm({

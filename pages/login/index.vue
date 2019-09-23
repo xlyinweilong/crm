@@ -55,6 +55,12 @@
 					data: data
 				})
 				this.$uniRequest.defaults.headers.common['X-Token'] = data.token
+				if(this.scene != null && this.scene.startsWith('evaluate,')){
+					let posCode = this.scene.split(",")[1]
+					uni.redirectTo({
+						url: '/pages/evaluate/do_evaluate?posCode=' + posCode
+					})
+				}
 				//是否员工扫码进入
 				if (this.scene == 'employ,register') {
 					//判断是否已经注册为员工

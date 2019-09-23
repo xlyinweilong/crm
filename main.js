@@ -31,7 +31,7 @@ app.$mount()
 // 请求拦截
 uniRequest.interceptors.request.use(
 	request => {
-		//配置基本信息    
+		//配置基本信息
 		return request;
 	},
 	err => {
