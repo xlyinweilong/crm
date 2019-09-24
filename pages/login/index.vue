@@ -57,7 +57,7 @@
 				this.$uniRequest.defaults.headers.common['X-Token'] = data.token
 				if(this.scene != null && this.scene.startsWith('evaluate,')){
 					let posCode = this.scene.split(",")[1]
-					uni.redirectTo({
+					uni.reLaunch({
 						url: '/pages/evaluate/do_evaluate?posCode=' + posCode
 					})
 				}
@@ -66,12 +66,12 @@
 					//判断是否已经注册为员工
 					if (data.isEmploy){
 						//调转员工首页
-						uni.redirectTo({
+						uni.reLaunch({
 							url: '/pages/employ/index'
 						})
 					}else{
 						//跳转注册/绑定员工页面
-						uni.redirectTo({
+						uni.reLaunch({
 							url: '/pages/employ/register'
 						})
 						return
@@ -86,18 +86,18 @@
 						} else {
 							//判断是否注册了公众号的openId
 							if(data.platformOpenId == null){
-								uni.redirectTo({
+								uni.reLaunch({
 									url: '/pages/bind_vip/authorization'
 								})
 								return
 							}
 							//判断是否已经绑定卡
 							if (data.cardList.length == 0) {
-								uni.redirectTo({
+								uni.reLaunch({
 									url: '/pages/bind_vip/bind_vip'
 								})
 							} else {
-								uni.redirectTo({
+								uni.reLaunch({
 									url: '/pages/info/index'
 								})
 							}
@@ -108,7 +108,7 @@
 						if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend,")) {
 							parameter = this.scene.replace("recommend,", "").trim()
 						}
-						uni.redirectTo({
+						uni.reLaunch({
 							url: '/pages/register/register?scene=' + parameter
 						})
 					}

@@ -1,6 +1,6 @@
 <template>
 	<view class="nearby">
-		<van-search :value="searchText" placeholder="请输入搜索关键词" />
+		<!-- <van-search :value="searchText" placeholder="请输入搜索关键词" /> -->
 		<div class="cell" v-for="channel in channelList">
 			<div style="margin-bottom: 10rpx;">
 			<van-row>

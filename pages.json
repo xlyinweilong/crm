@@ -123,8 +123,7 @@
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#0faeff",
-				"usingComponents": {
-				}
+				"usingComponents": {}
 			}
 		},
 		{
@@ -262,8 +261,22 @@
 				"usingComponents": {
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-tab": "/wxcomponents/vant/tab/index",
-					"van-tabs": "/wxcomponents/vant/tabs/index"
+					"van-search": "/wxcomponents/vant/search/index",
+					"van-icon": "/wxcomponents/vant/icon/index"
+				}
+			}
+		},
+		{
+			"path": "pages/sale_bill/detail",
+			"style": {
+				"navigationBarTitleText": "消费记录明细",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "white",
+				"usingComponents": {
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			}
 		},

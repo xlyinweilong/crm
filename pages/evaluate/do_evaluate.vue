@@ -10,57 +10,57 @@
 			</div>
 		</div> -->
 		<!-- <div v-if="ele.status === 'unevaluated'"> -->
-			<div v-for="employ in ele.employList" class="employ_info">
-				<div class="employ_name"><b>{{employ.serviceName}}</b></div>
-				<div class="employ_code"><b>工号：{{employ.code}}</b></div>
-				<div class="employ_rate">
-					<span style="margin-top: 3rpx;">
-						<image class="xingxingImage" src="../../static/images/xingxing.png" /></span>
-					<span style="margin-top: 3rpx;">综合评分：{{employ.avgRate}}分</span>
-				</div>
+		<div v-for="employ in ele.employList" class="employ_info">
+			<div class="employ_name"><b>{{employ.serviceName}}</b></div>
+			<div class="employ_code"><b>工号：{{employ.code}}</b></div>
+			<div class="employ_rate">
+				<span style="margin-top: 3rpx;">
+					<image class="xingxingImage" src="../../static/images/xingxing.png" /></span>
+				<span style="margin-top: 3rpx;">综合评分：{{employ.avgRate}}分</span>
 			</div>
-			<div class="channel_name">所属店铺：{{ele.channelName}}</div>
+		</div>
+		<div class="channel_name">所属店铺：{{ele.channelName}}</div>
+		<div>
+			<!-- <span class="hr"></span> -->
+			<i-divider content="本次消费金额"></i-divider>
+			<!-- <span class="bencixiaofeijine">本次消费金额</span> -->
+		</div>
+		<div style="font-size: 65rpx;color:red">{{ele.amount}}<span style="font-size: 30rpx;color:#675500">元</span></div>
+		<div @click="showDetail" hover-class="hover-class"><span style="margin-top: 15rpx;border-bottom:1px solid #675500;font-size:20rpx">查看明细</span></div>
+		<div style="margin-top: 15rpx;">
+			<i-divider content="本次消费金额"></i-divider>
+		</div>
+		<!-- <div>本次消费金额</div> -->
+		<div style="text-align: right;margin-right: 20rpx;font-size: 20rpx;">
+			<label class="radio" @click="isAnonymous = !isAnonymous">
+				<radio style="transform:scale(0.5)" :value="true" :checked="isAnonymous" /><span style="margin-left: 2rpx;">匿名</span>
+			</label>
+		</div>
+		<div style="font-size: 30rpx;">
+			<b>谢谢您的光临<br />
+				请给本次服务进行评价</b>
+		</div>
+		<div style="margin-top: 20rpx;">
+			总体满意度：
+			<van-rate size="30" :value="rate" @change="onChangeRate" :readonly="ele.status != 'unevaluated'" />
+			<div style="font-size:20rpx;color:red">{{getRateText}}</div>
+		</div>
+		<div style="margin-top: 25rpx;" v-if="ele.status === 'unevaluated'">
 			<div>
-				<!-- <span class="hr"></span> -->
-				<i-divider content="本次消费金额"></i-divider>
-				<!-- <span class="bencixiaofeijine">本次消费金额</span> -->
-			</div>
-			<div style="font-size: 65rpx;color:red">{{ele.amount}}<span style="font-size: 30rpx;color:#675500">元</span></div>
-			<div><span style="margin-top: 15rpx;border-bottom:1px solid #675500;font-size:20rpx">查看明细</span></div>
-			<div style="margin-top: 15rpx;">
-				<i-divider content="本次消费金额"></i-divider>
-			</div>
-			<!-- <div>本次消费金额</div> -->
-			<div style="text-align: right;margin-right: 20rpx;font-size: 20rpx;">
-				<label class="radio" @click="isAnonymous = !isAnonymous">
-					<radio style="transform:scale(0.5)" :value="true" :checked="isAnonymous" /><span style="margin-left: 2rpx;">匿名</span>
-				</label>
-			</div>
-			<div style="font-size: 30rpx;">
-				<b>谢谢您的光临<br />
-					请给本次服务进行评价</b>
+				<span @click="checked(1)" v-if="endEvaluate[1] != null" class="tags" :class="{ 'active': endEvaluate[1].checked }">{{endEvaluate[1].content}}</span>
+				<span @click="checked(2)" v-if="endEvaluate[2] != null" class="tags" :class="{ 'active': endEvaluate[2].checked }">{{endEvaluate[2].content}}</span>
+				<span @click="checked(3)" v-if="endEvaluate[3] != null" class="tags" :class="{ 'active': endEvaluate[3].checked }">{{endEvaluate[3].content}}</span>
 			</div>
 			<div style="margin-top: 20rpx;">
-				总体满意度：
-				<van-rate size="30" :value="rate" @change="onChangeRate" :readonly="ele.status != 'unevaluated'"/>
-				<div style="font-size:20rpx;color:red">{{getRateText}}</div>
+				<span @click="checked(4)" v-if="endEvaluate[4] != null" class="tags" :class="{ 'active': endEvaluate[4].checked }">{{endEvaluate[4].content}}</span>
+				<span @click="checked(5)" v-if="endEvaluate[5] != null" class="tags" :class="{ 'active': endEvaluate[5].checked }">{{endEvaluate[5].content}}</span>
+				<span @click="checked(6)" v-if="endEvaluate[6] != null" class="tags" :class="{ 'active': endEvaluate[6].checked }">{{endEvaluate[6].content}}</span>
 			</div>
-			<div style="margin-top: 25rpx;" v-if="ele.status === 'unevaluated'">
-				<div>
-					<span @click="checked(1)" v-if="endEvaluate[1] != null" class="tags" :class="{ 'active': endEvaluate[1].checked }">{{endEvaluate[1].content}}</span>
-					<span @click="checked(2)" v-if="endEvaluate[2] != null" class="tags" :class="{ 'active': endEvaluate[2].checked }">{{endEvaluate[2].content}}</span>
-					<span @click="checked(3)" v-if="endEvaluate[3] != null" class="tags" :class="{ 'active': endEvaluate[3].checked }">{{endEvaluate[3].content}}</span>
-				</div>
-				<div style="margin-top: 20rpx;">
-					<span @click="checked(4)" v-if="endEvaluate[4] != null" class="tags" :class="{ 'active': endEvaluate[4].checked }">{{endEvaluate[4].content}}</span>
-					<span @click="checked(5)" v-if="endEvaluate[5] != null" class="tags" :class="{ 'active': endEvaluate[5].checked }">{{endEvaluate[5].content}}</span>
-					<span @click="checked(6)" v-if="endEvaluate[6] != null" class="tags" :class="{ 'active': endEvaluate[6].checked }">{{endEvaluate[6].content}}</span>
-				</div>
-			</div>
-			<div style="margin-top: 40rpx;" v-if="ele.status === 'unevaluated'">
-				<span style="font-size:18rpx;color:#AE0000;font-weight: 800;">投诉与建议 > </span>
-				<button :loading="loading" type="primary" class="submit" @click="submit">确认提交</button>
-			</div>
+		</div>
+		<div style="margin-top: 40rpx;" v-if="ele.status === 'unevaluated'">
+			<span @click="goToComplaint" style="font-size:18rpx;color:#AE0000;font-weight: 800;">投诉与建议 > </span>
+			<button :loading="loading" type="primary" class="submit" @click="submit">确认提交</button>
+		</div>
 		<!-- </div> -->
 		<van-toast id="van-toast" />
 	</view>
@@ -100,17 +100,27 @@
 			}
 		},
 		onLoad(query) {
-			this.evaluate = wx.getStorageSync('evaluate')
 			this.posCode = query.posCode
-			if (this.evaluate == null) {
+			if (wx.getStorageSync('evaluate') == '') {
 				this.getConfig(true)
 			} else {
+				this.evaluate = wx.getStorageSync('evaluate')
 				this.getInfo()
 				this.getConfig(false)
 				this.createTags()
 			}
 		},
 		methods: {
+			showDetail() {
+				uni.navigateTo({
+					url: '/pages/sale_bill/detail?posCode=' + this.posCode
+				})
+			},
+			goToComplaint() {
+				uni.navigateTo({
+					url: '/pages/evaluate/complaint'
+				})
+			},
 			redirectTo(page) {
 				uni.reLaunch({
 					url: '/pages/' + page
@@ -170,7 +180,10 @@
 				return null
 			},
 			createTags() {
+				console.log(1111)
 				this.hasInEvaluate = []
+				console.log(this.hasInEvaluate)
+				console.log(this.evaluate)
 				this.evaluate.forEach(e => e.checked = false)
 				for (let i = 1; i <= 6; i++) {
 					this.endEvaluate[i] = this.getTag(i)
@@ -190,19 +203,18 @@
 					Toast.loading({
 						mask: true,
 						message: '加载中...'
-					});
+					})
 				}
 				this.$uniRequest.get('/api/small_procedures/evaluate_tag_template/all').then(res => {
 					res.data.forEach(e => e.checked = false)
 					this.evaluate = res.data
 					wx.setStorageSync('evaluate', this.evaluate)
 					if (isAll) {
-						this.createTags()
-						this.getInfo()
+						this.getInfo(true)
 					}
 				}).catch(() => Toast.clear())
 			},
-			getInfo() {
+			getInfo(isAll) {
 				Toast.loading({
 					mask: true,
 					message: '加载中...'
@@ -213,6 +225,9 @@
 					}
 				}).then(res => {
 					this.ele = res.data
+					if (isAll) {
+						this.createTags()
+					}
 				}).finally(() => Toast.clear())
 			}
 		}
@@ -226,6 +241,10 @@
 </style>
 
 <style scoped>
+	.hover-class {
+		color: #C80000;
+	}
+
 	.tags {
 		margin: 0rpx 15rpx 0rpx 15rpx;
 		font-size: 22rpx;

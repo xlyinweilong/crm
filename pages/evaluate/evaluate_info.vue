@@ -2,7 +2,7 @@
 	<view class="evaluate">
 		<div class="tabs_content">
 			<view v-for="ele in list">
-				<div class="cell">
+				<div class="cell" @click="goToEvaluate(ele.posCode)" hover-class="user-info-hover">
 					<i-row span="22">
 						<i-col span="8">
 							<image class="channelImage" :src="ele.channelUrl" />
@@ -13,8 +13,8 @@
 								<div>单号:{{ele.posCode}}</div>
 								<div v-show="ele.employErpNames != null">员工:{{ele.employErpNames}}</div>
 								<div>日期:{{ele.billDate}}</div>
-								<div v-if="status == 'unevaluated'" style="margin-top: 10rpx;"><span class="jinxingpingjia" @click="goToEvaluate(ele.posCode)">进行评价</span></div>
-								<div v-if="status == 'evaluated'" @click="goToEvaluate(ele.posCode)" style="margin-top: 10rpx;"><van-rate :value="ele.rate" readonly/></div>
+								<div v-if="status == 'unevaluated'" style="margin-top: 10rpx;"><span class="jinxingpingjia">进行评价</span></div>
+								<div v-if="status == 'evaluated'" style="margin-top: 10rpx;"><van-rate :value="ele.rate" readonly/></div>
 							</div>
 						</i-col>
 					</i-row>
@@ -139,5 +139,9 @@
 		border-top-right-radius: 16rpx;
 		border-bottom-right-radius: 16rpx;
 		border-bottom-left-radius: 16rpx;
+	}
+	
+	.user-info-hover {
+		color: #C80000;
 	}
 </style>

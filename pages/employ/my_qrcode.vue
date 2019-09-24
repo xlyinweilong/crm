@@ -1,10 +1,11 @@
 <template>
 	<view>
-		<div class="tips">扫描下方二维即可注册/登录小程序</div>
+		<div class="tips">
+			扫描下方二维即可注册/登录小程序<br/>
+			长按可下载二维码
+		</div>
 		<div class="qrcode">
-			<image v-if="base64 != ''" mode="widthFix" style="width: 100%;" :src="base64" />
-			<!-- <button style="margin-top: 35rpx;" type="primary" @click="download">下载图片</button>
-			<button style="margin-top: 25rpx;" open-type="openSetting">打开授权设置页</button> -->
+			<image v-if="base64 != ''" show-menu-by-longpress mode="widthFix" style="width: 100%;" :src="base64" />
 		</div>
 	</view>
 </template>
