@@ -32,14 +32,10 @@
 		data() {
 			return {
 				loading: false,
-				scene: '',
 				userName:""
 			}
 		},
-		onLoad(query) {
-			if (query.scene) {
-				this.scene = decodeURIComponent(query.scene)
-			}
+		onLoad() {
 		},
 		methods: {
 			inputUserName(e){
@@ -63,8 +59,9 @@
 			register(userInfo) {
 				this.loading = true
 				userInfo.vipCode = this.vipCode
-				if (this.scene != null && this.scene != '') {
-					userInfo.recommendOpenId = this.scene
+				let recommend = wx.getStorageSync('recommend')
+				if (recommend != null && recommend != '') {
+					userInfo.recommendOpenId = recommend
 				}
 				this.$uniRequest.post('/api/small_procedures/login/register', userInfo).then(res => {
 					wx.setStorageSync('token', res.data)

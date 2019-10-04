@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<view class="myInfo">
-			<div v-if="cardImageUrl != null && cardImageUrl != ''" class="image-div">
-				<image class="image" mode="widthFix" :src="baseUrl + cardImageUrl" />
+			<div v-if="cardImageDiyUrl != null && cardImageDiyUrl != ''" class="image-div">
+				<image class="image" mode="widthFix" :src="cardImageDiyUrl" />
 				<div class="gradename">
 					{{gradeName}}
 				</div>
@@ -26,7 +26,7 @@
 			</div>
 			<div class="inputDivFirst">
 				<van-cell-group custom-class="cellGroup">
-					<van-field input-class="input" custom-style="background-color: #F8F8F8;" title-width="40px" :value="info.nickname"
+					<van-field input-class="input" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.nickname"
 					 :maxlength="20" label="昵称" @change="changeNickname" />
 				</van-cell-group>
 			</div>
@@ -36,32 +36,31 @@
 					 :maxlength="20" label="姓名" @change="changeName" />
 				</van-cell-group>
 			</div> -->
-			<!-- <div class="inputDiv">
-				<van-cell-group custom-class="cellGroup">
-					<van-cell @click="onOpenSex" custom-style="background-color: #F8F8F8;" title-width="40px" :border="false" title="性别"
-					 is-link :value="info.sex" />
-				</van-cell-group>
-
-			</div> -->
 			<div class="inputDiv">
 				<van-cell-group custom-class="cellGroup">
-					<van-cell @click="showBirthday = true" custom-style="background-color: #F8F8F8;" title-width="120px" :border="false"
-					 is-link :value="info.birthday">
-						<view slot="title">
-							<span class="van-cell-text" style="margin-right: 8rpx;">生日</span>
-							<van-tag type="danger">
-								<!-- <van-icon size="28rpx" name="gift-o" /> -->会有小惊喜</van-tag>
-						</view>
-					</van-cell>
+					<van-field type="number" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.birthdayYear"
+					 @change="changeBirthdayYear" clearable label="生日年" icon="gift" placeholder="请输入生日年份" />
+				</van-cell-group>
+			</div>
+			<div class="inputDiv">
+				<van-cell-group custom-class="cellGroup">
+					<van-field type="number" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.birthdayMonth"
+					 @change="changeBirthdayMonth" clearable label="生日月" icon="gift" placeholder="请输入生日月份" />
+				</van-cell-group>
+			</div>
+			<div class="inputDiv">
+				<van-cell-group custom-class="cellGroup">
+					<van-field type="number" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.birthdayDay"
+					 @change="changeBirthdayDay" clearable label="生日日" icon="gift" placeholder="请输入生日日" />
 				</van-cell-group>
 			</div>
 			<div class="inputDiv" v-for="field in fieldList">
 				<van-cell-group custom-class="cellGroup">
 					<van-field v-if="field.fieldType === 'string'" input-class="input" custom-style="background-color: #F8F8F8;"
-					 title-width="40px" :value="info['diy' + field.fieldIndex]" :maxlength="field.valueMaxLength" :label="field.fieldName"
+					 title-width="50px" :value="info['diy' + field.fieldIndex]" :maxlength="field.valueMaxLength" :label="field.fieldName"
 					 @change="changeStringDiy" @focus="focusStringDiy(field)" />
-					<van-cell v-if="field.fieldType === 'radio'" @click="onOpenDiy(field)" custom-style="background-color: #F8F8F8;" title-width="40px" :border="false" 
-					:title="field.fieldName" is-link :value="info['diy' + field.fieldIndex]" />
+					<van-cell v-if="field.fieldType === 'radio'" @click="onOpenDiy(field)" custom-style="background-color: #F8F8F8;"
+					 title-width="50px" :border="false" :title="field.fieldName" is-link :value="info['diy' + field.fieldIndex]" />
 				</van-cell-group>
 			</div>
 			<button :loading="loading" type="primary" class="submit" @click="saveDate">确认修改</button>
@@ -107,27 +106,30 @@
 		components: {},
 		data() {
 			return {
-				cardImageUrl: '',
+				cardImageDiyUrl: '',
 				gradeName: '',
 				avatarUrl: '',
 				nickName: '',
 				cardCode: '',
 				baseUrl: this.$baseURL + '/static/images/card/',
 				info: {
+					birthdayYear: "",
+					birthdayMonth: "",
+					birthdayDay: "",
 					nickname: "",
 					name: "",
 					sex: "",
 					birthday: "",
-					diy1:"",
-					diy2:"",
-					diy3:"",
-					diy4:"",
-					diy5:"",
-					diy6:"",
-					diy7:"",
-					diy8:"",
-					diy9:"",
-					diy10:""
+					diy1: "",
+					diy2: "",
+					diy3: "",
+					diy4: "",
+					diy5: "",
+					diy6: "",
+					diy7: "",
+					diy8: "",
+					diy9: "",
+					diy10: ""
 				},
 				fieldList: [],
 				showBirthday: false,
@@ -139,9 +141,9 @@
 				loading: false,
 				activityIndex: -1,
 				activityField: null,
-				showDiy:false,
-				tempRadioDiy:null,
-				tempRadioDiyList:[]
+				showDiy: false,
+				tempRadioDiy: null,
+				tempRadioDiyList: []
 			}
 		},
 		onLoad() {
@@ -160,7 +162,7 @@
 				}
 				let grade = wx.getStorageSync('grade')
 				if (grade != null) {
-					this.cardImageUrl = grade.cardImageUrl
+					this.cardImageDiyUrl = grade.cardImageDiyUrl
 					this.gradeName = grade.name
 				}
 				let fieldList = wx.getStorageSync('fieldList')
@@ -169,7 +171,7 @@
 				}
 				this.info.name = user.name == null ? "" : user.name
 				this.info.nickname = this.nickName == null ? "" : this.nickName
-				this.info.birthday = this.getText(user.birthdayStr)
+				this.info.birthday = this.getNotNull(user.birthdayStr)
 				this.info.diy1 = this.getNotNull(user.diy1)
 				this.info.diy2 = this.getNotNull(user.diy2)
 				this.info.diy3 = this.getNotNull(user.diy3)
@@ -184,11 +186,25 @@
 				if (user.birthday != null) {
 					this.birthday = user.birthday
 				}
+				if (this.info.birthday != '') {
+					this.info.birthdayYear = this.info.birthday.split("-")[0]
+					this.info.birthdayMonth = this.info.birthday.split("-")[1]
+					this.info.birthdayDay = this.info.birthday.split("-")[2]
+				}
 				this.setSex(user.sex)
 				this.getGradeInfo()
 			},
 			changeNickname(e) {
 				this.info.nickname = e.detail
+			},
+			changeBirthdayYear(e) {
+				this.info.birthdayYear = e.detail
+			},
+			changeBirthdayMonth(e) {
+				this.info.birthdayMonth = e.detail
+			},
+			changeBirthdayDay(e) {
+				this.info.birthdayDay = e.detail
 			},
 			changeName(e) {
 				this.info.name = e.detail
@@ -227,16 +243,16 @@
 			onCloseDiy() {
 				this.showDiy = false
 			},
-			clickTemp(temp){
+			clickTemp(temp) {
 				this.tempRadioDiy = temp
 			},
-			saveDiy(){
+			saveDiy() {
 				this.info['diy' + this.activityIndex] = this.tempRadioDiy
 				this.onCloseDiy()
 			},
 			getGradeInfo() {
 				this.$uniRequest.get('/api/small_procedures/vip_grade/info').then(res => {
-					this.cardImageUrl = res.data.cardImageUrl
+					this.cardImageDiyUrl = res.data.cardImageDiyUrl
 					this.gradeName = res.data.name
 					wx.setStorageSync('grade', res.data)
 					this.getDiyUserInfoField()
@@ -287,14 +303,50 @@
 				})
 			},
 			saveDate() {
+				if (this.info.birthdayYear != '') {
+					if (!(this.info.birthdayYear > 1900 && this.info.birthdayYear <= 2020)) {
+						wx.showToast({
+							title: '生日年份错误',
+							icon: 'none'
+						})
+						return
+					}
+				}
+				if (this.info.birthdayMonth != '') {
+					if (!(this.info.birthdayMonth > 0 && this.info.birthdayMonth <= 12)) {
+						wx.showToast({
+							title: '生日月份错误',
+							icon: 'none'
+						})
+						return
+					}
+				}
+				if (this.info.birthdayDay != '') {
+					if (!(this.info.birthdayDay > 0 && this.info.birthdayDay <= 31)) {
+						wx.showToast({
+							title: '生日日错误',
+							icon: 'none'
+						})
+						return
+					}
+				}
 				this.loading = true
 				this.$uniRequest.post('/api/small_procedures/user/save', {
 					nickName: this.info.nickname,
+					birthdayYear: this.info.birthdayYear,
+					birthdayMonth: this.info.birthdayMonth,
+					birthdayDay: this.info.birthdayDay,
 					name: this.info.name,
-					diy1:this.info.diy1,diy2:this.info.diy2,diy3:this.info.diy3,
-					diy4:this.info.diy4,diy5:this.info.diy5,diy6:this.info.diy6,
-					diy7:this.info.diy7,diy8:this.info.diy8,diy9:this.info.diy9,
-					diy10:this.info.diy10
+					diy1: this.info.diy1,
+					diy2: this.info.diy2,
+					diy3: this.info.diy3,
+					diy4: this.info.diy4,
+					diy5: this.info.diy5,
+					diy6: this.info.diy6,
+					diy7: this.info.diy7,
+					diy8: this.info.diy8,
+					diy9: this.info.diy9,
+					diy10: this.info.diy10
 				}).then(res => {
 					let user = wx.getStorageSync('token')
 					user.nickName = this.info.nickname
@@ -309,7 +361,9 @@
 					user.diy9 = this.info.diy9
 					user.diy10 = this.info.diy10
 					this.nickName = this.info.nickname
-					if(res.data.isGodUserInfoIntegral){
+					user.birthday = res.data.birthday
+					user.birthdayStr = res.data.birthdayStr
+					if (res.data.isGodUserInfoIntegral) {
 						user.isGodUserInfoIntegral = true
 					}
 					wx.setStorageSync('token', user)

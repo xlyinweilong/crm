@@ -42,7 +42,7 @@
 					success: function(infoRes) {
 						that.updateUserInfo(infoRes.userInfo)
 					},
-					fail:function(){
+					fail: function() {
 						Toast('成为VIP需要您授权获取头像等信息')
 					}
 				})
@@ -55,6 +55,9 @@
 				}
 				form.code = this.employCode
 				this.$uniRequest.post('/api/small_procedures/employ/bind', form).then(res => {
+					let user = wx.getStorageSync('token')
+					user.isEmploy = true
+					wx.setStorageSync('token', user)
 					Toast(res.message)
 					uni.redirectTo({
 						url: '/pages/bind_vip/authorization'

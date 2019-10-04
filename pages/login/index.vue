@@ -25,6 +25,7 @@
 				this.scene = query.scene
 				if (query.scene) {
 					this.scene = decodeURIComponent(query.scene)
+					wx.setStorageSync('scene', this.scene)
 				}
 				this.login()
 			},
@@ -55,28 +56,33 @@
 					data: data
 				})
 				this.$uniRequest.defaults.headers.common['X-Token'] = data.token
-				if(this.scene != null && this.scene.startsWith('evaluate,')){
+				if (this.scene != null && this.scene.startsWith('evaluate,')) {
 					let posCode = this.scene.split(",")[1]
 					uni.reLaunch({
 						url: '/pages/evaluate/do_evaluate?posCode=' + posCode
 					})
 				}
+				//获取推荐参数
+				if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend,")) {
+					let recommend = this.scene.replace("recommend,", "").trim()
+					wx.setStorageSync('recommend', recommend)
+				}
 				//是否员工扫码进入
 				if (this.scene == 'employ,register') {
 					//判断是否已经注册为员工
-					if (data.isEmploy){
+					if (data.isEmploy) {
 						//调转员工首页
 						uni.reLaunch({
 							url: '/pages/employ/index'
 						})
-					}else{
+					} else {
 						//跳转注册/绑定员工页面
 						uni.reLaunch({
 							url: '/pages/employ/register'
 						})
 						return
 					}
-				}else{
+				} else {
 					if (data.isRegister) {
 						if (data.isEmploy) {
 							//判断是否员工
@@ -85,7 +91,7 @@
 							})
 						} else {
 							//判断是否注册了公众号的openId
-							if(data.platformOpenId == null){
+							if (data.platformOpenId == null) {
 								uni.reLaunch({
 									url: '/pages/bind_vip/authorization'
 								})
@@ -103,13 +109,8 @@
 							}
 						}
 					} else {
-						//注册成新的会员
-						let parameter = ''
-						if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend,")) {
-							parameter = this.scene.replace("recommend,", "").trim()
-						}
 						uni.reLaunch({
-							url: '/pages/register/register?scene=' + parameter
+							url: '/pages/info/index'
 						})
 					}
 				}

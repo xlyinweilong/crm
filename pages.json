@@ -14,12 +14,27 @@
 			}
 		},
 		{
+			"path": "pages/info/index",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "个人中心",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-notice-bar": "/wxcomponents/vant/notice-bar/index"
+				}
+			}
+		},
+		{
 			"path": "pages/bind_vip/authorization",
 			"style": {
 				"navigationBarTitleText": "正在授权",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white"
+				"navigationBarBackgroundColor": "#FFFFFF"
 			}
 		},
 		{
@@ -28,7 +43,7 @@
 				"navigationBarTitleText": "评价管理",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white"
+				"navigationBarBackgroundColor": "#FFFFFF"
 			}
 		},
 		{
@@ -37,7 +52,7 @@
 				"navigationBarTitleText": "发表评价",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"i-divider": "/wxcomponents/iview/divider/index",
 					"van-rate": "/wxcomponents/vant/rate/index",
@@ -52,7 +67,7 @@
 				"navigationBarTitleText": "消费评价",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index"
@@ -65,7 +80,7 @@
 				"navigationBarTitleText": "投诉与建议",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"van-popup": "/wxcomponents/vant/popup/index",
 					"van-toast": "/wxcomponents/vant/toast/index"
@@ -78,7 +93,7 @@
 				"navigationBarTitleText": "我的积分",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index"
@@ -90,7 +105,7 @@
 			"style": {
 				"navigationBarTitleText": "员工账号绑定",
 				"navigationStyle": "default",
-				"navigationBarTextStyle": "white",
+				"navigationBarTextStyle": "#FFFFFF",
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
 					"van-toast": "/wxcomponents/vant/toast/index",
@@ -103,7 +118,7 @@
 			"style": {
 				"navigationBarTitleText": "员工首页",
 				"navigationStyle": "default",
-				"navigationBarTextStyle": "white",
+				"navigationBarTextStyle": "#FFFFFF",
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
 					"i-grid": "/wxcomponents/iview/grid/index",
@@ -121,7 +136,7 @@
 			"style": {
 				"navigationBarTitleText": "我的二维码",
 				"navigationStyle": "default",
-				"navigationBarTextStyle": "white",
+				"navigationBarTextStyle": "#FFFFFF",
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {}
 			}
@@ -132,7 +147,7 @@
 				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "我的拉新",
 				"navigationStyle": "default",
-				"navigationBarTextStyle": "white",
+				"navigationBarTextStyle": "#FFFFFF",
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
 					"van-search": "/wxcomponents/vant/search/index"
@@ -142,24 +157,12 @@
 		{
 			"path": "pages/register/register",
 			"style": {
-				"navigationBarTitleText": "",
-				"usingComponents": {
-					"van-field": "/wxcomponents/vant/field/index"
-				}
-			}
-		},
-		{
-			"path": "pages/info/index",
-			"style": {
-				"enablePullDownRefresh": true,
-				"navigationBarTitleText": "个人中心",
+				"navigationBarTitleText": "注册",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-notice-bar": "/wxcomponents/vant/notice-bar/index"
+					"van-field": "/wxcomponents/vant/field/index"
 				}
 			}
 		},
@@ -170,7 +173,7 @@
 				"navigationBarTitleText": "优惠卷",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white"
+				"navigationBarBackgroundColor": "#FFFFFF"
 			}
 		},
 		{
@@ -179,7 +182,7 @@
 				"navigationBarTitleText": "填写手机号",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"van-toast": "/wxcomponents/vant/toast/index",
 					"i-input": "/wxcomponents/iview/input/index"
@@ -193,7 +196,7 @@
 				"navigationBarTitleText": "个人资料",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"van-popup": "/wxcomponents/vant/popup/index",
 					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
@@ -209,7 +212,7 @@
 				"navigationBarTitleText": "会员码",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"van-field": "/wxcomponents/vant/field/index",
 					"van-popup": "/wxcomponents/vant/popup/index",
@@ -223,7 +226,7 @@
 				"navigationBarTitleText": "会员卡管理",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"van-radio": "/wxcomponents/vant/radio/index",
 					"van-radio-group": "/wxcomponents/vant/radio-group/index",
@@ -241,7 +244,7 @@
 				"navigationBarTitleText": "附近门店",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"van-search": "/wxcomponents/vant/search/index",
 					"van-row": "/wxcomponents/vant/row/index",
@@ -257,7 +260,7 @@
 				"navigationBarTitleText": "消费记录",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
@@ -272,10 +275,11 @@
 				"navigationBarTitleText": "消费记录明细",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-tag": "/wxcomponents/vant/tag/index",
 					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			}
@@ -286,7 +290,7 @@
 				"navigationBarTitleText": "会员权益",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
@@ -303,7 +307,7 @@
 				"navigationBarTitleText": "会员规则权益明细",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
@@ -321,7 +325,7 @@
 				"navigationBarTitleText": "优惠卷核销",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white",
+				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
 					"i-modal": "/wxcomponents/iview/modal/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
@@ -335,7 +339,7 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "white"
+				"navigationBarBackgroundColor": "#FFFFFF"
 			}
 		}
 	],

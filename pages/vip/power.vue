@@ -50,13 +50,13 @@
 									<van-icon name="arrow-left" size="2em" color="#e2e2e3" />
 								</div>
 							</i-col>
-							<view v-for="rule in iconDataList">
+							<view v-for="rule in iconDataList" @click="clickRule(rule)">
 								<i-col span="5">
-									<div class="iconFrame" :class="{'iconActive':erpId === rule.gradeErpId}">
+									<div class="iconFrame" :class="{'iconActive':erpId === rule.erpId}">
 										<div class="iconDiv">
-											<image mode="widthFix" style="width: 100%;" :src="baseURL + '/static/images/icon/'+rule.icon" />
+											<image mode="widthFix" style="width: 100%;" :src="rule.cardImageDiyUrl" />
 										</div>
-										<div class="iconName">{{rule.gradeName}}</div>
+										<div class="iconName">{{rule.name}}</div>
 										<hr class="hr" />
 										<div class="iconInfo">{{rule.levelUpInfo}}</div>
 									</div>
@@ -102,33 +102,34 @@
 		computed: {
 			iconDataList() {
 				let dataList = []
-				let index = this.ruleList.findIndex(r => this.erpId === r.gradeErpId)
+				let index = this.gradeList.findIndex(r => this.erpId === r.erpId)
 				if (index == null) {
 					return dataList
 				}
-				this.ruleList.forEach(r => {
-					let grade = this.gradeList.find(g => g.erpId === r.gradeErpId)
-					if (grade != null) {
-						r.gradeName = grade.name
-					}
-					dataList.push(r)
-				})
+				// this.ruleList.forEach(r => {
+				// 	let grade = this.gradeList.find(g => g.erpId === r.gradeErpId)
+				// 	if (grade != null) {
+				// 		r.gradeName = grade.name
+				// 	}
+				// 	dataList.push(r)
+				// })
 				if (index < 4) {
-					dataList = dataList.slice(0, 4)
+					dataList = this.gradeList.slice(0, 4)
 				} else {
-					dataList = dataList.slice(index - 3, index + 1)
+					dataList = this.gradeList.slice(index - 3, index + 1)
 				}
+				console.log(dataList)
 				return dataList
 			},
 			showDataGradeName() {
-				let rule = this.ruleList.find(r => this.erpId === r.gradeErpId)
+				let rule = this.gradeList.find(r => this.erpId === r.erpId)
 				if (rule == null) {
 					return ''
 				}
-				return rule.gradeName
+				return rule.name
 			},
 			showDataText() {
-				let rule = this.ruleList.find(r => this.erpId === r.gradeErpId)
+				let rule = this.gradeList.find(r => this.erpId === r.erpId)
 				if (rule == null) {
 					return ''
 				}
@@ -154,10 +155,13 @@
 			this.userInfo = wx.getStorageSync('userInfo')
 			this.getGradeAll()
 			this.getGradeInfo()
-			this.getRuleList()
+			// this.getRuleList()
 			this.getConfig()
 		},
 		methods: {
+			clickRule(rule){
+				this.erpId = rule.erpId
+			},
 			getConfig() {
 				this.$uniRequest.get('/api/config/sysconfig/info', {
 					data: {
@@ -231,20 +235,20 @@
 				this.tab = e
 			},
 			getRuleList() {
-				this.$uniRequest.get('/api/vip/vip_rule/all').then(res => {
-					this.ruleList = res.data
-				})
+				// this.$uniRequest.get('/api/vip/vip_rule/all').then(res => {
+				// 	this.ruleList = res.data
+				// })
 			},
 			clickIconTabLeft() {
-				let index = this.ruleList.findIndex(r => this.erpId === r.gradeErpId)
+				let index = this.gradeList.findIndex(r => this.erpId === r.erpId)
 				if (index != null && index - 1 >= 0) {
-					this.erpId = this.ruleList[index - 1].gradeErpId
+					this.erpId = this.gradeList[index - 1].erpId
 				}
 			},
 			clickIconTabRight() {
-				let index = this.ruleList.findIndex(r => this.erpId === r.gradeErpId)
-				if (index != null && this.ruleList.length >= index + 2) {
-					this.erpId = this.ruleList[index + 1].gradeErpId
+				let index = this.gradeList.findIndex(r => this.erpId === r.erpId)
+				if (index != null && this.gradeList.length >= index + 2) {
+					this.erpId = this.gradeList[index + 1].erpId
 				}
 			}
 		}

@@ -8,7 +8,8 @@
 				<image class="user-img-image" :src="avatarUrl" />
 			</div>
 			<div class="user-center">
-				<div class="user-name" v-if="nickName != ''">Hi,{{nickName}}</div>
+				<div class="user-name" v-if="nickName == null || nickName == ''">Hi</div>
+				<div class="user-name" v-if="nickName != null && nickName != ''">Hi,{{nickName}}</div>
 				<div class="user-card-no" v-if="cardCode != ''">VIP:{{cardCode}}</div>
 				<div class="user-card-tips" v-if="cardCode != ''">有效期至永久有效</div>
 				<div @click="changeRole" class="user-name" v-if="isEmploy">切换角色</div>
@@ -92,37 +93,43 @@
 					<i-col span="8">
 						<div @click="goPage('sale_bill/list')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-chakandingdan"></span></div>
-							<div class="wenzi">查看单据</div>
+							<div class="wenzi">消费记录</div>
 						</div>
 					</i-col>
 					<i-col span="8">
-						<div @click="comingsone" hover-class="user-info-hover"><span class="iconfont icon-zhuanshuguwen"></span></div>
-						<div class="wenzi">专属顾问</div>
+						<div style="border:10px;background-color:transparent;">
+							<button class="text-button" style="background-color:transparent;" open-type="contact" bindcontact="handleContact"
+							 hover-class="user-info-hover">
+								<div><span class="iconfont icon-zhuanshuguwen"></span></div>
+								<div class="wenzi">专属顾问</div>
+							</button>
+						</div>
 					</i-col>
 				</i-row>
 				<i-row i-class="icons-row">
-					<i-col span="8">
-						<div @click="goPage('evaluate/index')" hover-class="user-info-hover">
-							<div><span class="iconfont icon-pingjiaguanli"></span></div>
-							<div class="wenzi">评价管理</div>
-						</div>
-					</i-col>
+
 					<!-- <i-col span="8">
 						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-jifenshangcheng"></span></div>
 							<div class="wenzi">积分商城</div>
 						</div>
 					</i-col> -->
-					<i-col span="8">
+					<!-- <i-col span="8">
 						<div @click="comingsone" hover-class="user-info-hover">
 							<div><span class="iconfont icon-guanfangshangcheng"></span></div>
 							<div class="wenzi">官方商城</div>
 						</div>
-					</i-col>
+					</i-col> -->
 					<i-col span="8">
 						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-fujinmendian"></span></div>
 							<div class="wenzi">附近门店</div>
+						</div>
+					</i-col>
+					<i-col span="8">
+						<div @click="goPage('evaluate/index')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-pingjiaguanli"></span></div>
+							<div class="wenzi">评价管理</div>
 						</div>
 					</i-col>
 				</i-row>
@@ -212,7 +219,7 @@
 				},
 				footerUrl: "../../static/images/footer2.jpg",
 				footerUrlGoUrl: '',
-				fileListUrls:''
+				fileListUrls: ''
 			}
 		},
 		onPullDownRefresh() {
@@ -233,10 +240,12 @@
 				if (this.avatarUrl == null || this.avatarUrl == '') {
 					this.avatarUrl = '../../static/images/user.png'
 				}
-				if (this.cardList.length > 0 && user.defaultVipErpId) {
+				if (this.cardList != null && this.cardList.length > 0 && user.defaultVipErpId) {
 					this.cardCode = this.cardList.find(c => c.vipErpId == user.defaultVipErpId).vipCode
 				}
-				this.myInfo(reflush)
+				if (this.cardList != null) {
+					this.myInfo(reflush)
+				}
 				//查询图片等信息
 				this.$uniRequest.get('/api/diy_ui/info').then(res => {
 					if (res.data.infoBackImageUrl != null) {
@@ -269,6 +278,16 @@
 				})
 			},
 			hasVipCard() {
+				if (this.cardList == null) {
+					Dialog.confirm({
+						message: '您还没有注册成会员，现在去注册吗？'
+					}).then(() => {
+						uni.navigateTo({
+							url: '/pages/register/register'
+						})
+					})
+					return false
+				}
 				if (this.cardList.length == 0) {
 					Dialog.confirm({
 						message: '还未绑定会员卡，现在去绑定吗？'
@@ -289,19 +308,19 @@
 					})
 				}
 			},
-			goPageFooter2(page, param){
+			goPageFooter2(page, param) {
 				if (this.hasVipCard()) {
-					if(param != null && param != ''){
+					if (param != null && param != '') {
 						uni.navigateTo({
 							url: '/pages/info/web?url=' + encodeURIComponent(param)
 						})
 					}
 				}
 			},
-			goPageFooter(index){
+			goPageFooter(index) {
 				if (this.hasVipCard()) {
 					let param = this.fileListUrls.split(",")
-					if(param != null){
+					if (param != null) {
 						uni.navigateTo({
 							url: '/pages/info/web?url=' + encodeURIComponent(param)
 						})
@@ -332,6 +351,10 @@
 
 
 <style scoped>
+	.text-button:after {
+		border: none;
+	}
+
 	image {
 		will-change: transform
 	}

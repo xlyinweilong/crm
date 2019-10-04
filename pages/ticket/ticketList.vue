@@ -5,20 +5,20 @@
 				<div class="ticket_card">
 					<i-row span="22">
 						<i-col span="8">
-							<div class="tab_td" style="margin-top: 15rpx;border-right: 3px solid #c11920;">
-								<span style="font-size:90rpx;padding-top: 15rpx;padding-bottom: 15rpx;" :style="type == 2 ? 'color:#909399': 'color:#c11920'">
-									{{ele.name}}
+							<div class="tab_td" style="margin-top: 10rpx;border-right: 3px solid #c11920;">
+								<span style="font-size:90rpx;padding-top: 10rpx;padding-bottom: 15rpx;" :style="type == 2 ? 'color:#909399': 'color:#c11920'">
+									<span class="price">{{ele.name}}</span>
 									<span class="iconfont icon-juan" style="vertical-align: text-top;font-size:30rpx;padding-top: 10rpx;"></span>
 								</span>
 							</div>
 						</i-col>
 						<i-col span="11">
 							<div class="tab_td ticket_title" :style="type == 2 ? 'color:#909399': 'color:#c11920'">
-								<div style="font-size: 48rpx;">{{ele.title}}</div>
-								<div style="font-size: 28rpx">
+								<div style="font-size: 36rpx;">{{ele.title}}</div>
+								<div style="font-size: 24rpx">
 									<span style="border-bottom: 1px dashed #73411e;">优惠码:{{ele.userCardCode}}</span>
 								</div>
-								<div style="font-size: 23rpx;">{{ele.startDate}}-{{ele.endDate}}</div>
+								<div style="font-size: 22rpx;">{{ele.startDate}}-{{ele.endDate}}</div>
 							</div>
 						</i-col>
 						<i-col span="5">
@@ -81,7 +81,11 @@
 			}
 		},
 		onLoad() {
-
+			wx.loadFontFace({
+				family: 'msyh',
+				source: 'url("https://crm.wisdomyy.com/长城长宋体.TTF")',
+				success: console.log
+			})
 		},
 		methods: {
 			useThis(ele) {
@@ -140,13 +144,31 @@
 	page {
 		background-color: #FFFFFF;
 	}
+
+	@font-face {
+		font-family: 'AvantGarde';
+		src: url('../../static/font/Avant Garde Book BT.ttf') format('truetype');
+	}
+
+	/* 	@font-face {
+		font-family: 'msyh';
+		src: url('https://crm.wisdomyy.com/长城长宋体.TTF') format('truetype');
+	} */
 </style>
 
 <style>
+	.price {
+		font-style: normal;
+		font-family: 'AvantGarde';
+		font-weight: 800;
+		font-size: 100rpx;
+	}
+
 	.ticket {
 		margin: 3px 10px 0px 10px;
 		border-top: 3px solid #DCDFE6;
 		padding-top: 7px;
+		font-family: 'msyh';
 	}
 
 	.ticket .tabs_content {}
@@ -166,9 +188,11 @@
 	}
 
 	.ticket .ticket_title {
+		margin-top: 18rpx;
 		margin-left: 10rpx;
 		text-align: left;
 		color: #73411e;
+		font-family: 'msyh';
 	}
 
 	.ticket .lijishiyong {
