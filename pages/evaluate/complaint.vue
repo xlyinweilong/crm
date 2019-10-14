@@ -57,13 +57,18 @@
 				},
 				channelName: '',
 				tempChnanelId: '',
+				code:'',
 				channelList: [],
 				loadingChannel: true,
 				isPosted: false
 			}
 		},
-		onLoad() {
+		onLoad(query) {
+			if (query.code) {
+				this.code = decodeURIComponent(query.code)
+			}
 			let user = wx.getStorageSync('token')
+			this.getLocation()
 		},
 		methods: {
 			redirectTo(page) {
@@ -93,7 +98,7 @@
 			},
 			showChannels() {
 				this.tempChnanelId = this.channelId
-				this.getLocation()
+				this.show = true
 			},
 			getLocation() {
 				let _this = this
@@ -131,7 +136,6 @@
 				})
 			},
 			getChannelList(lat, lng) {
-				this.show = true
 				this.loadingChannel = true
 				this.$uniRequest.get('/api/small_procedures/channel/nearby', {
 					data: {
@@ -140,6 +144,13 @@
 					}
 				}).then(res => {
 					this.channelList = res.data
+					if(this.code != ''){
+						let channel = this.channelList.find(d => d.code == this.code)
+						if(channel != null){
+							this.tempChnanelId = channel.id
+							this.saveChannel()
+						}
+					}
 				}).finally(() => this.loadingChannel = false)
 			},
 			submit() {

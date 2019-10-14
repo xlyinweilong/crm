@@ -46,7 +46,7 @@
 							<i-col span="9">
 								<div style="padding-top: 5rpx;">
 									<span class="tickets-icon iconfont icon-youhuijuan"></span>
-									<div style="font-size: 20rpx;">优惠卷</div>
+									<div style="font-size: 20rpx;">优惠券</div>
 								</div>
 							</i-col>
 							<i-col span="1">
@@ -132,6 +132,12 @@
 							<div class="wenzi">评价管理</div>
 						</div>
 					</i-col>
+					<!-- <i-col span="8">
+						<div @click="goPage('ticket/shelf/list')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-pingjiaguanli"></span></div>
+							<div class="wenzi">优惠卷</div>
+						</div>
+					</i-col> -->
 				</i-row>
 			</div>
 			<view class="footer1">
@@ -226,7 +232,10 @@
 			this.init(true)
 		},
 		onLoad() {
-			this.init(false)
+			// this.init(false)
+		},
+		onShow() {
+			this.init(true)
 		},
 		methods: {
 			init(reflush) {
@@ -319,7 +328,7 @@
 			},
 			goPageFooter(index) {
 				if (this.hasVipCard()) {
-					let param = this.fileListUrls.split(",")
+					let param = this.fileListUrls.split(",")[index]
 					if (param != null) {
 						uni.navigateTo({
 							url: '/pages/info/web?url=' + encodeURIComponent(param)

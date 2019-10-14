@@ -61,11 +61,28 @@
 					uni.reLaunch({
 						url: '/pages/evaluate/do_evaluate?posCode=' + posCode
 					})
+					return
 				}
 				//获取推荐参数
 				if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommend,")) {
 					let recommend = this.scene.replace("recommend,", "").trim()
 					wx.setStorageSync('recommend', recommend)
+					if (!data.isRegister) {
+						uni.reLaunch({
+							url: '/pages/register/register'
+						})
+						return
+					}
+				}
+				if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommendC,")) {
+					let recommendC = this.scene.replace("recommendC,", "").trim()
+					wx.setStorageSync('recommendC', recommendC)
+					if (!data.isRegister) {
+						uni.reLaunch({
+							url: '/pages/register/register'
+						})
+						return
+					}
 				}
 				//是否员工扫码进入
 				if (this.scene == 'employ,register') {
@@ -75,6 +92,7 @@
 						uni.reLaunch({
 							url: '/pages/employ/index'
 						})
+						return
 					} else {
 						//跳转注册/绑定员工页面
 						uni.reLaunch({
@@ -89,6 +107,7 @@
 							uni.redirectTo({
 								url: '/pages/employ/index'
 							})
+							return
 						} else {
 							//判断是否注册了公众号的openId
 							if (data.platformOpenId == null) {
@@ -102,16 +121,38 @@
 								uni.reLaunch({
 									url: '/pages/bind_vip/bind_vip'
 								})
+								return
 							} else {
+								if (this.scene != null && this.scene.startsWith('channel,')) {
+									uni.reLaunch({
+										url: '/pages/channel/nearby'
+									})
+									return
+								}
+								if (this.scene != null && this.scene.startsWith('evaluate_page,')) {
+									let code = this.scene.split(",")[1]
+									if(code == null){
+										uni.reLaunch({
+											url: '/pages/evaluate/complaint'
+										})
+										return
+									}
+									uni.reLaunch({
+										url: '/pages/evaluate/complaint?code=' + code
+									})
+									return
+								}
 								uni.reLaunch({
 									url: '/pages/info/index'
 								})
+								return
 							}
 						}
 					} else {
 						uni.reLaunch({
 							url: '/pages/info/index'
 						})
+						return
 					}
 				}
 			}
@@ -123,4 +164,5 @@
 	image {
 		will-change: transform
 	}
+	
 </style>

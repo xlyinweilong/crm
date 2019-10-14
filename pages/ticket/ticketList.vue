@@ -5,9 +5,13 @@
 				<div class="ticket_card">
 					<i-row span="22">
 						<i-col span="8">
-							<div class="tab_td" style="margin-top: 10rpx;border-right: 3px solid #c11920;">
-								<span style="font-size:90rpx;padding-top: 10rpx;padding-bottom: 15rpx;" :style="type == 2 ? 'color:#909399': 'color:#c11920'">
-									<span class="price">{{ele.name}}</span>
+							<div class="tab_td" hover-class="user-info-hover" style="height:110rpx;margin-top: 10rpx;margin-bottom: 10rpx;border-right: 3px solid #c11920;text-align:center;" @click="useThis(ele)">
+								<span style="font-size: 100rpx;vertical-align:middle" :style="type == 2 ? 'color:#909399': 'color:#c11920'">
+									<span v-if="ele.type == 'CASH' && ele.name.length > 4" class="price" style="font-size: 60rpx;">{{ele.name}}</span>
+									<span v-if="ele.type == 'CASH' && ele.name.length == 4" class="price" style="font-size: 80rpx;">{{ele.name}}</span>
+									<span v-if="ele.type == 'CASH' && ele.name.length <= 3" class="price" style="font-size: 100rpx;">{{ele.name}}</span>
+									<span v-if="ele.type == 'DISCOUNT' && ele.name.length > 2" class="price" style="font-size: 60rpx;">{{ele.name}}</span>
+									<span v-if="ele.type == 'DISCOUNT' && ele.name.length <= 2" class="price" style="font-size: 90rpx;">{{ele.name}}</span>
 									<span class="iconfont icon-juan" style="vertical-align: text-top;font-size:30rpx;padding-top: 10rpx;"></span>
 								</span>
 							</div>
@@ -89,15 +93,17 @@
 		},
 		methods: {
 			useThis(ele) {
-				wx.openCard({
-					cardList: [{
-						cardId: ele.cardId,
-						code: ele.userCardCode
-					}],
-					success(res) {
-						console.log(res)
-					}
-				})
+				if (this.type == 0) {
+					wx.openCard({
+						cardList: [{
+							cardId: ele.cardId,
+							code: ele.userCardCode
+						}],
+						success(res) {
+							console.log(res)
+						}
+					})
+				}
 			},
 			showInfo(ele) {
 				ele.show = !ele.show
@@ -162,6 +168,9 @@
 		font-family: 'AvantGarde';
 		font-weight: 800;
 		font-size: 100rpx;
+		text-align:center;
+		display: table-cell;
+		vertical-align:middle
 	}
 
 	.ticket {
@@ -211,5 +220,9 @@
 		-ms-transform: rotate(180deg);
 		-moz-transform: rotate(180deg);
 		-o-transform: rotate(180deg);
+	}
+	
+	.user-info-hover {
+		color: #C80000;
 	}
 </style>

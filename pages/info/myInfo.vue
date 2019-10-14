@@ -38,20 +38,8 @@
 			</div> -->
 			<div class="inputDiv">
 				<van-cell-group custom-class="cellGroup">
-					<van-field type="number" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.birthdayYear"
-					 @change="changeBirthdayYear" clearable label="生日年" icon="gift" placeholder="请输入生日年份" />
-				</van-cell-group>
-			</div>
-			<div class="inputDiv">
-				<van-cell-group custom-class="cellGroup">
-					<van-field type="number" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.birthdayMonth"
-					 @change="changeBirthdayMonth" clearable label="生日月" icon="gift" placeholder="请输入生日月份" />
-				</van-cell-group>
-			</div>
-			<div class="inputDiv">
-				<van-cell-group custom-class="cellGroup">
-					<van-field type="number" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.birthdayDay"
-					 @change="changeBirthdayDay" clearable label="生日日" icon="gift" placeholder="请输入生日日" />
+					<van-field type="number" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.birthday"
+					 @change="changeBirthday" clearable label="生日" icon="gift" placeholder="例如:19710409" />
 				</van-cell-group>
 			</div>
 			<div class="inputDiv" v-for="field in fieldList">
@@ -113,9 +101,6 @@
 				cardCode: '',
 				baseUrl: this.$baseURL + '/static/images/card/',
 				info: {
-					birthdayYear: "",
-					birthdayMonth: "",
-					birthdayDay: "",
 					nickname: "",
 					name: "",
 					sex: "",
@@ -133,7 +118,7 @@
 				},
 				fieldList: [],
 				showBirthday: false,
-				birthday: new Date().getTime(),
+				birthday: '',
 				maxDate: new Date().getTime(),
 				minDate: new Date(1960, 1, 1).getTime(),
 				showSex: false,
@@ -146,7 +131,7 @@
 				tempRadioDiyList: []
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.init()
 		},
 		onPullDownRefresh() {
@@ -171,7 +156,7 @@
 				}
 				this.info.name = user.name == null ? "" : user.name
 				this.info.nickname = this.nickName == null ? "" : this.nickName
-				this.info.birthday = this.getNotNull(user.birthdayStr)
+				this.info.birthday = this.getNotNull(user.birthday)
 				this.info.diy1 = this.getNotNull(user.diy1)
 				this.info.diy2 = this.getNotNull(user.diy2)
 				this.info.diy3 = this.getNotNull(user.diy3)
@@ -183,13 +168,8 @@
 				this.info.diy9 = this.getNotNull(user.diy9)
 				this.info.diy10 = this.getNotNull(user.diy10)
 				this.info.sex = this.getText(user.sexStr)
-				if (user.birthday != null) {
-					this.birthday = user.birthday
-				}
-				if (this.info.birthday != '') {
-					this.info.birthdayYear = this.info.birthday.split("-")[0]
-					this.info.birthdayMonth = this.info.birthday.split("-")[1]
-					this.info.birthdayDay = this.info.birthday.split("-")[2]
+				if (this.info.birthday != null && this.info.birthday != '') {
+					this.info.birthday = this.info.birthday.replace("/-/g","")
 				}
 				this.setSex(user.sex)
 				this.getGradeInfo()
@@ -197,14 +177,8 @@
 			changeNickname(e) {
 				this.info.nickname = e.detail
 			},
-			changeBirthdayYear(e) {
-				this.info.birthdayYear = e.detail
-			},
-			changeBirthdayMonth(e) {
-				this.info.birthdayMonth = e.detail
-			},
-			changeBirthdayDay(e) {
-				this.info.birthdayDay = e.detail
+			changeBirthday(e) {
+				this.info.birthday = e.detail
 			},
 			changeName(e) {
 				this.info.name = e.detail
@@ -303,39 +277,10 @@
 				})
 			},
 			saveDate() {
-				if (this.info.birthdayYear != '') {
-					if (!(this.info.birthdayYear > 1900 && this.info.birthdayYear <= 2020)) {
-						wx.showToast({
-							title: '生日年份错误',
-							icon: 'none'
-						})
-						return
-					}
-				}
-				if (this.info.birthdayMonth != '') {
-					if (!(this.info.birthdayMonth > 0 && this.info.birthdayMonth <= 12)) {
-						wx.showToast({
-							title: '生日月份错误',
-							icon: 'none'
-						})
-						return
-					}
-				}
-				if (this.info.birthdayDay != '') {
-					if (!(this.info.birthdayDay > 0 && this.info.birthdayDay <= 31)) {
-						wx.showToast({
-							title: '生日日错误',
-							icon: 'none'
-						})
-						return
-					}
-				}
 				this.loading = true
 				this.$uniRequest.post('/api/small_procedures/user/save', {
 					nickName: this.info.nickname,
-					birthdayYear: this.info.birthdayYear,
-					birthdayMonth: this.info.birthdayMonth,
-					birthdayDay: this.info.birthdayDay,
+					birthday: this.info.birthday,
 					name: this.info.name,
 					diy1: this.info.diy1,
 					diy2: this.info.diy2,
@@ -362,7 +307,6 @@
 					user.diy10 = this.info.diy10
 					this.nickName = this.info.nickname
 					user.birthday = res.data.birthday
-					user.birthdayStr = res.data.birthdayStr
 					if (res.data.isGodUserInfoIntegral) {
 						user.isGodUserInfoIntegral = true
 					}

@@ -59,7 +59,7 @@
 		</div>
 		<div style="margin-top: 40rpx;" v-if="ele.status === 'unevaluated'">
 			<span @click="goToComplaint" style="font-size:18rpx;color:#AE0000;font-weight: 800;">投诉与建议 > </span>
-			<button :loading="loading" type="primary" class="submit" @click="submit">确认提交</button>
+			<button :disabled="rate == 0" :loading="loading" type="primary" class="submit" @click="submit">确认提交</button>
 		</div>
 		<!-- </div> -->
 		<van-toast id="van-toast" />
@@ -91,7 +91,7 @@
 			return {
 				loading: false,
 				isAnonymous: true,
-				rate: 5,
+				rate: 0,
 				posCode: '',
 				ele: {},
 				evaluate: [],
@@ -127,7 +127,7 @@
 				})
 			},
 			submit() {
-				if (!this.loading) {
+				if (!this.loading && this.rate > 0) {
 					this.loading = true
 					let tags = []
 					for (let i = 1; i <= 6; i++) {
@@ -180,10 +180,7 @@
 				return null
 			},
 			createTags() {
-				console.log(1111)
 				this.hasInEvaluate = []
-				console.log(this.hasInEvaluate)
-				console.log(this.evaluate)
 				this.evaluate.forEach(e => e.checked = false)
 				for (let i = 1; i <= 6; i++) {
 					this.endEvaluate[i] = this.getTag(i)

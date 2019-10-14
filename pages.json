@@ -47,6 +47,15 @@
 			}
 		},
 		{
+			"path": "pages/ticket/shelf/list",
+			"style": {
+				"navigationBarTitleText": "领劵中心",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
 			"path": "pages/evaluate/do_evaluate",
 			"style": {
 				"navigationBarTitleText": "发表评价",
@@ -170,7 +179,7 @@
 			"path": "pages/ticket/list",
 			"style": {
 				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "优惠卷",
+				"navigationBarTitleText": "优惠券",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
@@ -322,7 +331,7 @@
 			"path": "pages/employ/ticket_list",
 			"style": {
 				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "优惠卷核销",
+				"navigationBarTitleText": "优惠券核销",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",

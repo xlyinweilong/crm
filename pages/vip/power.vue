@@ -25,11 +25,14 @@
 						<view class="scroll-content">
 							<scroll-view class="scroll-view_w" scroll-x style="width:100%">
 								<view class="item" v-for="grade in gradeList">
-									<view class="top"><span v-if="erpId === grade.erpId">
-											<van-icon color="#C80000" size="28rpx" name="arrow-down" /></span></view>
+									<view class="top">
+										<span v-if="erpId === grade.erpId">
+											<van-icon color="#C80000" size="28rpx" name="arrow-down" /></span>
+									</view>
 									<view class="th" :class="{ activeItem: erpId ===  grade.erpId}">{{grade.name}}</view>
 									<view class="td" v-for="template in powerTemplateList" :class="{ activeItem: erpId ===  grade.erpId}">
-										<van-icon v-if="isSuccessIcon(grade.erpId,template)" name="success" color="#C80000" size="30rpx" />
+										<span class="iconfont icon-zhengque" v-if="isSuccessIcon(grade.erpId,template)" style="font-size: 30rpx;color:#C80000" />
+										<span class="iconfont icon-guanbi" v-if="!isSuccessIcon(grade.erpId,template) && template.templateType === 'BOOLEAN'" style="font-size: 30rpx;color:#C0C4CC" />
 										<span @click="showMessageInfo(grade.erpId,template)">{{getText(grade.erpId,template)}}</span>
 									</view>
 								</view>
@@ -159,7 +162,7 @@
 			this.getConfig()
 		},
 		methods: {
-			clickRule(rule){
+			clickRule(rule) {
 				this.erpId = rule.erpId
 			},
 			getConfig() {
@@ -212,7 +215,7 @@
 			},
 			getGradeAll() {
 				this.$uniRequest.get('/api/vip/vip_grade/all').then(res => {
-					this.gradeList = res.data.filter(d => !!d.powerShow)
+					this.gradeList = res.data.filter(d => !!d.powerShow && d.disabled == 0)
 					this.getPowerTemplateList()
 				})
 			},

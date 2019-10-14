@@ -50,7 +50,7 @@
 				showImage:true
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.init()
 		},
 		onPullDownRefresh() {

@@ -44,7 +44,7 @@
 							</i-col>
 							<i-col span="5">
 								<div style="text-align: right;">
-									<span v-if="type == 0" @click="useThis(ele)" class="lijishiyong">扫优惠卷</span>
+									<span v-if="type == 0" @click="useThis(ele)" class="lijishiyong">扫优惠券</span>
 									<div @click="showInfo(ele)" style="margin-top: 65rpx;">
 										<span v-show="!ele.show" class="iconfont icon-xiangxia" style="font-size:35rpx;color: #741419;"></span>
 										<span v-show="ele.show" class="iconfont icon-xiangshang" style="font-size:35rpx;color: #741419;"></span>

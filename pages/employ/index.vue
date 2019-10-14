@@ -43,7 +43,7 @@
 						<i-grid-icon>
 							<i-icon type="group" size="28" />
 						</i-grid-icon>
-						<i-grid-label>卡卷核销</i-grid-label>
+						<i-grid-label>卡券核销</i-grid-label>
 					</div>
 				</i-grid-item>
 				<i-grid-item>

@@ -57,6 +57,13 @@
 				this.$uniRequest.post('/api/small_procedures/employ/bind', form).then(res => {
 					let user = wx.getStorageSync('token')
 					user.isEmploy = true
+					user.id = res.data.id
+					user.platformOpenId = res.data.platformOpenId
+					user.avatarUrl = res.data.avatarUrl
+					user.nickName = res.data.nickName
+					user.cardList = res.data.cardList
+					user.token = res.data.token
+					user.isRegister = res.data.isRegister
 					wx.setStorageSync('token', user)
 					Toast(res.message)
 					uni.redirectTo({

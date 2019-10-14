@@ -1,5 +1,9 @@
 <template>
 	<view class="ticket">
+		<div style="text-align: center;padding: 10rpx 0rpx 10rpx 0rpx;" @click="goPage('ticket/shelf/list')" hover-class="user-info-hover">
+			<span class="tickets-icon iconfont icon-youhuijuan" style="margin-right: 10rpx;"></span>
+			领劵中心
+		</div>
 		<van-tabs sticky @click="onClick">
 			<van-tab :title="'可使用('+couponCount.canUseCountStr+')'">
 				<ticketList ref="ticketList" type="0" />
@@ -21,18 +25,19 @@
 
 	export default {
 		components: {
-			uniLoadMore,ticketList
+			uniLoadMore,
+			ticketList
 		},
 		data() {
 			return {
-				couponCount:{
-					canUseCountStr:0,
-					hasUsedCountStr:0,
-					disabledCountStr:0
+				couponCount: {
+					canUseCountStr: 0,
+					hasUsedCountStr: 0,
+					disabledCountStr: 0
 				}
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.$refs.ticketList.getList()
 			let userInfo = wx.getStorageSync('userInfo')
 			this.$uniRequest.get('/api/small_ticket/my_ticket_list_count').then(res => {
@@ -41,13 +46,18 @@
 			})
 		},
 		methods: {
-			onClick(e){
-				if(e.detail.index === 0){
+			goPage(page) {
+				uni.navigateTo({
+					url: '/pages/' + page
+				})
+			},
+			onClick(e) {
+				if (e.detail.index === 0) {
 					this.$refs.ticketList.getList()
-				}else if(e.detail.index === 1){
+				} else if (e.detail.index === 1) {
 					console.log(e)
 					this.$refs.ticketList2.getList()
-				}else if(e.detail.index === 2){
+				} else if (e.detail.index === 2) {
 					this.$refs.ticketList3.getList()
 				}
 			}
@@ -62,4 +72,7 @@
 </style>
 
 <style scoped>
+	.user-info-hover {
+		color: #C80000;
+	}
 </style>
