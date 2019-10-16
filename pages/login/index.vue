@@ -84,6 +84,16 @@
 						return
 					}
 				}
+				if (this.scene != null && this.scene != '' && this.scene.trim().startsWith("recommendD,")) {
+					let recommendD = this.scene.replace("recommendD,", "").trim()
+					wx.setStorageSync('recommendD', recommendD)
+					if (!data.isRegister) {
+						uni.reLaunch({
+							url: '/pages/register/register'
+						})
+						return
+					}
+				}
 				//是否员工扫码进入
 				if (this.scene == 'employ,register') {
 					//判断是否已经注册为员工

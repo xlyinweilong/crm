@@ -49,6 +49,7 @@
 		{
 			"path": "pages/ticket/shelf/list",
 			"style": {
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "领劵中心",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",

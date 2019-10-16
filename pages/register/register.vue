@@ -61,11 +61,15 @@
 				userInfo.vipCode = this.vipCode
 				let recommend = wx.getStorageSync('recommend')
 				let recommendC = wx.getStorageSync('recommendC')
+				let recommendD = wx.getStorageSync('recommendD')
 				if (recommend != null && recommend != '') {
 					userInfo.recommendOpenId = recommend
 				}
 				if (recommendC != null && recommendC != '') {
 					userInfo.recommendChannelCode = recommendC
+				}
+				if (recommendD != null && recommendD != '') {
+					userInfo.recommendCode = recommendD
 				}
 				this.$uniRequest.post('/api/small_procedures/login/register', userInfo).then(res => {
 					wx.setStorageSync('token', res.data)

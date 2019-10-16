@@ -75,7 +75,10 @@
 				loadingPage: false
 			}
 		},
-		onShow() {
+		onLoad() {
+			this.getList()
+		},
+		onPullDownRefresh() {
 			this.getList()
 		},
 		methods: {
@@ -121,6 +124,7 @@
 							}
 						})
 						this.noMore = this.list.length >= res.data.totalElements
+						uni.stopPullDownRefresh()
 					}).finally(error => this.loading = false)
 				}
 			}
