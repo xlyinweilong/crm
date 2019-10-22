@@ -26,7 +26,7 @@
 								</div>
 								<div v-if="ele.dateInfoType == 'DATE_TYPE_FIX_TERM'" style="font-size: 22rpx;">
 									领取后<span v-if="ele.fixedBeginTerm">{{ele.fixedBeginTerm}}天生效</span>{{ele.fixedTerm}}天失效
-									<div v-if="ele.fixedEndTime != null">{{fixedEndTime}}统一失效</div>
+									<div v-if="ele.fixedEndTime != null">{{ele.fixedEndTime}}统一失效</div>
 								</div>
 							</div>
 						</i-col>
