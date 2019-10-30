@@ -133,9 +133,9 @@
 						</div>
 					</i-col>
 					<!-- <i-col span="8">
-						<div @click="goPage('ticket/shelf/list')" hover-class="user-info-hover">
+						<div @click="zhifu" hover-class="user-info-hover">
 							<div><span class="iconfont icon-pingjiaguanli"></span></div>
-							<div class="wenzi">优惠卷</div>
+							<div class="wenzi">支付测试</div>
 						</div>
 					</i-col> -->
 				</i-row>
@@ -233,6 +233,9 @@
 		},
 		onLoad() {
 			// this.init(false)
+		},
+		onShareAppMessage() {
+		
 		},
 		onShow() {
 			this.init(true)

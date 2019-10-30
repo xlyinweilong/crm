@@ -2,11 +2,11 @@
 	<view class="ticket">
 		<div class="tabs_content">
 			<view v-for="ele in list">
-				<div class="ticket_card" @click="useThis(ele)" hover-class="user-info-hover">
+				<div class="ticket_card" @click="clickTicket(ele)" hover-class="user-info-hover">
 					<i-row span="22">
 						<i-col span="8">
 							<div class="tab_td" hover-class="user-info-hover" style="height:110rpx;margin-top: 10rpx;margin-bottom: 10rpx;border-right: 3px solid #c11920;text-align:center;"
-							 @click="useThis(ele)">
+							 @click="clickTicket(ele)">
 								<span style="font-size: 100rpx;vertical-align:middle" :style="type == 2 ? 'color:#909399': 'color:#c11920'">
 									<span v-if="ele.cardType == 'CASH' && ele.name.length > 4" class="price" style="font-size: 60rpx;">{{ele.name}}</span>
 									<span v-if="ele.cardType == 'CASH' && ele.name.length == 4" class="price" style="font-size: 80rpx;">{{ele.name}}</span>
@@ -82,22 +82,72 @@
 			this.getList()
 		},
 		methods: {
-			useThis(ele) {
+			clickTicket(ele){
+				if(ele.needPay){
+					this.isPayed(ele)
+				}else{
+					this.useThis(ele)
+				}
+			},
+			useThis(ele,type) {
+				if(type == null){
+					type = "SHELF"
+				}
 				let user = wx.getStorageSync('token')
 				this.loadingPage = true
 				this.$uniRequest.get('/api/small_ticket_shelf/getCardSign', {
 					data: {
+						id: ele.id,
 						cardId: ele.cardId
 					}
 				}).then(res => {
 					wx.addCard({
 						cardList: [{
 							cardId: ele.cardId,
-							cardExt: '{"nonce_str": "' + res.data.nonceStr + '","code": "", "outer_str":"SHELF","openid": "", "timestamp": "' + res.data.timestamp +
+							cardExt: '{"nonce_str": "' + res.data.nonceStr + '","code": "", "outer_str":"'+type+'","openid": "", "timestamp": "' + res.data.timestamp +
 								'", "signature":"' + res.data.signature + '"}'
 						}],
 						success(res) {
 							console.log(res)
+							//
+						}
+					})
+				}).finally(error => this.loadingPage = false)
+			},
+			isPayed(ele){
+				let user = wx.getStorageSync('token')
+				let _this = this
+				this.loadingPage = true
+				this.$uniRequest.post('/api/small_procedures/pay/has_payed_order', {
+					id: ele.id
+				}).then(res => {
+					if(res.data){
+						_this.useThis(ele,"PAYED")
+					}else{
+						_this.zhifu(ele)
+					}
+				}).finally(error => this.loadingPage = false)
+			},
+			zhifu(ele){
+				let user = wx.getStorageSync('token')
+				let _this = this
+				this.loadingPage = true
+				this.$uniRequest.post('/api/small_procedures/pay/create_order', {
+					id: ele.id
+				}).then(res => {
+					wx.requestPayment({
+						timeStamp: res.data.timeStamp+'',
+						nonceStr:res.data.nonceStr,
+						package:res.data.package,
+						signType:'MD5',
+						paySign:res.data.paySign,
+						success(res) {
+							console.log("支付成功")
+							//支付成功后直接跳转
+							_this.useThis(ele,"PAYED")
+						},
+						fail(res){
+							console.log("支付失败")
 						}
 					})
 				}).finally(error => this.loadingPage = false)

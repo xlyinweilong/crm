@@ -7,6 +7,7 @@
 		<div class="qrcode">
 			<image v-if="base64 != ''" show-menu-by-longpress mode="widthFix" style="width: 100%;" :src="base64" />
 		</div>
+		
 	</view>
 </template>
 
