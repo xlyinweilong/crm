@@ -2,7 +2,36 @@
 	<view class="ticket">
 		<div class="tabs_content">
 			<view v-for="ele in list">
-				<div class="ticket_card" @click="clickTicket(ele)" hover-class="user-info-hover">
+				<div @click="clickTicket(ele)" class="ticketDiv" hover-class="user-info-hover">
+					<div style="position:relative">
+						<div class="quanchangjuan">{{ele.title}}</div>
+						<div class="jiage">
+							{{ele.name}}
+							<span v-if="ele.cardType == 'CASH'" style="font-size: 32rpx;margin-left: 5rpx;">元</span>
+							<span v-if="ele.cardType == 'DISCOUNT'" style="font-size: 32rpx;margin-left: 5rpx;">折</span>
+						</div>
+						<div class="youhuima">
+							<span  v-if="ele.needPay && ele.userHasGot < ele.getLimit" class="">支付{{ele.payMoney}}元领取1张</span>
+							<span v-if="!ele.needPay && ele.userHasGot < ele.getLimit" class="">点击领取</span>
+							<span v-if="ele.userHasGot >= ele.getLimit" class="" style="color: #909399;">已经领取</span>
+						</div>
+						<div class="youxiaoqi" :style="{'color:#ff807b': ele.ticketType == null || ele.ticketType == 'FULL_COURT','color:#9186ff':ele.ticketType == 'CATEGORY'}">
+							<div v-if="ele.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'">
+								<div>启用:{{ele.startTime}}</div>
+								<div>失效:{{ele.endTime}}</div>
+							</div>
+							<div v-if="ele.dateInfoType == 'DATE_TYPE_FIX_TERM'">
+								领取后<span v-if="ele.fixedBeginTerm">{{ele.fixedBeginTerm}}天生效</span>{{ele.fixedTerm}}天失效
+								<div v-if="ele.fixedEndTime != null">{{ele.fixedEndTime}} 统一失效</div>
+							</div>
+						</div>
+					</div>
+					<image :class="{'used': type == 2}" v-if="ele.ticketType == null || ele.ticketType == 'FULL_COURT'" style="width: 100%;" class="image" mode="widthFix" src="../../../static/images/ticket/quanchangquan.png" />
+					<image :class="{'used': type == 2}" v-if="ele.ticketType == 'CATEGORY'" style="width: 100%;" class="image" mode="widthFix" src="../../../static/images/ticket/pinleiquan.png" />
+					<p style="color: #000000;margin-bottom: 10rpx;">{{ele.description}}</p>
+				</div>
+				
+				<!-- <div class="ticket_card" @click="clickTicket(ele)" hover-class="user-info-hover">
 					<i-row span="22">
 						<i-col span="8">
 							<div class="tab_td" hover-class="user-info-hover" style="height:110rpx;margin-top: 10rpx;margin-bottom: 10rpx;border-right: 3px solid #c11920;text-align:center;"
@@ -39,10 +68,10 @@
 					</i-row>
 					<div style="border-top: 2px solid #DCDFE6;margin-top: 5rpx;padding-top: 10rpx;">
 						<div>
-							<p>{{ele.description}}</P>
+							<p>{{ele.description}}</p>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</view>
 			<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;text-align: center;">
 				<div>加载更多</div>
@@ -82,6 +111,13 @@
 			this.getList()
 		},
 		methods: {
+			getTimeClass(ele){
+				if(ele.ticketType == null || ele.ticketType == 'FULL_COURT'){
+					return "color:#ff807b"
+				}else if(ele.ticketType == 'CATEGORY'){
+					return "color:#9186ff"
+				}
+			},
 			clickTicket(ele){
 				if(ele.needPay){
 					this.isPayed(ele)
@@ -250,5 +286,67 @@
 
 	.user-info-hover {
 		color: #C80000;
+	}
+	
+	.ticket .ticketDiv {
+		color: #FFFFFF;
+	}
+	
+	.ticket .user-info-hover {
+		color: #C80000;
+		/* background: #000000; */
+		/* font-weight: bold; */
+	}
+	
+	.ticket .quanchangjuan {
+		z-index: 100;
+		/* color:#FFFFFF; */
+		font-size: 50rpx;
+		position: absolute;
+		top: 35rpx;
+		left: 40rpx;
+	}
+	
+	.ticket .jiage {
+		font-family: 'AvantGarde';
+		z-index: 101;
+		letter-spacing: 4rpx;
+		color:#FFFFFF;
+		font-size: 68rpx;
+		position: absolute;
+		top: 55rpx;
+		right: 30rpx;
+	}
+	
+	.ticket .youhuima {
+		width: 100%;
+		z-index: 103;
+		letter-spacing: 0rpx;
+		color:#FFFFFF;
+		font-size: 28rpx;
+		position: absolute;
+		top: 240rpx;
+		left: 10rpx;
+		right: 10rpx;
+		text-align: center;
+	}
+	
+	.ticket .youxiaoqi {
+		font-size: 28rpx;
+		position: absolute;
+		z-index: 102;
+		top: 122rpx;
+		left: 56rpx;
+	}
+	
+	.ticket .image {
+		
+	}
+	
+	.ticket .used{
+		background: #FFFFFF;
+		filter: alpha(Opacity=70);
+		-moz-opacity: 0.7;
+		opacity: 0.7;
 	}
 </style>
