@@ -59,12 +59,8 @@
 				wx.saveImageToPhotosAlbum({
 					filePath:_this.base64,
 					success(res) {
-						console.log("*************111")
-						console.log(res)
 					},
 					fail(res){
-						console.log("*************222")
-						console.log(res)
 					}
 				})
 			}

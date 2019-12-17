@@ -1,36 +1,33 @@
 <template>
 	<view>
-		<!-- <van-search :value="searchValue" placeholder="请输入搜索关键词" use-action-slot @search="onSearch">
-			<view slot="action" @tap="onSearch">搜索</view>
-		</van-search> -->
 		<div class="table">
 			<view class="header">
-				<i-row span="22">
-					<i-col span="4">
+				<van-row gutter="22">
+					<van-col span="4">
 						<div class="tab_header">头像</div>
-					</i-col>
-					<i-col span="8">
+					</van-col>
+					<van-col span="8">
 						<div class="tab_header">昵称</div>
-					</i-col>
-					<i-col span="12">
+					</van-col>
+					<van-col span="12">
 						<div class="tab_header">时间</div>
-					</i-col>
-				</i-row>
+					</van-col>
+				</van-row>
 			</view>
 			<view v-for="ele in list" class="info">
-				<i-row span="22">
-					<i-col span="4" i-class="tab_td">
+				<van-row gutter="22">
+					<van-col span="4" i-class="tab_td">
 						<div class="tab_td">
 							<image v-if="ele.avatarUrl != ''" mode="widthFix" style="width: 80rpx;" :src="ele.avatarUrl" />
 						</div>
-					</i-col>
-					<i-col span="8">
+					</van-col>
+					<van-col span="8">
 						<div class="tab_td">{{ele.nickName}}</div>
-					</i-col>
-					<i-col span="12">
+					</van-col>
+					<van-col span="12">
 						<div class="tab_td">{{ele.createDate}}</div>
-					</i-col>
-				</i-row>
+					</van-col>
+				</van-row>
 			</view>
 			<div v-show="!loading && !noMore" @click="loadMore" style="margin-top: 20rpx;">
 				<div>加载更多</div>
@@ -75,14 +72,6 @@
 			}
 		},
 		methods: {
-			onSearch() {
-				wx.showLoading({
-					title: '加载中',
-				})
-				this.$uniRequest.get('/api/small_procedures/employ/load_my_qr_code').then(res => {
-					this.base64 = res.data
-				})
-			},
 			loadMore() {
 				if (!this.loading) {
 					this.loading = true

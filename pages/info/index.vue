@@ -15,88 +15,88 @@
 				<div @click="changeRole" class="user-name" v-if="isEmploy">切换角色</div>
 			</div>
 			<div class="user-qrcode" @click="goPage('info/membershipCode')" hover-class="user-info-hover">
-				<i-row>
-					<i-col span="6" offset="4">
+				<van-row>
+					<van-col span="6" offset="4">
 						<span class="iconfont icon-huiyuanma"></span>
-					</i-col>
-					<i-col span="14">
+					</van-col>
+					<van-col span="14">
 						<div class="user-qrcode-name">会员码</div>
 						<div class="user-qrcode-enname">Membership Code</div>
-					</i-col>
-				</i-row>
+					</van-col>
+				</van-row>
 			</div>
 			<div class="user-info" @click="goPage('info/myInfo')" hover-class="user-info-hover">
-				<i-row>
-					<i-col span="6" offset="4">
+				<van-row>
+					<van-col span="6" offset="4">
 						<span class="iconfont icon-wodeziliao"></span>
-					</i-col>
-					<i-col span="14">
+					</van-col>
+					<van-col span="14">
 						<div class="user-info-name">我的资料</div>
 						<div class="user-info-enname">My Information</div>
-					</i-col>
-				</i-row>
+					</van-col>
+				</van-row>
 			</div>
 		</view>
 		<!-- tickets -->
 		<view class="tickets">
-			<i-row>
-				<i-col span="12" i-class="tickets-row-col-left">
-					<button class="tickets-div" @click="goPage('ticket/list')" hover-class="user-info-hover">
-						<i-row>
-							<i-col span="9">
-								<div style="padding-top: 5rpx;">
+			<van-row>
+				<van-col span="12" custom-class="tickets-row-col-left">
+					<div class="tickets-div" @click="goPage('ticket/list')" hover-class="user-info-hover">
+						<van-row>
+							<van-col span="10">
+								<div style="padding-top: 2rpx;">
 									<span class="tickets-icon iconfont icon-youhuijuan"></span>
 									<div style="font-size: 20rpx;">优惠券</div>
 								</div>
-							</i-col>
-							<i-col span="1">
+							</van-col>
+							<van-col span="1">
 								<div class="shuxian"></div>
-							</i-col>
-							<i-col span="12">
-								<div style="padding-top: 19rpx;">
+							</van-col>
+							<van-col span="13">
+								<div style="padding-top: 19rpx;padding-bottom: 15rpx;">
 									<span class="count">{{userInfo.coupon}}</span><span class="danwei">张</span>
 								</div>
-							</i-col>
-						</i-row>
-					</button>
-				</i-col>
-				<i-col span="12" i-class="tickets-row-col-right">
-					<button class="tickets-div" @click="goPage('integral/list')" hover-class="user-info-hover">
-						<i-row>
-							<i-col span="10">
-								<div style="padding-top: 5rpx;">
+							</van-col>
+						</van-row>
+					</div>
+				</van-col>
+				<van-col span="12" custom-class="tickets-row-col-right">
+					<div class="tickets-div" @click="goPage('integral/list')" hover-class="user-info-hover">
+						<van-row>
+							<van-col span="10">
+								<div style="padding-top: 2rpx;">
 									<span class="tickets-icon iconfont icon-jifenchaxun"></span>
 									<div style="font-size: 20rpx;">积分查询</div>
 								</div>
-							</i-col>
-							<i-col span="1">
+							</van-col>
+							<van-col span="1">
 								<div class="shuxian"></div>
-							</i-col>
-							<i-col span="11">
-								<div style="padding-top: 19rpx;">
+							</van-col>
+							<van-col span="13">
+								<div style="padding-top: 19rpx;padding-bottom: 15rpx;">
 									<span class="count">{{totalIntegral}}</span>
 									<span class="danwei">{{totalIntegralStr}}分</span>
 								</div>
-							</i-col>
-						</i-row>
-					</button>
-				</i-col>
-			</i-row>
+							</van-col>
+						</van-row>
+					</div>
+				</van-col>
+			</van-row>
 			<div class="icons">
-				<i-row i-class="icons-row">
-					<i-col span="8">
+				<van-row custom-class="icons-row">
+					<van-col span="8">
 						<div @click="goPage('vip/power')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-huiyuanquanyi"></span></div>
 							<div class="wenzi">会员权益</div>
 						</div>
-					</i-col>
-					<i-col span="8">
+					</van-col>
+					<van-col span="8">
 						<div @click="goPage('sale_bill/list')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-chakandingdan"></span></div>
 							<div class="wenzi">消费记录</div>
 						</div>
-					</i-col>
-					<i-col span="8">
+					</van-col>
+					<van-col span="8">
 						<div style="border:10px;background-color:transparent;">
 							<button class="text-button" style="background-color:transparent;" open-type="contact" bindcontact="handleContact"
 							 hover-class="user-info-hover">
@@ -104,41 +104,47 @@
 								<div class="wenzi">专属顾问</div>
 							</button>
 						</div>
-					</i-col>
-				</i-row>
-				<i-row i-class="icons-row">
+					</van-col>
+				</van-row>
+				<van-row custom-class="icons-row">
 
-					<!-- <i-col span="8">
+					<!-- <van-col span="8">
 						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-jifenshangcheng"></span></div>
 							<div class="wenzi">积分商城</div>
 						</div>
-					</i-col> -->
-					<!-- <i-col span="8">
+					</van-col> -->
+					<!-- <van-col span="8">
 						<div @click="comingsone" hover-class="user-info-hover">
 							<div><span class="iconfont icon-guanfangshangcheng"></span></div>
 							<div class="wenzi">官方商城</div>
 						</div>
-					</i-col> -->
-					<i-col span="8">
+					</van-col> -->
+					<van-col span="8">
 						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-fujinmendian"></span></div>
 							<div class="wenzi">附近门店</div>
 						</div>
-					</i-col>
-					<i-col span="8">
+					</van-col>
+					<van-col span="8">
 						<div @click="goPage('evaluate/index')" hover-class="user-info-hover">
-							<div><span class="iconfont icon-pingjiaguanli"></span></div>
+							<div><span class="relative iconfont icon-pingjiaguanli"><em v-show="userInfo.evaluateCount != null" class="message-num">{{userInfo.evaluateCount}}</em></span></div>
 							<div class="wenzi">评价管理</div>
 						</div>
-					</i-col>
-					<!-- <i-col span="8">
-						<div @click="zhifu" hover-class="user-info-hover">
-							<div><span class="iconfont icon-pingjiaguanli"></span></div>
-							<div class="wenzi">支付测试</div>
+					</van-col>
+					<van-col span="8">
+						<div @click="goPage('nursing/index')" hover-class="user-info-hover">
+							<div><span class="relative iconfont icon-baobeihuanxin"><em v-show="userInfo.pendingReceiveCount != null" class="message-num">{{userInfo.pendingReceiveCount}}</em></span></div>
+							<div class="wenzi">宝贝焕新</div>
 						</div>
-					</i-col> -->
-				</i-row>
+					</van-col>
+					<!-- <van-col span="8">
+						<div @click="goPage('vip/my_referrals')" hover-class="user-info-hover">
+							<div><span class="relative iconfont icon-iconfonttuijianren"></span></div>
+							<div class="wenzi">我的引荐</div>
+						</div>
+					</van-col> -->
+				</van-row>
 			</div>
 			<view class="footer1">
 				<uni-swiper-dot :info="info" :current="current" field="content" :mode="'long'">
@@ -221,7 +227,9 @@
 				showMyInfo: false,
 				userInfo: {
 					coupon: 0,
-					totalIntegral: 0
+					totalIntegral: 0,
+					evaluateCount: null,
+					pendingReceiveCount:null
 				},
 				footerUrl: "../../static/images/footer2.jpg",
 				footerUrlGoUrl: '',
@@ -231,11 +239,39 @@
 		onPullDownRefresh() {
 			this.init(true)
 		},
-		onLoad() {
-			// this.init(false)
-		},
-		onShareAppMessage() {
-		
+		onLoad() {},
+		onShareAppMessage(options) {
+			var that = this;
+			let user = wx.getStorageSync('token')
+			var shareObj = {
+				// title: "一起", // 默认是小程序的名称(可以写slogan等)
+				path: '/pages/login/index?scene=share,info_index,' + user.id,
+				imageUrl: '',
+				success(res) {
+					// 转发成功之后的回调
+					if (res.errMsg == 'shareAppMessage:ok') {}
+				},
+				fail() {
+					// 转发失败之后的回调
+					if (res.errMsg == 'shareAppMessage:fail cancel') {
+						// 用户取消转发
+					} else if (res.errMsg == 'shareAppMessage:fail') {
+						// 转发失败，其中 detail message 为详细失败信息
+					}
+				},
+				complete() {
+					// 转发结束之后的回调（转发成不成功都会执行）
+				}
+			}
+			// 来自页面内的按钮的转发
+			if (options.from == 'button') {
+				var eData = options.target.dataset;
+				console.log(eData.name); // shareBtn
+				// 此处可以修改 shareObj 中的内容
+				shareObj.path = '/pages/btnname/btnname?btn_name=' + eData.name;
+			}
+			// 返回shareObj
+			return shareObj
 		},
 		onShow() {
 			this.init(true)
@@ -249,6 +285,8 @@
 				this.isEmploy = user.isEmploy
 				this.setUserInfoGiveIntegral = user.setUserInfoGiveIntegral
 				this.isGodUserInfoIntegral = user.isGodUserInfoIntegral
+				this.evaluateCount = user.evaluateCount
+				this.pendingReceiveCount = user.pendingReceiveCount
 				if (this.avatarUrl == null || this.avatarUrl == '') {
 					this.avatarUrl = '../../static/images/user.png'
 				}
@@ -373,5 +411,24 @@
 
 	.user-info-hover {
 		color: #C80000;
+	}
+
+	.relative {
+		position: relative;
+	}
+
+	.message-num {
+		border-radius: 15rpx;
+		box-shadow: 0 0 0 3rpx #fff;
+		min-width: 30rpx;
+		line-height: 30rpx;
+		font-style: normal;
+		background-color: #fa5151;
+		color: #fff;
+		font-size: 18rpx;
+		position: absolute;
+		top: -5rpx;
+		right: -12rpx;
+		padding: 0 3rpx;
 	}
 </style>

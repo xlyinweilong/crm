@@ -24,16 +24,16 @@
 			<div class="tabs_content">
 				<view v-for="ele in list">
 					<div class="ticket_card">
-						<i-row span="22">
-							<i-col span="8">
+						<van-row span="22">
+							<van-col span="8">
 								<div class="tab_td" style="margin-top: 15rpx;border-right: 3px solid #c11920;">
 									<span style="font-size:90rpx;padding-top: 15rpx;padding-bottom: 15rpx;" :style="type == 2 ? 'color:#909399': 'color:#c11920'">
 										{{ele.name}}
 										<span class="iconfont icon-juan" style="vertical-align: text-top;font-size:30rpx;padding-top: 10rpx;"></span>
 									</span>
 								</div>
-							</i-col>
-							<i-col span="11">
+							</van-col>
+							<van-col span="11">
 								<div class="tab_td ticket_title" :style="type == 2 ? 'color:#909399': 'color:#c11920'">
 									<div style="font-size: 48rpx;">{{ele.title}}</div>
 									<div style="font-size: 28rpx">
@@ -41,8 +41,8 @@
 									</div>
 									<!-- <div style="font-size: 23rpx;">{{ele.startDate}}-{{ele.endDate}}</div> -->
 								</div>
-							</i-col>
-							<i-col span="5">
+							</van-col>
+							<van-col span="5">
 								<div style="text-align: right;">
 									<span v-if="type == 0" @click="useThis(ele)" class="lijishiyong">扫优惠券</span>
 									<div @click="showInfo(ele)" style="margin-top: 65rpx;">
@@ -51,8 +51,8 @@
 
 									</div>
 								</div>
-							</i-col>
-						</i-row>
+							</van-col>
+						</van-row>
 						<div v-show="ele.show" style="border-top: 2px solid #DCDFE6;margin-top: 5rpx;padding-top: 10rpx;">
 							<div v-show="!loadingInfo">
 								<span class="shiyongxize" style="font-size:26rpx;background-color: #c11920;padding:5rpx;color:#ffffff;">使用细则</span>
@@ -64,7 +64,7 @@
 						</div>
 					</div>
 				</view>
-				<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;">
+				<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;text-align: center;">
 					<div>加载更多</div>
 					<div class="iconfont icon-xiangxia"></div>
 				</div>

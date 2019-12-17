@@ -5,18 +5,17 @@
 			<image style="height: 200rpx;" mode="aspectFit" src="../../static/images/mobile.png" />
 		</div>
 		<div v-if="cardList.length == 0" class="user-name">
-			<van-field custom-style="border-bottom:1px solid #000" :border="false" title-width="35px" @input="inputUserName"
+			<van-field custom-style="border-bottom:1px solid #000" :border="false" title-width="35px" @change="inputUserName"
 			 :maxlength="20" :value="userName" clearable label="姓名" placeholder="真实姓名用于注册会员卡" />
 			<!-- <p class="tips"></p> -->
 		</div>
-		<div :class="{'user-name': cardList.length > 0,'user-phone':cardList.length == 0}">
+		<!-- <div :class="{'user-name': cardList.length > 0,'user-phone':cardList.length == 0}">
 			<van-field type="number" custom-style="border-bottom:1px solid #000" :border="false" title-width="35px" @input="inputUserPhone"
 			 :maxlength="11" :value="userPhone" clearable label="+86" placeholder="使用【一键自动获取手机号】无需填写" />
-			<!-- <p class="tips"></p> -->
-		</div>
+		</div> -->
 		<div>
 			<button :loading="loading" type="primary" class="submit" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">一键自动获取手机号</button>
-			<button :loading="loading" type="primary" class="next" @click="sendSms">下一步</button>
+			<!-- <button :loading="loading" type="primary" class="next" @click="sendSms">下一步</button> -->
 			<p class="tips">手机号可以绑定已经有的会员或注册新的会员卡</p>
 		</div>
 		<lausirCodeDialog ref="lausirCodeDialog" :show="showCodeDialog" :len="4" :phone="userPhone" @change="change" />
@@ -79,6 +78,13 @@
 						wx.setStorageSync('token', user)
 						this.showCodeDialog = false
 						this.createWeChartCard(res.data.list)
+						let registerGoPage= wx.getStorageSync('registerGoPage')
+						if(user.cardList.length == 1 && registerGoPage != null && registerGoPage != ''){
+							wx.removeStorageSync('registerGoPage')
+							uni.reLaunch({
+								url: registerGoPage
+							})
+						}
 					})
 				}
 			},

@@ -3,11 +3,11 @@
 		<div class="tabs_content">
 			<view v-for="ele in list">
 				<div class="cell" @click="goToEvaluate(ele.posCode)" hover-class="user-info-hover">
-					<i-row span="22">
-						<i-col span="8">
+					<van-row :gutter="24">
+						<van-col span="8">
 							<image class="channelImage" :src="ele.channelUrl" />
-						</i-col>
-						<i-col span="16">
+						</van-col>
+						<van-col span="16">
 							<div class="info">
 								<div>店铺:{{ele.channelName}}</div>
 								<div>单号:{{ele.posCode}}</div>
@@ -16,8 +16,8 @@
 								<div v-if="status == 'unevaluated'" style="margin-top: 10rpx;"><span class="jinxingpingjia">进行评价</span></div>
 								<div v-if="status == 'evaluated'" style="margin-top: 10rpx;"><van-rate :value="ele.rate" readonly/></div>
 							</div>
-						</i-col>
-					</i-row>
+						</van-col>
+					</van-row>
 				</div>
 			</view>
 			<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;">

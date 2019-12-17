@@ -127,7 +127,7 @@
 .tickets .tickets-div{
 	text-align: center;
 	background-color:#5f5150;
-	height: 150rpx;
+	/* height: 150rpx; */
 	border:1rpx solid;
 	border-radius:15rpx;
 	color: #FFFFFF;

@@ -2,7 +2,7 @@
 	<view style="">
 		<div style="padding-top: 15rpx;padding-left: 30rpx;padding-right: 30rpx;">
 			<van-cell-group>
-				<van-field @input="inputEmployCode" :value="employCode" required clearable label="员工编号" placeholder="请输入员工编号" />
+				<van-field @change="inputEmployCode" :value="employCode" required clearable label="员工编号" placeholder="请输入员工编号" />
 			</van-cell-group>
 		</div>
 		<div style="padding-top: 30rpx;padding-left: 30rpx;padding-right: 30rpx;">

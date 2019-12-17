@@ -7,6 +7,28 @@
 	import '@/static/css/style.css'
 	import Toast from '@/wxcomponents/vant/toast/toast'
 
+	function compareVersion(v1, v2) {
+		v1 = v1.split('.')
+		v2 = v2.split('.')
+		const len = Math.max(v1.length, v2.length)
+		while (v1.length < len) {
+			v1.push('0')
+		}
+		while (v2.length < len) {
+			v2.push('0')
+		}
+		for (let i = 0; i < len; i++) {
+			const num1 = parseInt(v1[i])
+			const num2 = parseInt(v2[i])
+			if (num1 > num2) {
+				return 1
+			} else if (num1 < num2) {
+				return -1
+			}
+		}
+		return 0
+	}
+
 	export default {
 		components: {
 
@@ -17,9 +39,27 @@
 			}
 		},
 		onLoad(query) {
-			this.onload(query)
+			const version = wx.getSystemInfoSync().SDKVersion
+			let _this = this
+			if (compareVersion(version, '2.4.0') < 0) {
+				wx.showModal({
+					title: '提示',
+					content: '当前微信版本过低，无法使用某些功能，请升级到最新微信版本后重试。',
+					success(res) {
+						_this.onload(query)
+						_this.loadConfig()
+					}
+				})
+			} else {
+				this.onload(query)
+				this.loadConfig()
+			}
 		},
 		methods: {
+			//加载系统配置
+			loadConfig() {
+
+			},
 			onload(query) {
 				let that = this
 				this.scene = query.scene
@@ -98,6 +138,7 @@
 				if (this.scene == 'employ,register') {
 					//判断是否已经注册为员工
 					if (data.isEmploy) {
+						wx.setStorageSync('powerKeyList', data.powerKeyList)
 						//调转员工首页
 						uni.reLaunch({
 							url: '/pages/employ/index'
@@ -113,6 +154,14 @@
 				} else {
 					if (data.isRegister) {
 						if (data.isEmploy) {
+							wx.setStorageSync('powerKeyList', data.powerKeyList)
+							if (this.scene != null && this.scene.startsWith('nursing,')) {
+								let id = this.scene.split(",")[1]
+								uni.reLaunch({
+									url: '/pages/nursing/detail?id=' + id
+								})
+								return
+							}
 							//判断是否员工
 							uni.redirectTo({
 								url: '/pages/employ/index'
@@ -139,9 +188,16 @@
 									})
 									return
 								}
+								if (this.scene != null && this.scene.startsWith('nursing,')) {
+									let id = this.scene.split(",")[1]
+									uni.reLaunch({
+										url: '/pages/nursing/detail?id=' + id
+									})
+									return
+								}
 								if (this.scene != null && this.scene.startsWith('evaluate_page,')) {
 									let code = this.scene.split(",")[1]
-									if(code == null){
+									if (code == null) {
 										uni.reLaunch({
 											url: '/pages/evaluate/complaint'
 										})
@@ -151,7 +207,13 @@
 										url: '/pages/evaluate/complaint?code=' + code
 									})
 									return
-								}
+								} else if (this.scene != null && this.scene.startsWith('share,ticket_shelf_list,')) {
+									uni.reLaunch({
+										url: '/pages/ticket/shelf/list'
+									})
+									return
+								} else if (this.scene != null && this.scene.startsWith('share,info_index,')) {}
+
 								uni.reLaunch({
 									url: '/pages/info/index'
 								})
@@ -159,9 +221,35 @@
 							}
 						}
 					} else {
-						uni.reLaunch({
-							url: '/pages/info/index'
-						})
+						if (this.scene != null && this.scene.startsWith('channel,')) {
+							wx.setStorageSync('registerGoPage', '/pages/channel/nearby')
+						} else if (this.scene != null && this.scene.startsWith('evaluate_page,')) {
+							let code = this.scene.split(",")[1]
+							if (code == null) {
+								wx.setStorageSync('registerGoPage', '/pages/evaluate/complaint')
+							} else {
+								wx.setStorageSync('registerGoPage', '/pages/evaluate/complaint?code=' + code)
+							}
+						} else if (this.scene != null && this.scene.startsWith('share,ticket_shelf_list,')) {
+							wx.setStorageSync('registerGoPage', '/pages/ticket/shelf/list')
+							wx.setStorageSync('recommend', this.scene.replace("share,ticket_shelf_list,", "").trim())
+							wx.setStorageSync('registerFrom', "share,ticket_shelf_list")
+						} else if (this.scene != null && this.scene.startsWith('share,info_index,')) {
+							wx.setStorageSync('recommend', this.scene.replace("share,info_index,", "").trim())
+							wx.setStorageSync('registerFrom', "share,info_index")
+						} else {
+							wx.removeStorageSync('registerGoPage')
+						}
+						let registerGoPage = wx.getStorageSync('registerGoPage')
+						if (registerGoPage == null || registerGoPage == '') {
+							uni.reLaunch({
+								url: '/pages/info/index'
+							})
+						} else {
+							uni.reLaunch({
+								url: '/pages/register/register'
+							})
+						}
 						return
 					}
 				}
@@ -174,5 +262,4 @@
 	image {
 		will-change: transform
 	}
-	
 </style>

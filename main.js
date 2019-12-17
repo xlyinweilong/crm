@@ -2,7 +2,8 @@ import Vue from 'vue'
 import App from './App'
 
 import uniRequest from 'uni-request'
-Vue.prototype.$baseURL = 'http://192.168.1.109:9090/crm'
+// Vue.prototype.$baseURL = 'http://192.168.1.109:9090/crm'
+Vue.prototype.$baseURL = 'http://192.168.43.63:9090/crm'
 // Vue.prototype.$baseImageURL = 'http://192.168.1.113:8086/images/'
 // Vue.prototype.$baseURL = 'https://crm.pengguantech.com/crm'
 // Vue.prototype.$baseURL = 'https://crm.wisdomyy.com/crm'
@@ -17,8 +18,6 @@ Vue.prototype.$uniRequest = uniRequest
 // import basics from './pages/basics/home.vue'
 // Vue.component('basics', basics)
 
-import cuCustom from './colorui/components/cu-custom.vue'
-Vue.component('cu-custom', cuCustom)
 
 Vue.config.productionTip = false
 

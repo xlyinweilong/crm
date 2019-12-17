@@ -7,14 +7,16 @@
 		</div>
 		<div>
 			<div class="tabDiv">
-				<i-row span="10">
-					<view @click="onClickTab(1)">
-						<i-col span="12" :i-class="tab == 1 ? 'active' : 'tabSpan'">会员权益</i-col>
-					</view>
-					<view @click="onClickTab(2)">
-						<i-col span="12" :i-class="tab == 2 ? 'active' : 'tabSpan'">等级规则</i-col>
-					</view>
-				</i-row>
+				<div style="padding-left: 24rpx;padding-right: 24rpx;">
+					<van-row gutter="24">
+						<view @click="onClickTab(1)">
+							<van-col span="12" :custom-class="tab == 1 ? 'active' : 'tabSpan'">会员权益</van-col>
+						</view>
+						<view @click="onClickTab(2)">
+							<van-col span="12" :custom-class="tab == 2 ? 'active' : 'tabSpan'">等级规则</van-col>
+						</view>
+					</van-row>
+				</div>
 				<div v-show="tab == 1" class="tabs_content">
 					<view class="horizontal-scroll">
 						<view class="fixed-content">
@@ -32,7 +34,8 @@
 									<view class="th" :class="{ activeItem: erpId ===  grade.erpId}">{{grade.name}}</view>
 									<view class="td" v-for="template in powerTemplateList" :class="{ activeItem: erpId ===  grade.erpId}">
 										<span class="iconfont icon-zhengque" v-if="isSuccessIcon(grade.erpId,template)" style="font-size: 30rpx;color:#C80000" />
-										<span class="iconfont icon-guanbi" v-if="!isSuccessIcon(grade.erpId,template) && template.templateType === 'BOOLEAN'" style="font-size: 30rpx;color:#C0C4CC" />
+										<span class="iconfont icon-guanbi" v-if="!isSuccessIcon(grade.erpId,template) && template.templateType === 'BOOLEAN'"
+										 style="font-size: 30rpx;color:#C0C4CC" />
 										<span @click="showMessageInfo(grade.erpId,template)">{{getText(grade.erpId,template)}}</span>
 									</view>
 								</view>
@@ -47,34 +50,38 @@
 				<div v-show="tab == 2" class="tabs_content">
 					<div class="rule-title">会员等级如何计算</div>
 					<view>
-						<i-row span="22">
-							<i-col span="2">
+						<van-row gutter="24">
+							<van-col span="2">
 								<div @click="clickIconTabLeft" class="arrow" v-show="iconDataList.length > 3">
 									<van-icon name="arrow-left" size="2em" color="#e2e2e3" />
 								</div>
-							</i-col>
-							<view v-for="rule in iconDataList" @click="clickRule(rule)">
-								<i-col span="5">
-									<div class="iconFrame" :class="{'iconActive':erpId === rule.erpId}">
-										<div class="iconDiv">
-											<image mode="widthFix" style="width: 100%;" :src="rule.cardImageDiyUrl" />
-										</div>
-										<div class="iconName">{{rule.name}}</div>
-										<hr class="hr" />
-										<div class="iconInfo">{{rule.levelUpInfo}}</div>
-									</div>
-								</i-col>
-							</view>
-							<i-col span="2">
+							</van-col>
+							<van-col span="20">
+								<van-row gutter="24">
+									<view v-for="rule in iconDataList" @click="clickRule(rule)">
+										<van-col span="6">
+											<div class="iconFrame" :class="{'iconActive':erpId === rule.erpId}">
+												<div class="iconDiv">
+													<image mode="widthFix" style="width: 100%;" :src="rule.cardImageDiyUrl" />
+												</div>
+												<div class="iconName">{{rule.name}}</div>
+												<hr class="hr" />
+												<div class="iconInfo">{{rule.levelUpInfo}}</div>
+											</div>
+										</van-col>
+									</view>
+								</van-row>
+							</van-col>
+							<van-col span="2">
 								<div @click="clickIconTabRight" class="arrow" v-show="iconDataList.length > 3">
 									<van-icon name="arrow" size="2em" color="#e2e2e3" />
 								</div>
-							</i-col>
-						</i-row>
+							</van-col>
+						</van-row>
 					</view>
 					<div style="margin: 20rpx 15rpx 50rpx 15rpx">
-						<i-row span="22">
-							<i-col span="20" :offset="2">
+						<van-row gutter="22">
+							<van-col span="20" :offset="2">
 								<div style="font-size: 32rpx;font-weight: 800;text-align: left;color:#706000">{{showDataGradeName}}会员规则</div>
 								<div style="font-size: 22rpx;text-align: left;color:#706000;margin-top: 15rpx;">{{showDataText}}</div>
 								<view @click="goInfo" class="showMore">
@@ -82,11 +89,11 @@
 									更多具体会员等级规则详情请点击查看
 									<van-icon name="info" />
 								</view>
-							</i-col>
-							<i-col span="2">
+							</van-col>
+							<van-col span="2">
 								&nbsp;
-							</i-col>
-						</i-row>
+							</van-col>
+						</van-row>
 					</div>
 
 				</div>
@@ -395,7 +402,7 @@
 	}
 
 	.iconFrame {
-		margin: 20rpx 5rpx 10rpx 5rpx;
+		margin: 30rpx 5rpx 10rpx 5rpx;
 		border: 1rpx solid #000000;
 	}
 

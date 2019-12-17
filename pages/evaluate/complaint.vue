@@ -23,7 +23,7 @@
 				<button :loading="loading" type="primary" class="submit" @click="submit">提交</button>
 			</div>
 			<van-toast id="van-toast" />
-			<van-popup :show="show" @close="onClose" position="bottom">
+			<van-popup :show="show" @close="onClose" position="bottom" close-on-click-overlay>
 				<van-loading v-show="loadingChannel" color="#fff" />
 				<van-cell-group v-show="!loadingChannel">
 					<van-cell>

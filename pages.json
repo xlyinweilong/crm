@@ -3,11 +3,7 @@
 			"path": "pages/login/index",
 			"style": {
 				"navigationBarTitleText": "",
-				"usingComponents": {
-					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-toast": "/wxcomponents/vant/toast/index"
-				}
+				"usingComponents": {}
 			},
 			"app-plus": {
 				"titleView": false
@@ -22,9 +18,10 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-notice-bar": "/wxcomponents/vant/notice-bar/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-notice-bar": "/wxcomponents/vant/notice-bar/index"
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
 				}
 			}
 		},
@@ -47,6 +44,19 @@
 			}
 		},
 		{
+			"path": "pages/vip/my_referrals",
+			"style": {
+				"navigationBarTitleText": "我的引荐",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
+				}
+			}
+		},
+		{
 			"path": "pages/ticket/shelf/list",
 			"style": {
 				"enablePullDownRefresh": true,
@@ -57,6 +67,21 @@
 			}
 		},
 		{
+			"path": "pages/nursing/add_balance",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "焕新币充值",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
+				}
+			}
+		},
+		{
 			"path": "pages/evaluate/do_evaluate",
 			"style": {
 				"navigationBarTitleText": "发表评价",
@@ -64,9 +89,9 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"i-divider": "/wxcomponents/iview/divider/index",
-					"van-rate": "/wxcomponents/vant/rate/index",
-					"van-toast": "/wxcomponents/vant/toast/index"
+					"van-divider": "/wxcomponents/vant/divider/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-rate": "/wxcomponents/vant/rate/index"
 				}
 
 			}
@@ -79,8 +104,10 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index"
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
 				}
 			}
 		},
@@ -92,7 +119,13 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-radio": "/wxcomponents/vant/radio/index",
+					"van-radio-group": "/wxcomponents/vant/radio-group/index",
 					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			}
@@ -105,8 +138,8 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index"
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
 				}
 			}
 		},
@@ -118,8 +151,10 @@
 				"navigationBarTextStyle": "#FFFFFF",
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
-					"van-toast": "/wxcomponents/vant/toast/index",
-					"i-input": "/wxcomponents/iview/input/index"
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-field": "/wxcomponents/vant/field/index"
 				}
 			}
 		},
@@ -131,13 +166,141 @@
 				"navigationBarTextStyle": "#FFFFFF",
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
-					"i-grid": "/wxcomponents/iview/grid/index",
-					"i-grid-item": "/wxcomponents/iview/grid-item/index",
-					"i-grid-icon": "/wxcomponents/iview/grid-icon/index",
-					"i-grid-label": "/wxcomponents/iview/grid-label/index",
-					"i-icon": "/wxcomponents/iview/icon/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
 					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/nursing/list",
+			"style": {
+				"navigationBarTitleText": "宝贝焕新",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-tabs": "/wxcomponents/vant/tabs/index",
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-divider": "/wxcomponents/vant/divider/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-checkbox": "/wxcomponents/vant/checkbox/index",
+					"van-checkbox-group": "/wxcomponents/vant/checkbox-group/index",
+					"van-divider": "/wxcomponents/vant/divider/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dropdown-item/index",
+					"van-field": "/wxcomponents/vant/field/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/nursing/wash_list",
+			"style": {
+				"navigationBarTitleText": "宝贝洗涤",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-tabs": "/wxcomponents/vant/tabs/index",
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-divider": "/wxcomponents/vant/divider/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-checkbox": "/wxcomponents/vant/checkbox/index",
+					"van-checkbox-group": "/wxcomponents/vant/checkbox-group/index",
+					"van-divider": "/wxcomponents/vant/divider/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dropdown-item/index",
+					"van-field": "/wxcomponents/vant/field/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/nursing/create_bill",
+			"style": {
+				"navigationBarTitleText": "创建宝贝焕新",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-loading": "/wxcomponents/vant/loading/index",
+					"van-radio": "/wxcomponents/vant/radio/index",
+					"van-radio-group": "/wxcomponents/vant/radio-group/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/nursing/bill_detail",
+			"style": {
+				"navigationBarTitleText": "宝贝焕新明细",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-divider": "/wxcomponents/vant/divider/index",
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
+					"van-toast": "/wxcomponents/vant/toast/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/nursing/add",
+			"style": {
+				"navigationBarTitleText": "宝贝焕新-货品",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-radio": "/wxcomponents/vant/radio/index",
+					"van-radio-group": "/wxcomponents/vant/radio-group/index",
+					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-button": "/wxcomponents/vant/button/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/nursing/problem",
+			"style": {
+				"navigationBarTitleText": "宝贝疑问",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-radio": "/wxcomponents/vant/radio/index",
+					"van-radio-group": "/wxcomponents/vant/radio-group/index",
+					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-button": "/wxcomponents/vant/button/index"
 				}
 			}
 		},
@@ -160,7 +323,9 @@
 				"navigationBarTextStyle": "#FFFFFF",
 				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
-					"van-search": "/wxcomponents/vant/search/index"
+					"van-search": "/wxcomponents/vant/search/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
 				}
 			}
 		},
@@ -171,9 +336,7 @@
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
-				"usingComponents": {
-					"van-field": "/wxcomponents/vant/field/index"
-				}
+				"usingComponents": {}
 			}
 		},
 		{
@@ -183,7 +346,12 @@
 				"navigationBarTitleText": "优惠券",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index"
+				}
 			}
 		},
 		{
@@ -194,8 +362,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"van-toast": "/wxcomponents/vant/toast/index",
-					"i-input": "/wxcomponents/iview/input/index"
+					"van-field": "/wxcomponents/vant/field/index"
 				}
 			}
 		},
@@ -208,10 +375,14 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-field": "/wxcomponents/vant/field/index",
 					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
 					"van-tag": "/wxcomponents/vant/tag/index",
-					"van-icon": "/wxcomponents/vant/icon/index"
+					"van-popup": "/wxcomponents/vant/popup/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-radio": "/wxcomponents/vant/radio/index",
+					"van-radio-group": "/wxcomponents/vant/radio-group/index"
 				}
 			}
 		},
@@ -224,8 +395,6 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"van-field": "/wxcomponents/vant/field/index",
-					"van-popup": "/wxcomponents/vant/popup/index",
 					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index"
 				}
 			}
@@ -240,6 +409,8 @@
 				"usingComponents": {
 					"van-radio": "/wxcomponents/vant/radio/index",
 					"van-radio-group": "/wxcomponents/vant/radio-group/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
 					"van-icon": "/wxcomponents/vant/icon/index",
 					"van-popup": "/wxcomponents/vant/popup/index",
 					"van-row": "/wxcomponents/vant/row/index",
@@ -259,7 +430,6 @@
 					"van-search": "/wxcomponents/vant/search/index",
 					"van-row": "/wxcomponents/vant/row/index",
 					"van-col": "/wxcomponents/vant/col/index",
-					"van-icon": "/wxcomponents/vant/icon/index",
 					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			}
@@ -272,10 +442,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-search": "/wxcomponents/vant/search/index",
-					"van-icon": "/wxcomponents/vant/icon/index"
+					"van-search": "/wxcomponents/vant/search/index"
 				}
 			}
 		},
@@ -287,10 +454,9 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-icon": "/wxcomponents/vant/icon/index",
-					"van-tag": "/wxcomponents/vant/tag/index",
-					"van-toast": "/wxcomponents/vant/toast/index"
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index"
 				}
 			}
 		},
@@ -302,12 +468,10 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-tab": "/wxcomponents/vant/tab/index",
-					"van-tabs": "/wxcomponents/vant/tabs/index",
-					"van-icon": "/wxcomponents/vant/icon/index",
-					"van-notify": "/wxcomponents/vant/notify/index"
+					"van-notify": "/wxcomponents/vant/notify/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index",
+					"van-icon": "/wxcomponents/vant/icon/index"
 				}
 			}
 		},
@@ -319,9 +483,6 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"i-modal": "/wxcomponents/iview/modal/index",
-					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-icon": "/wxcomponents/vant/icon/index",
 					"van-notify": "/wxcomponents/vant/notify/index",
 					"van-tab": "/wxcomponents/vant/tab/index",
 					"van-tabs": "/wxcomponents/vant/tabs/index"
@@ -337,9 +498,51 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
-					"i-modal": "/wxcomponents/iview/modal/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
+				}
+			}
+		},
+		{
+			"path": "pages/nursing/index",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "宝贝焕新",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
-					"van-toast": "/wxcomponents/vant/toast/index"
+					"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index",
+					"van-icon": "/wxcomponents/vant/icon/index"
+				}
+			}
+		},
+		{
+			"path": "pages/nursing/detail",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "宝贝焕新明细",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-tag": "/wxcomponents/vant/tag/index",
+					"van-divider": "/wxcomponents/vant/divider/index",
+					"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index",
+					"van-button": "/wxcomponents/vant/button/index"
 				}
 			}
 		},
@@ -377,20 +580,17 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8",
 		"usingComponents": {
-			"i-row": "/wxcomponents/iview/row/index",
-			"i-col": "/wxcomponents/iview/col/index",
-			"i-modal": "/wxcomponents/iview/modal/index",
-			"van-dialog": "/wxcomponents/vant/dialog/index",
-			"van-tab": "/wxcomponents/vant/tab/index",
-			"van-tabs": "/wxcomponents/vant/tabs/index",
-			"van-loading": "/wxcomponents/vant/loading/index",
-			"van-rate": "/wxcomponents/vant/rate/index",
-			"van-field": "/wxcomponents/vant/field/index",
-			"van-cell": "/wxcomponents/vant/cell/index",
-			"van-cell-group": "/wxcomponents/vant/cell-group/index",
+			"van-row": "/wxcomponents/vant/row/index",
+			"van-col": "/wxcomponents/vant/col/index",
+			"van-icon": "/wxcomponents/vant/icon/index",
+			"van-checkbox": "/wxcomponents/vant/checkbox/index",
+			"van-checkbox-group": "/wxcomponents/vant/checkbox-group/index",
+			"van-divider": "/wxcomponents/vant/divider/index",
 			"van-radio": "/wxcomponents/vant/radio/index",
 			"van-radio-group": "/wxcomponents/vant/radio-group/index",
-			"van-button": "/wxcomponents/vant/button/index"
+			"van-cell": "/wxcomponents/vant/cell/index",
+			"van-loading": "/wxcomponents/vant/loading/index",
+			"van-popup": "/wxcomponents/vant/popup/index"
 		}
 	},
 	"condition": { //模式配置，仅开发期间生效

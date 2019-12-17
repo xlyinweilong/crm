@@ -11,28 +11,37 @@
 			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{totalAmount}}<span style="font-size: 30rpx;">元</span></div>
 			<div class="white" style="padding-top:5rpx;font-size: 18rpx;">累计消费：{{totalUsedAmount}}元</div>
 		</div>
+		<div v-show="tab == 3" style="text-align: center;background-color: #615451;height: 360rpx;">
+			<div class="white" style="padding-top:55rpx;font-size: 20rpx;">焕新币</div>
+			<div class="white" style="padding-top:11rpx;font-size: 92rpx;">{{totalWashingAmount}}<span style="font-size: 30rpx;">个</span></div>
+		</div>
 		<div>
 			<div class="tabDiv">
-				<i-row span="10">
-					<view @click="onClickTab(1)">
-						<i-col span="12" :i-class="tab == 1 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodejifen" />积分交易</i-col>
-					</view>
-					<view @click="onClickTab(2)">
-						<i-col span="12" :i-class="tab == 2 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodeyue" />储值交易</i-col>
-					</view>
-				</i-row>
+				<div style="padding-left: 24rpx;padding-right: 24rpx;">
+					<van-row gutter="24">
+						<view @click="onClickTab(1)">
+							<van-col span="8" :custom-class="tab == 1 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodejifen" />积分交易</van-col>
+						</view>
+						<view @click="onClickTab(2)">
+							<van-col span="8" :custom-class="tab == 2 ? 'active' : 'tabSpan'"><span class="iconfont icon-jifenliebiao-wodeyue" />储值交易</van-col>
+						</view>
+						<view @click="onClickTab(3)">
+							<van-col span="8" :custom-class="tab == 3 ? 'active' : 'tabSpan'"><span class="iconfont icon-baobeihuanxin" />焕新币</van-col>
+						</view>
+					</van-row>
+				</div>
 				<div v-show="tab == 1" class="tabs_content">
-					<i-row span="22">
-						<i-col span="8" i-class="tab_header">时间</i-col>
-						<i-col span="8" i-class="tab_header">类型</i-col>
-						<i-col span="8" i-class="tab_header">积分</i-col>
-					</i-row>
+					<van-row gutter="24">
+						<van-col span="8" custom-class="tab_header">时间</van-col>
+						<van-col span="8" custom-class="tab_header">类型</van-col>
+						<van-col span="8" custom-class="tab_header">积分</van-col>
+					</van-row>
 					<view v-for="ele in list">
-						<i-row span="22">
-							<i-col span="8" i-class="tab_td"><span>{{ele.operationDate}}</span></i-col>
-							<i-col span="8" i-class="tab_td">{{ele.operationName}}</i-col>
-							<i-col span="8" i-class="tab_td">{{ele.integral}}分</i-col>
-						</i-row>
+						<van-row gutter="24">
+							<van-col span="8" custom-class="tab_td"><span>{{ele.operationDate}}</span></van-col>
+							<van-col span="8" custom-class="tab_td">{{ele.operationName}}</van-col>
+							<van-col span="8" custom-class="tab_td">{{ele.integral}}分</van-col>
+						</van-row>
 					</view>
 					<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;">
 						<div>加载更多</div>
@@ -46,17 +55,41 @@
 					</div>
 				</div>
 				<div v-show="tab == 2" class="tabs_content">
-					<i-row span="22">
-						<i-col span="8" i-class="tab_header">时间</i-col>
-						<i-col span="8" i-class="tab_header">类型</i-col>
-						<i-col span="8" i-class="tab_header">金额</i-col>
-					</i-row>
+					<van-row gutter="22">
+						<van-col span="8" custom-class="tab_header">时间</van-col>
+						<van-col span="8" custom-class="tab_header">类型</van-col>
+						<van-col span="8" custom-class="tab_header">金额</van-col>
+					</van-row>
 					<view v-for="ele in list">
-						<i-row span="22">
-							<i-col span="8" i-class="tab_td"><span>{{ele.operationDate}}</span></i-col>
-							<i-col span="8" i-class="tab_td">{{ele.operationName}}</i-col>
-							<i-col span="8" i-class="tab_td">{{ele.amount}}元</i-col>
-						</i-row>
+						<van-row gutter="22">
+							<van-col span="8" custom-class="tab_td"><span>{{ele.operationDate}}</span></van-col>
+							<van-col span="8" custom-class="tab_td">{{ele.operationName}}</van-col>
+							<van-col span="8" custom-class="tab_td">{{ele.amount}}元</van-col>
+						</van-row>
+					</view>
+					<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;">
+						<div>加载更多</div>
+						<div class="iconfont icon-xiangxia"></div>
+					</div>
+					<div v-show="loading">
+						<uni-load-more status="loading" />
+					</div>
+					<div v-show="noMore">
+						<uni-load-more status="noMore" />
+					</div>
+				</div>
+				<div v-show="tab == 3" class="tabs_content">
+					<van-row gutter="22">
+						<van-col span="8" custom-class="tab_header">时间</van-col>
+						<van-col span="8" custom-class="tab_header">类型</van-col>
+						<van-col span="8" custom-class="tab_header">个数</van-col>
+					</van-row>
+					<view v-for="ele in list">
+						<van-row gutter="22">
+							<van-col span="8" custom-class="tab_td"><span>{{ele.operationDate}}</span></van-col>
+							<van-col span="8" custom-class="tab_td">{{ele.operation}}</van-col>
+							<van-col span="8" custom-class="tab_td">{{ele.washingAmount}}个</van-col>
+						</van-row>
 					</view>
 					<div v-show="!loading && !noMore" @click="more" style="margin-top: 20rpx;">
 						<div>加载更多</div>
@@ -84,8 +117,8 @@
 		},
 		data() {
 			return {
-				totalAmount:0,
-				totalUsedAmount:0,
+				totalAmount: 0,
+				totalUsedAmount: 0,
 				loading: false,
 				list: [],
 				cardCode: '',
@@ -97,7 +130,8 @@
 				userInfo: {
 					totalIntegral: 0
 				},
-				totalUserdIntegral:0
+				totalUserdIntegral: 0,
+				totalWashingAmount:0
 			}
 		},
 		onLoad() {
@@ -114,6 +148,7 @@
 			this.getList()
 			this.getSumUsedIntegral()
 			this.getSumUsedAmount()
+			this.getWashingAmount()
 			this.$uniRequest.get('/api/small_procedures/vip/my_info').then(res => {
 				this.userInfo.totalIntegral = res.data.totalIntegral
 				wx.setStorageSync('userInfo', this.userInfo)
@@ -131,6 +166,9 @@
 					this.pageIndex += 1
 					let url = this.tab === 1 ? '/api/small_procedures/vip/my_integral_list' :
 						'/api/small_procedures/vip/my_stored_card_log_list'
+					if (this.tab === 3) {
+						url = '/api/small_procedures/nursing_balance_log/my_list'
+					}
 					this.$uniRequest.get(url, {
 						data: {
 							pageIndex: this.pageIndex,
@@ -144,15 +182,20 @@
 					})
 				}
 			},
-			getSumUsedIntegral(){
+			getSumUsedIntegral() {
 				this.$uniRequest.get('/api/small_procedures/vip/sum_used_integral').then(res => {
 					this.totalUserdIntegral = res.data
 				})
 			},
-			getSumUsedAmount(){
+			getSumUsedAmount() {
 				this.$uniRequest.get('/api/small_procedures/vip/sum_amount').then(res => {
 					this.totalAmount = res.data.totalAmount
-					this.totalUsedAmount=res.data.totalUsedAmount
+					this.totalUsedAmount = res.data.totalUsedAmount
+				})
+			},
+			getWashingAmount() {
+				this.$uniRequest.get('/api/small_procedures/user/info').then(res => {
+					this.totalWashingAmount = res.data.washingBalance
 				})
 			},
 			onClickTab(tab) {
@@ -239,7 +282,7 @@
 
 	.integral .tab_td {
 		height: 80rpx;
-		font-size: 28rpx;
+		font-size: 26rpx;
 		padding-top: 17rpx;
 		border-bottom: 2rpx solid #706000;
 	}

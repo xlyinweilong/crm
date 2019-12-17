@@ -22,13 +22,15 @@
 		<div class="channel_name">所属店铺：{{ele.channelName}}</div>
 		<div>
 			<!-- <span class="hr"></span> -->
-			<i-divider content="本次消费金额"></i-divider>
+			<!-- <i-divider content="本次消费金额"></i-divider> -->
+			<van-divider contentPosition="center">本次消费金额</van-divider>
 			<!-- <span class="bencixiaofeijine">本次消费金额</span> -->
 		</div>
 		<div style="font-size: 65rpx;color:red">{{ele.amount}}<span style="font-size: 30rpx;color:#675500">元</span></div>
 		<div @click="showDetail" hover-class="hover-class"><span style="margin-top: 15rpx;border-bottom:1px solid #675500;font-size:20rpx">查看明细</span></div>
 		<div style="margin-top: 15rpx;">
-			<i-divider content="本次消费金额"></i-divider>
+			<!-- <i-divider content="本次消费金额"></i-divider> -->
+			<van-divider contentPosition="center">本次消费金额</van-divider>
 		</div>
 		<!-- <div>本次消费金额</div> -->
 		<div style="text-align: right;margin-right: 20rpx;font-size: 20rpx;">
@@ -41,7 +43,7 @@
 				请给本次服务进行评价</b>
 		</div>
 		<div style="margin-top: 20rpx;">
-			总体满意度：
+			<p>总体满意度：</p>
 			<van-rate size="30" :value="rate" @change="onChangeRate" :readonly="ele.status != 'unevaluated'" />
 			<div style="font-size:20rpx;color:red">{{getRateText}}</div>
 		</div>
@@ -192,6 +194,7 @@
 				})
 			},
 			onChangeRate(e) {
+				console.log(e)
 				this.rate = e.detail
 				this.createTags()
 			},
@@ -222,6 +225,7 @@
 					}
 				}).then(res => {
 					this.ele = res.data
+					this.rate = this.ele.rate
 					if (isAll) {
 						this.createTags()
 					}

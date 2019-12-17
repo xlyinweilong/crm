@@ -1,6 +1,6 @@
 <template>
 	<view class="register">
-		
+
 		<div class="bgdiv">
 			<div><i class="iconfont icon-login"></i></div>
 			<p class="bgp">小程序由智胜开发，向其提供一下授权可继续操作</p>
@@ -32,13 +32,12 @@
 		data() {
 			return {
 				loading: false,
-				userName:""
+				userName: ""
 			}
 		},
-		onLoad() {
-		},
+		onLoad() {},
 		methods: {
-			inputUserName(e){
+			inputUserName(e) {
 				this.userName = e.detail
 			},
 			getUserInfo() {
@@ -62,6 +61,7 @@
 				let recommend = wx.getStorageSync('recommend')
 				let recommendC = wx.getStorageSync('recommendC')
 				let recommendD = wx.getStorageSync('recommendD')
+				let registerFrom = wx.getStorageSync('registerFrom')
 				if (recommend != null && recommend != '') {
 					userInfo.recommendOpenId = recommend
 				}
@@ -70,6 +70,9 @@
 				}
 				if (recommendD != null && recommendD != '') {
 					userInfo.recommendCode = recommendD
+				}
+				if (registerFrom != null && registerFrom != '') {
+					userInfo.registerFrom = registerFrom
 				}
 				this.$uniRequest.post('/api/small_procedures/login/register', userInfo).then(res => {
 					wx.setStorageSync('token', res.data)
@@ -93,17 +96,16 @@
 	}
 </style>
 <style scoped>
-
 	.register .iconfont {
 		padding-top: 75rpx;
 		font-size: 200rpx;
 		color: #FFFFFF;
 	}
-	
+
 	.register .user-name {
 		padding: 10rpx 50rpx 0rpx 50rpx;
 	}
-	
+
 	.register .bgdiv {
 		height: 450rpx;
 		background-color: #766c6a;

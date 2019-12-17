@@ -188,7 +188,7 @@
 		padding-top: 45rpx;
 		text-align: center;
 		margin: 0 auto;
-		width: 450upx;
+		/* width: 450upx; */
 	}
 	
 	.button-hover{
