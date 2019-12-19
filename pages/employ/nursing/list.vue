@@ -29,12 +29,15 @@
 			<van-tab title="问题单" name="6">
 				<listDetail ref="activeTag6" @showSheetInfo="showSheetInfo" :activeTag="6" @changeSelected="changeSelected" />
 			</van-tab>
+			<van-tab title="问题取走" name="7">
+				<listDetail ref="activeTag7" @showSheetInfo="showSheetInfo" :activeTag="7" @changeSelected="changeSelected" />
+			</van-tab>
 		</van-tabs>
 		<div v-show="activeTag == 1" style="position:fixed;bottom: 0rpx;text-align: center;width: 100%;">
 			<van-button type="primary" size="large" icon="plus" @click="add">添加单据</van-button>
 		</div>
-		<div v-show="activeTag == 4 || activeTag == 3 || activeTag == 6" style="position:fixed;bottom: 0rpx;text-align: center;width: 100%;">
-			<van-button type="primary" size="large" @click="scanCode">扫码确定</van-button>
+		<div v-show="activeTag == 3" style="position:fixed;bottom: 0rpx;text-align: center;width: 100%;">
+			<van-button type="primary" size="large" @click="scanCustomerCode">扫单据码取走</van-button>
 		</div>
 		<van-action-sheet :show="showSheet" cancel-text="取消" @cancel="onClose" :actions="actions" @close="onClose" @select="onSelect" />
 		<van-dialog id="van-dialog" />
@@ -162,6 +165,8 @@
 					this.$refs.activeTag5.getList(this.startDate, this.endDate, this.channelId)
 				} else if (name == 6) {
 					this.$refs.activeTag6.getList(this.startDate, this.endDate, this.channelId)
+				} else if (name == 7) {
+					this.$refs.activeTag7.getList(this.startDate, this.endDate, this.channelId)
 				}
 			},
 			add() {
@@ -183,7 +188,7 @@
 					uni.navigateTo({
 						url: '/pages/employ/nursing/bill_detail?id=' + this.selected.id
 					})
-				}else if(e.detail.id == 'mobile'){
+				} else if (e.detail.id == 'mobile') {
 					wx.makePhoneCall({
 						phoneNumber: this.selected.customerUserMobile //仅为示例，并非真实的电话号码
 					})
@@ -230,9 +235,28 @@
 							path: res.path,
 							status: status
 						}).then(res => {
+							Toast.clear()
 							Toast.success('操作成功')
 							_this.onLoadList()
-						}).finally(() => Toast.clear())
+						}).catch(() => Toast.clear())
+					},
+					error(e) {
+						Toast.fail(e)
+					}
+				})
+			},
+			scanCustomerCode() {
+				let _this = this
+				wx.scanCode({
+					success(res) {
+						Toast.loading('加载中...')
+						_this.$uniRequest.post('/api/small_procedures/nursing/finish_bill', {
+							qrCode: res.result
+						}).then(res => {
+							Toast.clear()
+							Toast.success('操作成功')
+							_this.onLoadList()
+						}).catch(() => Toast.clear())
 					},
 					error(e) {
 						Toast.fail(e)

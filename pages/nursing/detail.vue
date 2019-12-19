@@ -20,9 +20,13 @@
 			<van-divider />
 			<p class="item_p">单号：{{billDetail.code}}</p>
 		</div>
+		<div class="qrcode" v-show="billDetail.status == 'IN_CHANNEL' || billDetail.status == 'PROBLEM_REFUSE'">
+			<p class="qrcode_p">出示二维码取货</p>
+			<tki-qrcode ref="qrcode" :size="400" :val="qrcode" />
+		</div>
 		<div v-if="billDetail.problemImageUrlList.length > 0" class="item">
 			<div style="height: 45rpx;">
-				<div class="item_title_left">洗衣坊问题:</div>
+				<div class="item_title_left">焕新工坊问题:</div>
 			</div>
 			<van-divider />
 			<div>
@@ -87,13 +91,17 @@
 <script>
 	import Toast from '@/wxcomponents/vant/toast/toast'
 	import Dialog from 'wxcomponents/vant/dialog/dialog'
+	import tkiQrcode from "@/components/tki-qrcode/tki-qrcode.vue"
 
 	export default {
-		components: {},
+		components: {
+			tkiQrcode
+		},
 		data() {
 			return {
 				id: '',
 				billDetail: {},
+				qrcode: '',
 				selectedGoods: {},
 				showSheet: false,
 				actions: [{
@@ -165,6 +173,12 @@
 						res.data.problemImageUrlList.push(res.data.problemGoodsWxUrl3)
 					}
 					this.billDetail = res.data
+					this.qrcode = this.billDetail.code
+					if(this.billDetail.status == 'IN_CHANNEL' || this.billDetail.status == 'PROBLEM_REFUSE'){
+						this.$nextTick(() => {
+							this.$refs.qrcode._makeCode()
+						})
+					}
 				}).finally(() => Toast.clear())
 			},
 			onSelect(e) {
@@ -215,6 +229,19 @@
 </style>
 
 <style scoped>
+	.qrcode {
+		padding-top: 10rpx;
+		text-align: center;
+		margin: 0 auto;
+		width: 450upx;
+	}
+
+	.qrcode_p {
+		margin-top: 5rpx;
+		margin-bottom: 5rpx;
+		font-size: 26rpx;
+	}
+
 	.form-first-bottom {
 		margin-left: 30rpx;
 		margin-right: 20rpx;

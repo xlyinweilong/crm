@@ -268,7 +268,7 @@
 				this.$uniRequest.post('/api/small_procedures/nursing/add_goods', this.form).then(res => {
 					Toast.success('操作成功')
 					uni.redirectTo({
-						url: '/pages/employ/nursing/add?billId=' + this.form.billId
+						url: '/pages/employ/nursing/add?billId=' + this.form.billId + '&balance=' + this.userBalance
 					})
 				}).finally(() => Toast.clear())
 			},

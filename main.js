@@ -3,10 +3,10 @@ import App from './App'
 
 import uniRequest from 'uni-request'
 // Vue.prototype.$baseURL = 'http://192.168.1.109:9090/crm'
-Vue.prototype.$baseURL = 'http://192.168.43.63:9090/crm'
+// Vue.prototype.$baseURL = 'http://192.168.43.63:9090/crm'
 // Vue.prototype.$baseImageURL = 'http://192.168.1.113:8086/images/'
 // Vue.prototype.$baseURL = 'https://crm.pengguantech.com/crm'
-// Vue.prototype.$baseURL = 'https://crm.wisdomyy.com/crm'
+Vue.prototype.$baseURL = 'https://crm.wisdomyy.com/crm'
 Vue.prototype.$baseImageURL = 'https://crm.wisdomyy.com/images/'
 uniRequest.defaults.baseURL = Vue.prototype.$baseURL
 // Vue.prototype.$tnId='11'

@@ -547,6 +547,22 @@
 			}
 		},
 		{
+			"path": "pages/nursing/do_evaluate",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "宝贝焕新评价",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-divider": "/wxcomponents/vant/divider/index",
+					"van-rate": "/wxcomponents/vant/rate/index"
+				}
+			}
+		},
+		{
 			"path": "pages/info/web",
 			"style": {
 				"navigationBarTitleText": "",

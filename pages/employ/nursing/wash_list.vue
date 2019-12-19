@@ -40,7 +40,9 @@
 </template>
 
 <script>
-	import {format} from 'utils/date.js'
+	import {
+		format
+	} from 'utils/date.js'
 	import Toast from 'wxcomponents/vant/toast/toast'
 	import Dialog from 'wxcomponents/vant/dialog/dialog'
 	import listDetail from './list_detail'
@@ -104,7 +106,7 @@
 			this.loadList(this.activeTag)
 		},
 		methods: {
-			changeOptions(e){
+			changeOptions(e) {
 				this.channelId = e.detail
 				this.onLoadList()
 			},
@@ -141,17 +143,17 @@
 			},
 			loadList(name) {
 				if (name == 1) {
-					this.$refs.activeTag1.getList(this.startDate,this.endDate,this.channelId)
+					this.$refs.activeTag1.getList(this.startDate, this.endDate, this.channelId)
 				} else if (name == 2) {
-					this.$refs.activeTag2.getList(this.startDate,this.endDate,this.channelId)
+					this.$refs.activeTag2.getList(this.startDate, this.endDate, this.channelId)
 				} else if (name == 3) {
-					this.$refs.activeTag3.getList(this.startDate,this.endDate,this.channelId)
+					this.$refs.activeTag3.getList(this.startDate, this.endDate, this.channelId)
 				} else if (name == 4) {
-					this.$refs.activeTag4.getList(this.startDate,this.endDate,this.channelId)
+					this.$refs.activeTag4.getList(this.startDate, this.endDate, this.channelId)
 				} else if (name == 5) {
-					this.$refs.activeTag5.getList(this.startDate,this.endDate,this.channelId)
+					this.$refs.activeTag5.getList(this.startDate, this.endDate, this.channelId)
 				} else if (name == 6) {
-					this.$refs.activeTag6.getList(this.startDate,this.endDate,this.channelId)
+					this.$refs.activeTag6.getList(this.startDate, this.endDate, this.channelId)
 				}
 			},
 			changeSelected(selectList) {
@@ -193,6 +195,10 @@
 			},
 			onSelect(e) {
 				if (e.detail.id == 'problem') {
+					if (this.selected.status == 'PROBLEM_AGREE') {
+						Toast('客户已经同意你提出的问题')
+						return
+					}
 					uni.navigateTo({
 						url: '/pages/employ/nursing/problem?id=' + this.selected.id
 					})

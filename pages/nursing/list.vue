@@ -22,6 +22,9 @@
 							<p class="item_p">单号：{{ele.code}}</p>
 							<p class="item_p">客服：{{ele.createEmployName}}</p>
 							<p class="item_p">货品数量：{{ele.goodsList.length}}</p>
+							<div v-if="(ele.status == 'FINISHED' || ele.status == 'SETTLED' || ele.status =='FINISHED_PROBLEM') && ele.evaluateStatus == 'UNEVALUATED'"
+							 style="margin-top: 10rpx;"><span class="jinxingpingjia">进行评价</span></div>
+							<div v-if="ele.evaluateStatus == 'EVALUATED'" style="margin-top: 10rpx;"><span class="jinxingpingjia">查看评价</span></div>
 						</div>
 					</van-col>
 				</van-row>
@@ -57,26 +60,36 @@
 				loading: false,
 				pageIndex: 0,
 				noMore: false,
-				status: ''
+				status: '',
+				evaluateStatus: ''
 			}
 		},
 		props: {},
 		onLoad(query) {},
 		methods: {
 			showDetail(ele) {
-				uni.navigateTo({
-					url: '/pages/nursing/detail?id=' + ele.id
-				})
+				if (ele.status == 'FINISHED' || ele.status == 'SETTLED' || ele.status == 'FINISHED_PROBLEM') {
+					uni.navigateTo({
+						url: '/pages/nursing/do_evaluate?id=' + ele.id
+					})
+				} else if (ele.status == 'EVALUATED') {
+
+				} else {
+					uni.navigateTo({
+						url: '/pages/nursing/detail?id=' + ele.id
+					})
+				}
 			},
 			add() {
 				uni.navigateTo({
 					url: '/pages/employ/nursing/create_bill'
 				})
 			},
-			getList(status) {
+			getList(status, evaluateStatus) {
 				this.pageIndex = 0
 				this.list = []
 				this.status = status
+				this.evaluateStatus = evaluateStatus == null ? '' : evaluateStatus
 				this.more()
 			},
 			more() {
@@ -87,6 +100,7 @@
 						data: {
 							customer: true,
 							statusList: this.status,
+							evaluateStatusList: this.evaluateStatus,
 							pageIndex: this.pageIndex,
 							pageSize: 10
 						}
@@ -153,6 +167,17 @@
 
 	.nursing_list .hover_item_title_right {
 		color: red
+	}
+
+	.nursing_list .jinxingpingjia {
+		background-color: #AE0000;
+		color: #FFFFFF;
+		font-size: 24rpx;
+		padding: 5rpx 15rpx 5rpx 15rpx;
+		border-top-left-radius: 16rpx;
+		border-top-right-radius: 16rpx;
+		border-bottom-right-radius: 16rpx;
+		border-bottom-left-radius: 16rpx;
 	}
 
 	.hover_div {

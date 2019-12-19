@@ -162,6 +162,13 @@
 								})
 								return
 							}
+							if (this.scene != null && this.scene.startsWith('nursing_evaluate,')) {
+								let id = this.scene.split(",")[1]
+								uni.reLaunch({
+									url: '/pages/nursing/do_evaluate?id=' + id
+								})
+								return
+							}
 							//判断是否员工
 							uni.redirectTo({
 								url: '/pages/employ/index'
@@ -192,6 +199,13 @@
 									let id = this.scene.split(",")[1]
 									uni.reLaunch({
 										url: '/pages/nursing/detail?id=' + id
+									})
+									return
+								}
+								if (this.scene != null && this.scene.startsWith('nursing_evaluate,')) {
+									let id = this.scene.split(",")[1]
+									uni.reLaunch({
+										url: '/pages/nursing/do_evaluate?id=' + id
 									})
 									return
 								}

@@ -16,6 +16,9 @@
 			<van-tab title="已领取" name="5">
 				<nursingList ref="nursingList5" @showSheetAction="showSheetAction" />
 			</van-tab>
+			<van-tab title="已评价" name="6">
+				<nursingList ref="nursingList6" @showSheetAction="showSheetAction" />
+			</van-tab>
 		</van-tabs>
 		<van-dialog id="van-dialog" />
 		<div class="add_balance_div">
@@ -60,7 +63,7 @@
 					return 'WASHING'
 				} else if (this.activeTag == 4) {
 					return 'IN_CHANNEL,PROBLEM_REFUSE'
-				} else if (this.activeTag == 5) {
+				} else if (this.activeTag == 5 || this.activeTag == 6) {
 					return 'FINISHED,SETTLED,FINISHED_PROBLEM'
 				}
 				return 'INIT'
@@ -84,7 +87,9 @@
 				} else if (this.activeTag == 4) {
 					this.$refs.nursingList4.getList(this.status)
 				} else if (this.activeTag == 5) {
-					this.$refs.nursingList5.getList(this.status)
+					this.$refs.nursingList5.getList(this.status,'UNEVALUATED')
+				} else if (this.activeTag == 6) {
+					this.$refs.nursingList6.getList(this.status,'EVALUATED')
 				}
 			},
 			onClose() {

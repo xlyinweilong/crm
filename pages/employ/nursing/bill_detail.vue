@@ -1,8 +1,8 @@
 <template>
 	<view class="nursing_detail">
-		<div v-if="billDetail.status == 'PROBLEM'" class="item">
+		<div v-if="billDetail.problemImageUrlList.length > 0" class="item">
 			<div style="height: 45rpx;">
-				<div class="item_title_left">洗衣坊问题:</div>
+				<div class="item_title_left">焕新工坊问题:</div>
 			</div>
 			<van-divider />
 			<div v-if="billDetail.problemImageUrlList.length > 0">
