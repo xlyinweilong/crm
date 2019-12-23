@@ -5,7 +5,8 @@
 			<van-row v-for="recharge in rechargeConfigList">
 				<van-col span="8" v-for="ele in recharge.subList">
 					<div class="recharge_item div-inline" hover-class="recharge_item_hover" @click="createPayOrder(ele)">
-						{{ele.nursingAmount}}个
+						<p>{{ele.nursingAmount}}个</p>
+						<p class="shoujia">售价{{ele.payAmount}}元</p>
 					</div>
 				</van-col>
 			</van-row>
@@ -86,10 +87,10 @@
 
 	.add_balance .recharge_item {
 		text-align: center;
-		border: 2px solid #E4E7ED;
+		border:1px solid #706000;
 		padding: 35rpx 25rpx 35rpx 25rpx;
 		margin: 20rpx 20rpx 20rpx 20rpx;
-		color: #C0C0C0;
+		color: #706000;
 		font-size: 35rpx;
 		border-radius: 5px;
 	}
@@ -98,12 +99,16 @@
 		padding-top: 30rpx;
 		margin-left: 20rpx;
 		padding-bottom: 15rpx;
-		color: #C0C0C0;
+		color: #706000;
 		font-size: 30rpx;
+	}
+
+	.shoujia {
+		font-size: 22rpx;
+		font-weight: lighter;
 	}
 
 	.add_balance .recharge_item_hover {
 		color: #C80000;
 	}
-
 </style>

@@ -12,8 +12,7 @@
 					<div style="height: 45rpx;">
 						<div class="item_title_left">
 							<span v-if="type == 2 && (activeTag == 3 || activeTag == 4 || activeTag == 5 || activeTag == 6)">{{statusMean(ele)}}</span>
-							<van-checkbox v-if="type == 2 && (activeTag == 1 || activeTag == 2)" :value="ele.checked"
-							 @change="changeCheckbox(ele)">{{statusMean(ele)}}</van-checkbox>
+							<van-checkbox v-if="type == 2 && (activeTag == 1 || activeTag == 2)" :value="ele.checked" @change="changeCheckbox(ele)">{{statusMean(ele)}}</van-checkbox>
 						</div>
 						<div class="item_title_right" @click="showSheetInfo(ele)" hover-class="hover_item_title_right">
 							<van-icon name="weapp-nav" />
@@ -97,15 +96,15 @@
 		},
 		methods: {
 			statusMean(ele) {
-				if (this.type == 1) {
+				if (this.type == 2) {
 					if (ele.status == 'INIT') {
-						return "用户来货"
+						return "待取宝贝"
 					} else if (ele.status == 'PROBLEM_AGREE') {
-						return "用户同意"
+						return "待取宝贝(用户同意)"
 					} else if (ele.status == 'WASHING') {
-						return "焕新中"
+						return "待送宝贝"
 					} else if (ele.status == 'IN_CHANNEL') {
-						return "待用户取走"
+						return "已送宝贝"
 					} else if (ele.status == 'PROBLEM_REFUSE') {
 						return "待用户取走(拒绝)"
 					} else if (ele.status == 'FINISHED') {
@@ -117,15 +116,15 @@
 					} else if (ele.status == 'FINISHED_PROBLEM') {
 						return "已取走(问题单)"
 					}
-				} else if (this.type == 2) {
+				} else {
 					if (ele.status == 'INIT') {
-						return "待取宝贝"
+						return "用户来货"
 					} else if (ele.status == 'PROBLEM_AGREE') {
-						return "待取宝贝(用户同意)"
+						return "用户同意"
 					} else if (ele.status == 'WASHING') {
-						return "待送宝贝"
+						return "焕新中"
 					} else if (ele.status == 'IN_CHANNEL') {
-						return "已送宝贝"
+						return "待用户取走"
 					} else if (ele.status == 'PROBLEM_REFUSE') {
 						return "待用户取走(拒绝)"
 					} else if (ele.status == 'FINISHED') {
