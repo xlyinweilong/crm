@@ -11,7 +11,7 @@
 				<div class="item">
 					<div style="height: 45rpx;">
 						<div class="item_title_left">
-							<span v-if="type == 2 && (activeTag == 3 || activeTag == 4 || activeTag == 5 || activeTag == 6)">{{statusMean(ele)}}</span>
+							<span v-if="(type == 1) || (type == 2 && (activeTag == 3 || activeTag == 4 || activeTag == 5 || activeTag == 6 || activeTag == 8 || activeTag == 9 || activeTag == 10))">{{statusMean(ele)}}</span>
 							<van-checkbox v-if="type == 2 && (activeTag == 1 || activeTag == 2)" :value="ele.checked" @change="changeCheckbox(ele)">{{statusMean(ele)}}</van-checkbox>
 						</div>
 						<div class="item_title_right" @click="showSheetInfo(ele)" hover-class="hover_item_title_right">
@@ -91,6 +91,12 @@
 					return 'PROBLEM'
 				} else if (this.activeTag == 7) {
 					return 'FINISHED_PROBLEM'
+				} else if (this.activeTag == 8) {
+					return 'NO_SETTLE_PENDING'
+				} else if (this.activeTag == 9) {
+					return 'NO_SETTLE_AGREE'
+				} else if (this.activeTag == 10) {
+					return 'NO_SETTLE_REFUSE'
 				}
 			}
 		},
@@ -135,7 +141,14 @@
 						return "问题单"
 					} else if (ele.status == 'FINISHED_PROBLEM') {
 						return "已取走(问题单)"
-					}
+					} 
+				}
+				if (ele.status == 'NO_SETTLE_PENDING') {
+					return "无需结算,待处理"
+				} else if (ele.status == 'NO_SETTLE_AGREE') {
+					return "无需结算,已同意"
+				} else if (ele.status == 'NO_SETTLE_REFUSE') {
+					return "无需结算,拒绝"
 				}
 				return ""
 			},

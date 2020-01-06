@@ -1,5 +1,18 @@
 {
-	"pages": [{
+	"pages": [
+		//商城
+		{
+			"path": "pages/shop/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true,
+				"usingComponents": {}
+			}
+		},
+		{
 			"path": "pages/login/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -9,6 +22,52 @@
 				"titleView": false
 			}
 		},
+		{
+			"path": "pages/shop/category/index",
+			"style": {
+				"navigationBarTitleText": "分类",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true,
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/shop/cart/index",
+			"style": {
+				"navigationBarTitleText": "购物车",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true,
+				"usingComponents": {
+					"van-checkbox": "/wxcomponents/vant/checkbox/index",
+					"van-checkbox-group": "/wxcomponents/vant/checkbox-group/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-stepper": "/wxcomponents/vant/stepper/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-popup": "/wxcomponents/vant/popup/index"
+				}
+			}
+		},
+		{
+			"path": "pages/shop/my/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true,
+				"usingComponents": {
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-cell": "/wxcomponents/vant/cell/index"
+				}
+			}
+		},
+
 		{
 			"path": "pages/info/index",
 			"style": {
@@ -199,6 +258,26 @@
 				}
 			}
 		},
+		//会员中心
+		{
+			"path": "pages/employ/nursing/customer_take_away",
+			"style": {
+				"navigationBarTitleText": "宝贝取走",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-divider": "/wxcomponents/vant/divider/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index"
+				}
+			}
+		},
 		{
 			"path": "pages/employ/nursing/wash_list",
 			"style": {
@@ -256,6 +335,7 @@
 					"van-icon": "/wxcomponents/vant/icon/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-action-sheet": "/wxcomponents/vant/action-sheet/index",
+					"van-button": "/wxcomponents/vant/button/index",
 					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			}
@@ -572,23 +652,29 @@
 			}
 		}
 	],
-	// "tabBar": {
-	//     "color": "#7a7e83",
-	//     "selectedColor": "#0faeff",
-	//     "backgroundColor": "#ffffff",
-	//     "list": [{
-	//         "pagePath": "pages/employ/register",
-	//         "text": "首页"
-	//     },
-	// 	{
-	// 	    "pagePath": "pages/basics/layout",
-	// 	    "text": "首页"
-	// 	}]
-	// },
-	// "globalStyle": {
-	// 	"navigationBarTextStyle": "white",
-	// 	"navigationBarBackgroundColor": "#0faeff"
-	// },
+	"tabBar": {
+		"custom": true,
+		"color": "#7a7e83",
+		"selectedColor": "#0faeff",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/shop/index/index",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/shop/category/index",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/shop/cart/index",
+				"text": "购物车"
+			},
+			{
+				"pagePath": "pages/shop/my/index",
+				"text": "我的"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
@@ -606,7 +692,10 @@
 			"van-radio-group": "/wxcomponents/vant/radio-group/index",
 			"van-cell": "/wxcomponents/vant/cell/index",
 			"van-loading": "/wxcomponents/vant/loading/index",
-			"van-popup": "/wxcomponents/vant/popup/index"
+			"van-popup": "/wxcomponents/vant/popup/index",
+			"van-tabbar": "/wxcomponents/vant/tabbar/index",
+			"van-tabbar-item": "/wxcomponents/vant/tabbar-item/index",
+			"van-nav-bar": "/wxcomponents/vant/nav-bar/index"
 		}
 	},
 	"condition": { //模式配置，仅开发期间生效

@@ -29,6 +29,15 @@
 			<van-tab title="问题单" name="6">
 				<listDetail ref="activeTag6" :type="2" @showSheetInfo="showSheetInfo" :activeTag="6" />
 			</van-tab>
+			<van-tab title="结算疑问" name="8">
+				<listDetail ref="activeTag8" :type="2" @showSheetInfo="showSheetInfo" :activeTag="8" />
+			</van-tab>
+			<van-tab title="疑问同意" name="9">
+				<listDetail ref="activeTag9" :type="2" @showSheetInfo="showSheetInfo" :activeTag="9" />
+			</van-tab>
+			<van-tab title="疑问拒绝" name="10">
+				<listDetail ref="activeTag10" :type="2" @showSheetInfo="showSheetInfo" :activeTag="10" />
+			</van-tab>
 		</van-tabs>
 		<div v-show="activeTag == 1 || activeTag == 2" style="position:fixed;bottom: 0rpx;text-align: center;width: 100%;">
 			<van-button type="primary" size="large" @click="scanCode">扫码确认</van-button>
@@ -154,6 +163,12 @@
 					this.$refs.activeTag5.getList(this.startDate, this.endDate, this.channelId)
 				} else if (name == 6) {
 					this.$refs.activeTag6.getList(this.startDate, this.endDate, this.channelId)
+				} else if (name == 8) {
+					this.$refs.activeTag8.getList(this.startDate, this.endDate, this.channelId)
+				} else if (name == 9) {
+					this.$refs.activeTag9.getList(this.startDate, this.endDate, this.channelId)
+				} else if (name == 10) {
+					this.$refs.activeTag10.getList(this.startDate, this.endDate, this.channelId)
 				}
 			},
 			changeSelected(selectList) {

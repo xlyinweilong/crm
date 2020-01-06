@@ -16,6 +16,34 @@
 				<p class="item_p">{{billDetail.problemMessage}}</p>
 			</div>
 		</div>
+		<div v-if="billDetail.status == 'NO_SETTLE_PENDING' && powerKeyList.indexOf('e_nursing_wash') > -1" class="item">
+			<div style="height: 45rpx;">
+				<div class="item_title_left">客户不同意付款，洗衣费用由焕新工坊出</div>
+			</div>
+			<van-divider />
+			<div style="text-align: center;">
+				<span>
+					<van-button type="primary" @click="settleProblem('NO_SETTLE_AGREE','同意确认','确定要同意吗？')">同意</van-button>
+				</span>
+				<span style="margin-left: 15rpx;">
+					<van-button type="warning" @click="settleProblem('NO_SETTLE_REFUSE','拒绝确认','确定要拒绝吗？')">拒绝</van-button>
+				</span>
+			</div>
+		</div>
+		<div v-if="billDetail.status == 'NO_SETTLE_REFUSE' && powerKeyList.indexOf('e_nursing') > -1" class="item">
+			<div style="height: 45rpx;">
+				<div class="item_title_left">客户不同意付款，洗衣费用由焕新工坊出,焕新工坊拒绝。请和工坊联系协调，协调选择下方</div>
+			</div>
+			<van-divider />
+			<div style="text-align: center;">
+				<span>
+					<van-button type="primary" @click="settleProblem('FINISHED','店铺出费用','确定要店铺出费用吗？')">店铺出费用</van-button>
+				</span>
+				<span style="margin-left: 15rpx;">
+					<van-button type="warning" @click="settleProblem('NO_SETTLE_PENDING','洗衣坊出费用','确定要洗衣坊出费用吗？')">洗衣坊出费用</van-button>
+				</span>
+			</div>
+		</div>
 		<view v-for="ele in billDetail.goodsList">
 			<div class="item">
 				<div style="height: 45rpx;">
@@ -69,11 +97,13 @@
 					name: '删除',
 					color: '#ee0a24',
 					id: 'delete'
-				}]
+				}],
+				powerKeyList: []
 			}
 		},
 		onLoad(query) {
 			this.id = query.id
+			this.powerKeyList = wx.getStorageSync('powerKeyList')
 			this.getInfo()
 		},
 		onPullDownRefresh() {
@@ -151,6 +181,24 @@
 						id: id
 					}).then(res => {
 						this.getInfo()
+					}).finally(() => Toast.clear())
+				})
+			},
+			settleProblem(status, title, message) {
+				Dialog.confirm({
+					title: title,
+					message: message
+				}).then(() => {
+					Toast.loading('加载中...')
+					this.$uniRequest.post('/api/small_procedures/nursing/settle_problem', {
+						id: this.id,
+						status: status
+					}).then(res => {
+						Toast.clear()
+						Toast.success('操作成功')
+						uni.navigateBack({
+							delta: 1
+						})
 					}).finally(() => Toast.clear())
 				})
 			}

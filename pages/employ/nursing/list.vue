@@ -32,6 +32,15 @@
 			<van-tab title="问题取走" name="7">
 				<listDetail ref="activeTag7" @showSheetInfo="showSheetInfo" :activeTag="7" @changeSelected="changeSelected" />
 			</van-tab>
+			<van-tab title="结算疑问" name="8">
+				<listDetail ref="activeTag8" @showSheetInfo="showSheetInfo" :activeTag="8" />
+			</van-tab>
+			<van-tab title="疑问同意" name="9">
+				<listDetail ref="activeTag9" @showSheetInfo="showSheetInfo" :activeTag="9" />
+			</van-tab>
+			<van-tab title="疑问拒绝" name="10">
+				<listDetail ref="activeTag10" @showSheetInfo="showSheetInfo" :activeTag="10" />
+			</van-tab>
 		</van-tabs>
 		<div v-show="activeTag == 1" style="position:fixed;bottom: 0rpx;text-align: center;width: 100%;">
 			<van-button type="primary" size="large" icon="plus" @click="add">添加单据</van-button>
@@ -167,6 +176,12 @@
 					this.$refs.activeTag6.getList(this.startDate, this.endDate, this.channelId)
 				} else if (name == 7) {
 					this.$refs.activeTag7.getList(this.startDate, this.endDate, this.channelId)
+				}else if (name == 8) {
+					this.$refs.activeTag8.getList(this.startDate, this.endDate, this.channelId)
+				}else if (name == 9) {
+					this.$refs.activeTag9.getList(this.startDate, this.endDate, this.channelId)
+				}else if (name == 10) {
+					this.$refs.activeTag10.getList(this.startDate, this.endDate, this.channelId)
 				}
 			},
 			add() {
@@ -250,12 +265,17 @@
 				wx.scanCode({
 					success(res) {
 						Toast.loading('加载中...')
-						_this.$uniRequest.post('/api/small_procedures/nursing/finish_bill', {
-							qrCode: res.result
+						let qrCode = res.result
+						_this.$uniRequest.get('/api/small_procedures/nursing/bill_info_by_code', {
+							data: {
+								qrCode: qrCode
+							}
 						}).then(res => {
+							//跳转页面
 							Toast.clear()
-							Toast.success('操作成功')
-							_this.onLoadList()
+							uni.navigateTo({
+								url: '/pages/employ/nursing/customer_take_away?qrCode=' + qrCode
+							})
 						}).catch(() => Toast.clear())
 					},
 					error(e) {
