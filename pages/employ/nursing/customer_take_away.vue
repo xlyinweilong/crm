@@ -8,6 +8,9 @@
 			<!-- <van-cell-group>
 				<van-field label="客户承担费用" :value="amount" placeholder="费用" border="false" @change="onChange" />
 			</van-cell-group> -->
+			<van-cell-group>
+				<van-field :value="reason" :maxlength="200" @change="changeReason" label="原因" type="textarea" placeholder="客户付费用,不需要填写" autosize />
+			</van-cell-group>
 			<p style="margin-top: 30rpx;margin-bottom: 10rpx;">客户对商品有争议，费用由店铺承担。</p>
 			<van-button plain type="warning" size="large" @click="confirm('确定费用由店铺承担?','FINISHED')">客户免费，店铺承担费用</van-button>
 			<van-divider />
@@ -28,22 +31,28 @@
 		data() {
 			return {
 				qrCode: '',
-				amount: 0
+				amount: 0,
+				reason: ''
 			}
 		},
 		onLoad(query) {
 			this.qrCode = query.qrCode
+			this.reason = ''
 			if (query.qrCode) {
 				this.qrCode = decodeURIComponent(query.qrCode)
 			}
 		},
 		methods: {
+			changeReason(e) {
+				this.reason = e.detail
+			},
 			submit(status, isFree) {
 				Toast.loading('加载中...')
 				this.$uniRequest.post('/api/small_procedures/nursing/finish_bill', {
 					qrCode: this.qrCode,
 					status: status,
-					isFree: isFree
+					isFree: isFree,
+					reason: this.reason
 				}).then(res => {
 					Toast.clear()
 					Toast.success('操作成功')
@@ -53,6 +62,10 @@
 				}).catch(() => Toast.clear())
 			},
 			confirm(title, status) {
+				if (this.reason == '') {
+					Toast('请输入原因')
+					return
+				}
 				Dialog.confirm({
 					title: '确定',
 					message: title

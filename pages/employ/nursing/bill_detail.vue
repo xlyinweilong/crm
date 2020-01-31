@@ -75,6 +75,17 @@
 				</div>
 			</div>
 		</view>
+		<!-- 操作记录 -->
+		<view>
+			<div class="item">操作记录</div>
+			<div class="item" style="font-size: 32rpx;" v-for="log in billDetail.operationLogList">
+				<p>操作名称：{{log.operation}}</p>
+				<p>操作时间：{{log.createDate}}</p>
+				<p>操作人：{{log.operationUserName}}</p>
+				<p v-if="log.operationEmployName != null">操作员工：{{log.operationEmployName}}</p>
+				<p v-if="log.sweptCodeUserName != null">被扫码人：{{log.sweptCodeUserName}}</p>
+			</div>
+		</view>
 		<van-action-sheet :show="showSheet" cancel-text="取消" @cancel="onClose" :actions="actions" @close="onClose" @select="onSelect" />
 		<van-dialog id="van-dialog" />
 		<van-toast id="van-toast" />

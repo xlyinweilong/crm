@@ -2,111 +2,47 @@
 	<view>
 		<view class="container">
 			<!-- 搜索商品 -->
-			<div class="search-div">
-				<input class="search" placeholder="搜索" />
+			<div class="search-div" @click="goToSearch">
+				<input class="search" placeholder="搜索商品" />
 				<div style="float:right;">
 					<van-icon name="search" size="20px" />
 				</div>
 			</div>
 			<!-- 左边分类 750 - 30 = 720 -->
-			<div style="display: flex;flex-direction: row;padding-top:20rpx;">
+			<div style="display: flex;flex-direction: row;padding-top:10rpx;">
 				<scroll-view class="left" scroll-y="true" :style="{'height':(winHeight-105)+'px'}">
-					<div style="color:#706000;font-size:30rpx;padding-top:13px;padding-bottom:13px">昕逸</div>
-					<div style="color:#303133;font-size:28rpx;padding-top:13px;padding-bottom:13px">大衣</div>
-					<div style="color:#303133;font-size:28rpx;padding-top:13px;padding-bottom:13px">基础内衣内</div>
+					<div v-for="c in categoryList" :key="c.id" @click="selectCategory(c)" :class="c.active ? 'category1Activity' : ''"
+					 class="category1" :style="{color:c.active ? '#706000' : '#303133'}">{{c.name}}</div>
 				</scroll-view>
 				<!-- 右边明细 -->
-				<scroll-view scroll-y="true" style="width:560rpx;padding-left:15rpx;color:#606266" :style="{'height':(winHeight-105)+'px'}">
-					<div style="padding-top:10px"><image style="width: 545rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" /></div>
-					<p style="text-align:center;color:#706000;font-size:40rpx;padding-top:20px">品牌</p>
-					<div style="display: flex;font-size: 30rpx;">
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-						</div>
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-						</div>
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-						</div>
-					</div>
-					<div style="display: flex;font-size: 30rpx;">
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-						</div>
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-						</div>
-					</div>
-					<p style="text-align:center;color:#706000;font-size:40rpx;padding-top:20px">款式</p>
-					<div style="display: flex;font-size: 30rpx;">
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">大衣</p>
-						</div>
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">风衣</p>
-						</div>
-					</div>
-					<div style="display: flex;font-size: 30rpx;">
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">大衣</p>
-						</div>
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">风衣</p>
-						</div>
-					</div>
-					<div style="display: flex;font-size: 30rpx;">
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">大衣</p>
-						</div>
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">风衣</p>
-						</div>
-					</div>
-					<div style="display: flex;font-size: 30rpx;">
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">大衣</p>
-						</div>
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">风衣</p>
-						</div>
-					</div>
-					<div style="display: flex;font-size: 30rpx;">
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">大衣</p>
-						</div>
-						<div style="width: 150rpx;text-align: center;padding: 20rpx;">
-							<image style="width: 150rpx; height: 80rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-							<p style="font-size:28rpx">风衣</p>
-						</div>
-					</div>
+				<scroll-view scroll-y="true" style="width:450rpx;padding-left:15rpx;color:#606266" :style="{'height':(winHeight-105)+'px'}">
+					<div v-for="c2 in activeCategory.subList" @click="clickSubCategory(c2)" :key="c2.id" class="category2" hover-class="hover-category">{{c2.name}}</div>
 				</scroll-view>
 			</div>
 		</view>
-		<tabbar :active="1" />
+		<tabbar ref="tabbar" :active="'1'" />
+		<van-toast id="van-toast" />
+		<loginCom />
 	</view>
 </template>
 
 <script>
-	import tabbar from '@/pages/shop/components/tabbar'
+	import tabbar from '@/pages/shop/components/index'
+	import Toast from '@/wxcomponents/vant/toast/toast'
+	import loginCom from '@/pages/shop/components/login'
 	export default {
 		components: {
-			tabbar
+			tabbar,loginCom
 		},
 		data() {
 			return {
 				loading: false,
 				winWidth: 0,
-				winHeight: 0
+				winHeight: 0,
+				categoryList: [],
+				activeCategory: {
+					subList: []
+				}
 			}
 		},
 		onLoad(query) {
@@ -116,14 +52,40 @@
 					_this.winWidth = res.windowWidth
 					_this.winHeight = res.windowHeight
 				}
-			});
-			if (query.posCode) {
-
-			}
+			})
+			this.loadCategory()
 		},
 		methods: {
-			onChange(e) {
-				this.active = e.detail
+			goToSearch() {
+				uni.navigateTo({
+					url: '/pages/shop/search/index'
+				})
+			},
+			loadCategory() {
+				if (wx.getStorageSync('categoryList') instanceof Array) {
+					this.categoryList = wx.getStorageSync('categoryList')
+				} else {
+					Toast.loading('加载中...')
+				}
+				this.$uniRequest.get('/api/small/shop/category/all').then(res => {
+					res.data.forEach(c => c.active = false)
+					if (res.data.length > 0) {
+						res.data[0].active = true
+						this.activeCategory = res.data[0]
+					}
+					this.categoryList = res.data
+					wx.setStorageSync('categoryList', this.categoryList)
+				}).finally(() => Toast.clear())
+			},
+			selectCategory(ele) {
+				this.categoryList.filter(c => c.id != ele.id).forEach(c => c.active = false)
+				ele.active = true
+				this.activeCategory = ele
+			},
+			clickSubCategory(ele) {
+				uni.navigateTo({
+					url: '/pages/shop/goods/goods_list?c2=' + ele.erpId + '&c=' +  this.activeCategory.erpId
+				})
 			}
 		}
 	}
@@ -139,6 +101,7 @@
 	}
 
 	.search-div {
+		margin-top: 10rpx;
 		margin-left: 15rpx;
 		margin-right: 15rpx;
 		padding-left: 18rpx;
@@ -157,8 +120,29 @@
 	}
 
 	.left {
-		width: 200rpx;
-		border-right: 1px solid #DCDFE6;
+		width: 300rpx;
+		/* border-right: 1px solid #DCDFE6; */
 		text-align: center;
+		background: #eeeeee;
+	}
+
+	.category1 {
+		font-size: 30rpx;
+		padding-top: 13px;
+		padding-bottom: 13px;
+		color: #303133;
+	}
+
+	.category1Activity {
+		background: #ffffff;
+	}
+
+	.category2 {
+		font-size: 28rpx;
+		padding: 30rpx 20rpx 30rpx 20rpx;
+	}
+
+	.hover-category {
+		font-weight: 800
 	}
 </style>

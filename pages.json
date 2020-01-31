@@ -1,6 +1,6 @@
 {
 	"pages": [
-		//商城
+		// 商城
 		{
 			"path": "pages/shop/index/index",
 			"style": {
@@ -9,7 +9,9 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"enablePullDownRefresh": true,
-				"usingComponents": {}
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index"
+				}
 			}
 		},
 		{
@@ -30,7 +32,9 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"enablePullDownRefresh": true,
-				"usingComponents": {}
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index"
+				}
 			}
 		},
 		{
@@ -67,7 +71,84 @@
 				}
 			}
 		},
-
+		{
+			"path": "pages/shop/search/index",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true,
+				"usingComponents": {
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-toast": "/wxcomponents/vant/toast/index"
+				}
+			}
+		},
+		{
+			"path": "pages/shop/goods/goods_list",
+			"style": {
+				"navigationBarTitleText": "商品列表",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true,
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-button": "/wxcomponents/vant/button/index"
+				}
+			}
+		},
+		{
+			"path": "pages/shop/goods/goods_detail",
+			"style": {
+				"navigationBarTitleText": "商品详情",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true,
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-button": "/wxcomponents/vant/button/index"
+				}
+			}
+		},
+		{
+			"path": "pages/shop/my/location/index",
+			"style": {
+				"navigationBarTitleText": "收货地址",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true,
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-checkbox": "/wxcomponents/vant/checkbox/index"
+				}
+			}
+		},
+		{
+			"path": "pages/shop/my/location/add",
+			"style": {
+				"navigationBarTitleText": "添加地址",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true,
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-button": "/wxcomponents/vant/button/index"
+				}
+			}
+		},
+		//会员中心
 		{
 			"path": "pages/info/index",
 			"style": {
@@ -152,7 +233,6 @@
 					"van-toast": "/wxcomponents/vant/toast/index",
 					"van-rate": "/wxcomponents/vant/rate/index"
 				}
-
 			}
 		},
 		{
@@ -254,7 +334,8 @@
 					"van-divider": "/wxcomponents/vant/divider/index",
 					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
 					"van-dropdown-item": "/wxcomponents/vant/dropdown-item/index",
-					"van-field": "/wxcomponents/vant/field/index"
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index"
 				}
 			}
 		},

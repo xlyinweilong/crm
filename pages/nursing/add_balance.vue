@@ -11,6 +11,7 @@
 				</van-col>
 			</van-row>
 		</div>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 

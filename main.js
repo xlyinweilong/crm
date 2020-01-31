@@ -15,7 +15,6 @@ Vue.prototype.$tnId='jljy'
 uniRequest.defaults.headers['tn_id'] = Vue.prototype.$tnId
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json'
 Vue.prototype.$uniRequest = uniRequest
-
 // import basics from './pages/basics/home.vue'
 // Vue.component('basics', basics)
 

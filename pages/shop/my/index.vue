@@ -59,7 +59,7 @@
 				<van-cell title="其他功能" :border="false" />
 				<view class="card">
 					<view class="flex-row" style="padding-top: 15rpx;padding-bottom: 50rpx;text-align: center;">
-						<div style="width:50%; ">
+						<div style="width:50%; " @click="goPage('shop/my/location/index')">
 							<van-icon name="location-o" size="50rpx" />
 							<p style="font-size: 28rpx;color:#606266">地址管理</p>
 						</div>
@@ -118,15 +118,17 @@
 				</view>
 			</view>
 		</view>
-		<tabbar :active="3" />
+		<tabbar :active="3"/>
+		<loginCom />
 	</view>
 </template>
 
 <script>
-	import tabbar from '@/pages/shop/components/tabbar'
+	import tabbar from '@/pages/shop/components/index'
+	import loginCom from '@/pages/shop/components/login'
 	export default {
 		components: {
-			tabbar
+			tabbar,loginCom
 		},
 		data() {
 			return {

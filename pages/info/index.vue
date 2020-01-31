@@ -138,12 +138,6 @@
 							<div class="wenzi">宝贝焕新</div>
 						</div>
 					</van-col>
-					<!-- <van-col span="8">
-						<div @click="goPage('vip/my_referrals')" hover-class="user-info-hover">
-							<div><span class="relative iconfont icon-iconfonttuijianren"></span></div>
-							<div class="wenzi">我的引荐</div>
-						</div>
-					</van-col> -->
 				</van-row>
 			</div>
 			<view class="footer1">

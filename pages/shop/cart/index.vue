@@ -13,38 +13,44 @@
 			</div> -->
 		</view>
 		<!-- 购物车空的时候 -->
-		<view>
-
+		<view v-if="cartList.length == 0" style="text-align: center;">
+			<div style="margin-top: 150rpx;">
+				<van-icon color="#909399" name="shopping-cart-o" size="200rpx" />
+			</div>
+			<p style="margin-top: 30rpx;size: 30rpx;">购物车空空</p>
+			<div style="margin-top: 30rpx;">
+				<van-button color="#706000" @click="goToGoodsList">去逛逛</van-button>
+			</div>
 		</view>
 		<!-- 购物车有商品的时候 -->
-		<view>
+		<view v-if="cartList.length > 0">
 			<!-- 商品列表 -->
 			<div class="goods_list">
 				<!-- 商品明细 -->
-				<div v-for="e in list" class="goods_detail">
+				<div v-for="(e,index) in cartList" class="goods_detail">
 					<!-- 选中标签 -->
 					<div style="width:40rpx;padding-top: 125rpx;margin-left: 5rpx; margin-right: 5rpx;">
-						<van-checkbox icon-size="40rpx" :value="checkedAll" checked-color="#706000" @change="onChangeCheckAll" />
+						<van-checkbox icon-size="40rpx" :value="e.checked" checked-color="#706000" @change="onChangeCheck($event,e)" />
 					</div>
 					<!-- 商品图片 -->
-					<div style="width:250rpx;margin-top: 25rpx;">
-						<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
+					<div @click="goToGoodsDetail(e)" style="width:250rpx;margin-top: 25rpx;">
+						<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFill" :src="e.imageList[0]" />
 					</div>
 					<!-- 右侧区域 -->
 					<div style="font-size:26rpx;padding-top: 10px;color: #606266;width:400rpx;margin-left: 10rpx;">
 						<!-- 第一层，名称和删除 -->
 						<div style="text-align: right;">
-							<div style="text-align: left;float:left;width:330rpx;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-								LA CLOVER兰卡文蜜糖琥珀兰卡文蜜糖琥珀兰卡文蜜糖琥珀
+							<div @click="goToGoodsDetail(e)" style="text-align: left;float:left;width:330rpx;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+								{{e.goodsDisplayName}}
 							</div>
 							<div>
-								<van-icon @click="deleteEle" size="38rpx" name="delete" />
+								<van-icon @click="deleteEle(e,index)" size="38rpx" name="delete" />
 							</div>
 						</div>
 						<!-- 第二层颜色尺码 -->
-						<div class="goods_color" style="text-align: right;">
-							<div @click="showGoodsDetail" style="text-align: left;float:left;width:300rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-								颜色：香槟色
+						<div class="goods_color" style="text-align: right;" @click="showGoodsDetail(e)">
+							<div style="text-align: left;float:left;width:300rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+								颜色：{{e.colorName}}、尺码：{{e.sizeName}}
 							</div>
 							<div style="margin-right: 15rpx;">
 								<van-icon name="arrow-down" size="30rpx" />
@@ -52,8 +58,9 @@
 						</div>
 						<!-- 第三层，金额、数量 -->
 						<div style="margin-top: 50rpx;text-align: right;">
-							<div style="float:left;margin-top: 15rpx;">￥280.00</div>
-							<van-stepper input-width="60rpx" button-size="60rpx" :value="1" :step="1" :min="1" />
+							<div style="float:left;margin-top: 15rpx;">￥{{e.price}}</div>
+							<van-stepper input-width="60rpx" @change="onChangeStepper($event,e,index)" button-size="60rpx" :value="e.quantity"
+							 :step="1" :min="1" />
 						</div>
 					</div>
 				</div>
@@ -74,96 +81,185 @@
 				<div style="float: right;margin-right: 20rpx;padding-top: 13px;">
 					<div class="settle-total">
 						<p><span style="color: #909399;">总计：</span>
-							<span>￥1200.00</span></p>
+							<span>￥{{totalAmount}}</span></p>
 						<p><span style="color: #909399;">不含运费</span></p>
 					</div>
 				</div>
 			</div>
 			<van-dialog id="van-dialog" confirm-button-color="#706000" />
-			<van-popup :show="isShowGoodsDetail" closeable position="bottom" custom-style="height:1000rpx" @close="onCloseGoodsDetail">
-				<!-- 第一行，图片、价格、编号 -->
-				<div class="popup-image-div">
-					<!-- 图片 -->
-					<div style="float: left;margin-top: 15px;margin-left: 15px;">
-						<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFill" :src="src" />
-					</div>
-					<div style="float: left;margin-left: 20px;margin-top: 15px;">
-						<!-- 价格 -->
-						<p style="font-size: 18px;color:#303133">￥1280.00</p>
-						<p style="font-size: 14px;color: #909399;">颜色：香槟 尺码：XXL</p>
-					</div>
-				</div>
-				<!-- 第二行，颜色、尺码 -->
-				<view>
-					<scroll-view :scroll-y="true" style="height: 700rpx;">
-						<div style="margin-bottom: 90px;margin-top: 10px;padding-left: 15px;">
-							<div>
-								<p style="color: #909399;font-size: 26rpx;">颜色</p>
-								<div style="display: flex;font-size: 30rpx;color: #606266;">
-									<div style="width: 25%;text-align: center;padding: 20rpx">
-										<div style="background-color: #706000;color: #FFFFFF;padding: 20rpx;">红色</div>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: 20rpx;">
-								<p style="color: #909399;font-size: 26rpx;">尺码</p>
-								<div style="display: flex;font-size: 30rpx;color: #606266;">
-									<div style="width: 25%;text-align: center;padding: 20rpx;">
-										<div style="background-color: #F2F6FC;padding: 20rpx;">xl</div>
-									</div>
-									<div style="width: 25%;text-align: center;padding: 20rpx">
-										<div style="background-color: #706000;color: #FFFFFF;padding: 20rpx;">xll</div>
-									</div>
-								</div>
-							</div>
+			<van-popup z-index="200" :show="isShowGoodsDetail" closeable position="bottom" custom-style="height:1000rpx" @close="onCloseGoodsDetail">
+				<div v-if="loadingDetail" style="text-align: center;">加载中...</div>
+				<div v-if="!loadingDetail">
+					<!-- 第一行，图片、价格、编号 -->
+					<div class="popup-image-div">
+						<!-- 图片 -->
+						<div style="float: left;margin-top: 15px;margin-left: 15px;">
+							<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFill" :src="selected.imageList[0]" />
 						</div>
-					</scroll-view>
-				</view>
-				<!-- 第三行，按钮确定 -->
-				<div class="popup-button-div">
-					<div style="margin-left: 15px;margin-right: 15px;height: 60px;margin-top: 15px;">
-						<van-button custom-class="popup-button" size="large" color="#706000">确定</van-button>
+						<div style="float: left;margin-left: 20px;margin-top: 15px;">
+							<!-- 价格 -->
+							<p style="font-size: 18px;color:#303133">￥{{goods.price}}</p>
+							<!-- <p style="font-size: 14px;color: #909399;">颜色：香槟 尺码：XXL</p> -->
+							<p style="font-size: 24rpx;color: #909399;">
+								<span v-if="selected.colorId != ''">颜色：{{selected.colorName}}</span>
+								<span v-if="selected.colorId == ''">请选择颜色</span>
+							</p>
+							<p style="font-size: 24rpx;color: #909399;">
+								<span v-if="selected.sizeId != ''">尺码：{{selected.sizeName}}</span>
+								<span v-if="selected.sizeId == ''">请选择尺码</span>
+							</p>
+						</div>
 					</div>
-					<!-- <button class="popup-button">确定</button> -->
+					<!-- 第二行，颜色、尺码 -->
+					<view>
+						<scroll-view :scroll-y="true" style="height: 700rpx;">
+							<div style="margin-bottom: 90px;margin-top: 10px;padding-left: 15px;">
+								<div>
+									<p style="color: #909399;font-size: 26rpx;">颜色</p>
+									<div style="display: flex;font-size: 24rpx;color: #606266;">
+										<div @click="selectColor(color)" v-for="color in goods.colorList" :key="color.id" style="width: 152rpx;text-align: center;padding: 14rpx">
+											<div :style="{ 'background-color': selected.colorId == color.id ? '#706000':'#F2F6FC',
+										'color':selected.colorId == color.id ? '#FFFFFF':'#303133'}"
+											 style="padding: 20rpx;">{{color.name}}</div>
+										</div>
+									</div>
+								</div>
+								<div style="margin-top: 20rpx;">
+									<p style="color: #909399;font-size: 26rpx;">尺码</p>
+									<div style="display: flex;flex-wrap:wrap;font-size: 24rpx;color: #606266;">
+										<div @click="selectSize(size)" v-for="size in goods.sizeList" :key="size.id" style="width: 152rpx;text-align: center;padding: 14rpx">
+											<div :style="{ 'background-color': selected.sizeId == size.id ? '#706000':'#F2F6FC',
+										'color':selected.sizeId == size.id ? '#FFFFFF':'#303133'}"
+											 style="padding: 20rpx;">{{size.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</scroll-view>
+					</view>
+					<!-- 第三行，按钮确定 -->
+					<div class="popup-button-div">
+						<div style="margin-left: 15px;margin-right: 15px;height: 60px;margin-top: 15px;">
+							<van-button @click="onOkGoodsDetail" custom-class="popup-button" size="large" color="#706000">确定</van-button>
+						</div>
+					</div>
 				</div>
 			</van-popup>
 		</view>
 		<tabbar :active="2" />
+		<loginCom />
 	</view>
 </template>
 
 <script>
-	import tabbar from '@/pages/shop/components/tabbar'
+	import tabbar from '@/pages/shop/components/index'
 	import Dialog from 'wxcomponents/vant/dialog/dialog'
-
+	import loginCom from '@/pages/shop/components/login'
 	export default {
 		components: {
-			tabbar
+			tabbar,loginCom
 		},
 		data() {
 			return {
+				loadingDetail: false,
 				loading: false,
-				list: [1, 2, 3, 4, 5, 6, 7],
-				checkedAll: false,
-				isShowGoodsDetail: false
+				cartList: [],
+				isShowGoodsDetail: false,
+				selected: {},
+				goods: {}
 			}
 		},
-		onLoad(query) {},
+		computed: {
+			totalAmount() {
+				return this.cartList.filter(e => e.checked).reduce((t, a) => t + (a.quantity * a.price), 0)
+			},
+			checkedAll() {
+				return this.cartList.every(c => c.checked)
+			}
+		},
+		onLoad(query) {
+			
+		},
+		onShow(){
+			if (wx.getStorageSync('cartList') instanceof Array) {
+				this.cartList = wx.getStorageSync('cartList')
+			}
+		},
 		methods: {
+			//选择尺码
+			selectSize(size) {
+				this.selected.sizeId = size.id
+				this.selected.sizeName = size.name
+			},
+			//选择颜色
+			selectColor(color) {
+				this.selected.colorId = color.id
+				this.selected.colorName = color.name
+			},
+			//跳转到商品明细
+			goToGoodsDetail(e) {
+				uni.navigateTo({
+					url: '/pages/shop/goods/goods_detail?code=' + e.goodsCode
+				})
+			},
+			//跳转到商品列表
+			goToGoodsList() {
+				uni.navigateTo({
+					url: '/pages/shop/goods/goods_list'
+				})
+			},
+			//选中，或者取消
+			onChangeCheck(e, d) {
+				d.checked = e.detail
+				wx.setStorageSync('cartList', this.cartList)
+			},
+			//修改数量
+			onChangeStepper(e, d, index) {
+				d.quantity = e.detail
+				d.checked = true
+				wx.setStorageSync('cartList', this.cartList)
+			},
+			//全选
 			onChangeCheckAll(e) {
-				this.checkedAll = e.detail
+				if (this.checkedAll) {
+					this.cartList.forEach(c => c.checked = false)
+				} else {
+					this.cartList.forEach(c => c.checked = true)
+				}
 			},
-			showGoodsDetail() {
+			//加载弹出窗明细
+			showGoodsDetail(e) {
+				this.selected = e
 				this.isShowGoodsDetail = true
+				//加载数据
+				this.loadingDetail = true
+				this.$uniRequest.get('/api/small/shop/goods/info', {
+					data: {
+						code: e.goodsCode
+					}
+				}).then(res => {
+					this.goods = res.data
+				}).finally(() => this.loadingDetail = false)
 			},
-			onCloseGoodsDetail() {
+			//确定弹出页面
+			onOkGoodsDetail() {
+				this.selected.checked = true
+				wx.setStorageSync('cartList', this.cartList)
 				this.isShowGoodsDetail = false
 			},
-			deleteEle(ele) {
+			//关闭弹出页面
+			onCloseGoodsDetail() {
+				this.cartList = wx.getStorageSync('cartList')
+				this.isShowGoodsDetail = false
+			},
+			deleteEle(ele, index) {
 				Dialog.confirm({
 					title: '提示',
 					message: '确定要删除该商品吗？'
-				}).then(() => {}).catch(() => {})
+				}).then(() => {
+					this.cartList.splice(index, 1)
+					wx.setStorageSync('cartList', this.cartList)
+				}).catch(() => {})
 			}
 		}
 	}
@@ -192,7 +288,7 @@
 		color: #909399;
 		width: 400rpx;
 		border: 1px solid #DCDFE6;
-		font-size: 26rpx;
+		font-size: 22rpx;
 	}
 
 	.goods_list {
@@ -240,7 +336,7 @@
 
 	.popup-button-div {
 		background-color: #FFFFFF;
-		z-index: 100;
+		z-index: 200;
 		text-align: center;
 		position: fixed;
 		height: 80px;

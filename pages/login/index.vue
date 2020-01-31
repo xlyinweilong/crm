@@ -7,28 +7,6 @@
 	import '@/static/css/style.css'
 	import Toast from '@/wxcomponents/vant/toast/toast'
 
-	function compareVersion(v1, v2) {
-		v1 = v1.split('.')
-		v2 = v2.split('.')
-		const len = Math.max(v1.length, v2.length)
-		while (v1.length < len) {
-			v1.push('0')
-		}
-		while (v2.length < len) {
-			v2.push('0')
-		}
-		for (let i = 0; i < len; i++) {
-			const num1 = parseInt(v1[i])
-			const num2 = parseInt(v2[i])
-			if (num1 > num2) {
-				return 1
-			} else if (num1 < num2) {
-				return -1
-			}
-		}
-		return 0
-	}
-
 	export default {
 		components: {
 
@@ -39,21 +17,9 @@
 			}
 		},
 		onLoad(query) {
-			const version = wx.getSystemInfoSync().SDKVersion
 			let _this = this
-			if (compareVersion(version, '2.4.0') < 0) {
-				wx.showModal({
-					title: '提示',
-					content: '当前微信版本过低，无法使用某些功能，请升级到最新微信版本后重试。',
-					success(res) {
-						_this.onload(query)
-						_this.loadConfig()
-					}
-				})
-			} else {
-				this.onload(query)
-				this.loadConfig()
-			}
+			this.onload(query)
+			this.loadConfig()
 		},
 		methods: {
 			//加载系统配置
@@ -227,7 +193,6 @@
 									})
 									return
 								} else if (this.scene != null && this.scene.startsWith('share,info_index,')) {}
-
 								uni.reLaunch({
 									url: '/pages/info/index'
 								})
