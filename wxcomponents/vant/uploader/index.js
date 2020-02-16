@@ -1,15 +1,14 @@
 import { VantComponent } from '../common/component';
-import { isImageFile } from './utils';
-import { addUnit } from '../common/utils';
+import { isImageFile, isVideo } from './utils';
 VantComponent({
     props: {
         disabled: Boolean,
         multiple: Boolean,
         uploadText: String,
+        useBeforeRead: Boolean,
         previewSize: {
             type: null,
-            value: 90,
-            observer: 'setComputedPreviewSize'
+            value: 90
         },
         name: {
             type: [Number, String],
@@ -18,6 +17,14 @@ VantComponent({
         accept: {
             type: String,
             value: 'image'
+        },
+        sizeType: {
+            type: Array,
+            value: ['original', 'compressed']
+        },
+        capture: {
+            type: Array,
+            value: ['album', 'camera']
         },
         fileList: {
             type: Array,
@@ -32,6 +39,10 @@ VantComponent({
             type: Number,
             value: 100
         },
+        deletable: {
+            type: Boolean,
+            value: true
+        },
         previewImage: {
             type: Boolean,
             value: true
@@ -44,8 +55,18 @@ VantComponent({
             type: String,
             value: 'scaleToFill'
         },
-        useSlot: Boolean,
-        useBeforeRead: Boolean
+        camera: {
+            type: String,
+            value: 'back'
+        },
+        compressed: {
+            type: Boolean,
+            value: true
+        },
+        maxDuration: {
+            type: Number,
+            value: 60
+        }
     },
     data: {
         lists: [],
@@ -55,20 +76,13 @@ VantComponent({
     methods: {
         formatFileList() {
             const { fileList = [], maxCount } = this.data;
-            const lists = fileList.map(item => (Object.assign(Object.assign({}, item), { isImage: typeof item.isImage === 'undefined'
-                    ? isImageFile(item)
-                    : item.isImage })));
+            const lists = fileList.map(item => (Object.assign(Object.assign({}, item), { isImage: typeof item.isImage === 'undefined' ? isImageFile(item) : item.isImage })));
             this.setData({ lists, isInCount: lists.length < maxCount });
-        },
-        setComputedPreviewSize(val) {
-            this.setData({
-                computedPreviewSize: addUnit(val)
-            });
         },
         startUpload() {
             if (this.data.disabled)
                 return;
-            const { name = '', capture = ['album', 'camera'], maxCount = 100, multiple = false, maxSize, accept, lists, useBeforeRead = false // 是否定义了 beforeRead
+            const { name = '', capture, maxCount, multiple, maxSize, accept, sizeType, lists, camera, compressed, maxDuration, useBeforeRead = false // 是否定义了 beforeRead
              } = this.data;
             let chooseFile = null;
             const newMaxCount = maxCount - lists.length;
@@ -78,6 +92,19 @@ VantComponent({
                     wx.chooseImage({
                         count: multiple ? (newMaxCount > 9 ? 9 : newMaxCount) : 1,
                         sourceType: capture,
+                        sizeType,
+                        success: resolve,
+                        fail: reject
+                    });
+                });
+            }
+            else if (accept === 'video') {
+                chooseFile = new Promise((resolve, reject) => {
+                    wx.chooseVideo({
+                        sourceType: capture,
+                        compressed,
+                        maxDuration,
+                        camera,
                         success: resolve,
                         fail: reject
                     });
@@ -93,8 +120,15 @@ VantComponent({
                     });
                 });
             }
-            chooseFile.then((res) => {
-                const file = multiple ? res.tempFiles : res.tempFiles[0];
+            chooseFile
+                .then((res) => {
+                let file = null;
+                if (isVideo(res, accept)) {
+                    file = Object.assign({ path: res.tempFilePath }, res);
+                }
+                else {
+                    file = multiple ? res.tempFiles : res.tempFiles[0];
+                }
                 // 检查文件大小
                 if (file instanceof Array) {
                     const sizeEnable = file.every(item => item.size <= maxSize);
@@ -123,6 +157,9 @@ VantComponent({
                 else {
                     this.$emit('after-read', { file, name });
                 }
+            })
+                .catch(error => {
+                this.$emit('error', error);
             });
         },
         deleteItem(event) {

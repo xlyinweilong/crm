@@ -1,10 +1,16 @@
 import { VantComponent } from '../common/component';
-import { addUnit } from '../common/utils';
 VantComponent({
     field: true,
     classes: ['icon-class'],
     props: {
-        value: Number,
+        value: {
+            type: Number,
+            observer(value) {
+                if (value !== this.data.innerValue) {
+                    this.setData({ innerValue: value });
+                }
+            }
+        },
         readonly: Boolean,
         disabled: Boolean,
         allowHalf: Boolean,
@@ -33,32 +39,16 @@ VantComponent({
             type: Number,
             value: 5
         },
-        gutter: {
-            type: null,
-            observer: 'setGutterWithUnit'
-        },
+        gutter: null,
         touchable: {
             type: Boolean,
             value: true
         }
     },
     data: {
-        innerValue: 0,
-        gutterWithUnit: undefined
-    },
-    watch: {
-        value(value) {
-            if (value !== this.data.innerValue) {
-                this.setData({ innerValue: value });
-            }
-        }
+        innerValue: 0
     },
     methods: {
-        setGutterWithUnit(val) {
-            this.setData({
-                gutterWithUnit: addUnit(val)
-            });
-        },
         onSelect(event) {
             const { data } = this;
             const { score } = event.currentTarget.dataset;

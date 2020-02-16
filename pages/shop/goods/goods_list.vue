@@ -28,7 +28,8 @@
 					<div v-for="g in goodsList" :key="g.id" class="item" @click="goToDetail(g)">
 						<!-- 图片区域 -->
 						<div>
-							<image class="goods_image" mode="scaleToFill" :src="g.imageUrl1" />
+							<div class="sell-out" v-if="g.stockCount <= 0"><div style="margin-top: 170rpx;opacity:1">售罄</div></div>
+							<image class="goods_image" mode="aspectFit" :src="g.imageUrl1" />
 						</div>
 						<!-- 价格 -->
 						<div class="price">
@@ -38,6 +39,8 @@
 						</div>
 						<!-- 名称 -->
 						<div class="name">{{g.displayName}}</div>
+						<!-- 限购 -->
+						<div class="limitBuyCount" v-if="g.limitBuyCount != null && g.limitBuyCount > 0">限购{{g.limitBuyCount}}</div>
 					</div>
 				</div>
 				<uni-load-more :status="status"></uni-load-more>
@@ -59,7 +62,7 @@
 					</div>
 				</view>
 				<view class="drawer-item" v-if="goodsBrandList.length > 0">
-					<view class="drawer-title">
+					<view class="drawer-title" @click="goodsBrandAll = !goodsBrandAll">
 						品牌
 						<div style="float: right;color: #909399;font-size: 24rpx;padding-top: 8rpx;">
 							可多选
@@ -68,8 +71,8 @@
 						</div>
 					</view>
 					<div class="drawer-content">
-						<div v-for="e in showGoodsBrandList" :key="e.id" style="padding-left: 10rpx;padding-right: 10rpx;">
-							<div class="drawer-selected">
+						<div v-for="e in showGoodsBrandList" @click="selectGoodsAttr(e,goodsBrandList,'brand')" :key="e.id" style="padding-left: 10rpx;padding-right: 10rpx;">
+							<div class="drawer-selected" :class="e.selected ? 'drawer-active':''">
 								{{e.name}}
 							</div>
 						</div>
@@ -123,13 +126,13 @@
 			</view>
 		</uni-drawer>
 		<van-toast id="van-toast" />
-		<loginCom />
+		<!-- <loginCom /> -->
 	</view>
 </template>
 
 <script>
 	import Toast from '@/wxcomponents/vant/toast/toast'
-	import loginCom from '@/pages/shop/components/login'
+	// import loginCom from '@/pages/shop/components/login'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
 	import uniDrawer from '@/components/uni-drawer/uni-drawer.vue'
@@ -138,7 +141,7 @@
 			uniSwiperDot,
 			uniLoadMore,
 			uniDrawer,
-			loginCom
+			// loginCom
 		},
 		data() {
 			return {
@@ -174,6 +177,12 @@
 			}
 			if (query.c2) {
 				this.listQuery.goodsCategory2Ids = query.c2
+			}
+			if (query.b) {
+				this.listQuery.goodsBrandIds = query.b
+			}
+			if (query.sk) {
+				this.listQuery.searchKey = query.sk
 			}
 			this.loadGoodsAttr()
 		},
@@ -229,17 +238,17 @@
 			},
 			setDrawer() {
 				this.clearFilter()
-				this.goodsBrandList.filter(g => this.listQuery.goodsBrandIds.indexOf(g.erpId) > -1).forEach(g => {
+				this.goodsBrandList.filter(g => this.listQuery.goodsBrandIds.split(',').indexOf(g.erpId) > -1).forEach(g => {
 					g.selected = true
 					g.type = 'brand'
 					this.selectGoodsAttrList.push(g)
 				})
-				this.goodsCategoryList.filter(g => this.listQuery.goodsCategoryIds.indexOf(g.erpId) > -1).forEach(g => {
+				this.goodsCategoryList.filter(g => this.listQuery.goodsCategoryIds.split(',').indexOf(g.erpId) > -1).forEach(g => {
 					g.selected = true
 					g.type = 'category'
 					this.selectGoodsAttrList.push(g)
 				})
-				this.goodsCategory2List.filter(g => this.listQuery.goodsCategory2Ids.indexOf(g.erpId) > -1).forEach(g => {
+				this.goodsCategory2List.filter(g => this.listQuery.goodsCategory2Ids.split(',').indexOf(g.erpId) > -1).forEach(g => {
 					g.selected = true
 					g.type = 'category2'
 					this.selectGoodsAttrList.push(g)
@@ -256,7 +265,7 @@
 			},
 			goToDetail(goods) {
 				uni.navigateTo({
-					url: '/pages/shop/goods/goods_detail?code=' + goods.code
+					url: '/pages/shop/goods/goods_detail?g=' + goods.code
 				})
 			},
 			getList() {
@@ -307,11 +316,25 @@
 </style>
 
 <style scoped>
+	
+	.sell-out{
+		color: #ffffff;
+		font-size: 40rpx;
+		text-align: center;
+		margin: auto;
+		width: 360rpx;
+		height: 360rpx;
+		position:absolute;
+		z-index: 18;
+		background-color: #000000;
+		opacity:0.4;
+	}
+	
 	.goods_image {
 		background-color: #eeeeee;
 		margin: auto;
 		width: 360rpx;
-		height: 400rpx;
+		height: 360rpx;
 	}
 
 	.row {
@@ -348,7 +371,20 @@
 	.row .name {
 		margin-left: 20rpx;
 		margin-right: 20rpx;
-		font-size: 30rpx;
+		font-size: 26rpx;
+		color: #606266;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		word-break: break-all;
+	}
+	
+	.limitBuyCount{
+		margin-left: 20rpx;
+		margin-right: 20rpx;
+		font-size: 24rpx;
 		color: #606266;
 		text-overflow: ellipsis;
 		overflow: hidden;
@@ -361,7 +397,7 @@
 	.row .item {
 		margin-left: 8rpx;
 		margin-top: 10rpx;
-		height: 560rpx;
+		height: 540rpx;
 		width: 360rpx;
 		background-color: #ffffff;
 		border: 1px solid #E4E7ED;

@@ -9,8 +9,11 @@
 		</div>
 		<div v-if="loading" style="text-align: center;font-size: 32rpx;color: #606266;">加载中。。。</div>
 		<div v-if="!loading && list.length > 0">
-			<div v-for="e in list" style="background-color: #ffffff;margin-bottom: 10rpx;">
-				<div style="border-bottom: 1px solid #DCDFE6;font-size: 30rpx;color: #303133;">
+			<div v-if="type == 'settle'" style="color: #ffffff;font-size: 11px;background-color: #706000;text-align: center;padding-top: 8px;padding-bottom: 8px;">
+				点击选择地址
+			</div>
+			<div v-for="e in list" :key="e.id" style="background-color: #ffffff;margin-bottom: 10rpx;">
+				<div @click="chooseLocation(e)" style="border-bottom: 1px solid #DCDFE6;font-size: 30rpx;color: #303133;">
 					<div style="padding-top: 30rpx;margin-left: 28rpx;">{{e.name}}</div>
 					<div style="margin-top: 30rpx;margin-left: 28rpx;">
 						<span>{{e.receiver}}</span>
@@ -41,7 +44,7 @@
 		</div>
 		<loginCom />
 		<van-toast id="van-toast" />
-		<van-dialog id="van-dialog" confirm-button-color="#706000"/>
+		<van-dialog id="van-dialog" confirm-button-color="#706000" />
 	</view>
 </template>
 
@@ -58,11 +61,13 @@
 			return {
 				marginTop: 0,
 				loading: false,
-				list: []
+				list: [],
+				type: ''
 			}
 		},
 		computed: {},
 		onLoad(query) {
+			this.type = query.type
 			let systemInfo = wx.getSystemInfoSync()
 			this.marginTop = systemInfo.windowHeight / 2 - 120
 		},
@@ -70,6 +75,13 @@
 			this.loadLocation()
 		},
 		methods: {
+			chooseLocation(e){
+				if(this.type == 'settle'){
+					uni.redirectTo({
+						url: '/pages/shop/settle/index?locationId=' + e.id
+					})
+				}
+			},
 			goPage(page) {
 				uni.navigateTo({
 					url: '/pages/' + page
@@ -106,7 +118,7 @@
 					}).finally(() => Toast.clear())
 				}).catch(() => {})
 			},
-			edit(location){
+			edit(location) {
 				uni.navigateTo({
 					url: '/pages/shop/my/location/add?id=' + location.id
 				})

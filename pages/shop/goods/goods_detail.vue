@@ -8,13 +8,13 @@
 						<swiper class="swiper-box" @change="changeImage">
 							<swiper-item v-for="(item ,index) in goods.imageList" :key="index">
 								<view class="swiper-item" @click="previewImage(item)">
-									<image class="dot-image" mode="scaleToFill" :src="item"></image>
+									<image class="dot-image" mode="aspectFit" :src="item"></image>
 								</view>
 							</swiper-item>
 						</swiper>
 					</uni-swiper-dot>
 				</div>
-				<div style="margin-top: 10px;">{{goods.displayName}}{{goods.code}}</div>
+				<div style="margin-top: 10px;">{{goods.displayName}}</div>
 				<div style="margin-top: 10px;font-size: 34rpx;">￥{{goods.price}}
 					<span class="delete_price">￥{{goods.tagPrice}}</span>
 					<span class="discount">￥{{discount(goods)}}折</span>
@@ -39,7 +39,7 @@
 					</button>
 				</div>
 				<div style="width: 250rpx;">
-					<button class="text-button" open-type="share" hover-class="hover-button">
+					<button class="text-button" @click="createNewImg" hover-class="hover-button">
 						<span class="iconfont icon-icon_share" style="font-size: 32rpx;"></span>分享
 					</button>
 				</div>
@@ -47,17 +47,17 @@
 			<!-- 品牌 -->
 			<div class="card" style="display: flex;">
 				<div style="width: 200rpx;">
-					<image style="width: 200rpx;height: 150rpx;" />
+					<image style="width: 200rpx;height: 150rpx;" :src="goods.brand.logoUrl" />
 				</div>
 				<div style="width: 350rpx;">
 					<div style="padding-left: 10rpx;margin-top: 30rpx;overflow: hidden;
-							text-overflow: ellipsis;white-space: nowrap;">爱慕</div>
+							text-overflow: ellipsis;white-space: nowrap;">{{goods.brand.name}}</div>
 					<div style="padding-left: 10rpx;margin-top: 10rpx;font-size: 20rpx;color: #909399;overflow: hidden;
 							text-overflow: ellipsis;white-space: nowrap;">
-						你对自己的爱，是我给你的爱慕
+						{{goods.brand.slogan}}
 					</div>
 				</div>
-				<div style="padding-top: 60rpx;width: 200rpx;text-align: right;">
+				<div @click="goToBrandList" style="padding-top: 60rpx;width: 200rpx;text-align: right;">
 					进入品牌馆<span class="iconfont icon-arrow-right"></span>
 				</div>
 			</div>
@@ -89,8 +89,8 @@
 					</div>
 				</div>
 				<!-- 加入购物车 -->
-				<div style="width: 490rpx;">
-					<van-button @click="addToCart" custom-class="popup-button" size="large" color="#706000">加入购物车</van-button>
+				<div style="width: 490rpx;" @click="addToCart">
+					<van-button custom-class="popup-button" size="large" color="#706000">加入购物车</van-button>
 				</div>
 			</div>
 		</view>
@@ -100,7 +100,7 @@
 			<div class="popup-image-div">
 				<!-- 图片 -->
 				<div style="float: left;margin-top: 15px;margin-left: 15px;">
-					<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFill" :src="goods.imageList[0]" />
+					<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFit" :src="goods.imageList[0]" />
 				</div>
 				<div style="float: left;margin-left: 20px;margin-top: 15px;">
 					<!-- 价格 -->
@@ -123,9 +123,10 @@
 							<p style="color: #909399;font-size: 26rpx;">颜色</p>
 							<div style="display: flex;font-size: 24rpx;color: #606266;">
 								<div @click="selectColor(color)" v-for="color in goods.colorList" :key="color.id" style="width: 152rpx;text-align: center;padding: 14rpx">
-									<div :style="{ 'background-color': selected.colorId == color.id ? '#706000':'#F2F6FC',
-									'color':selected.colorId == color.id ? '#FFFFFF':'#303133'}"
-									 style="padding: 20rpx;">{{color.name}}</div>
+									<div :style="{ 'background-color': selected.colorId == color.id ? '#706000':(color.stockCount == 0 ? '#F2F6FC':'#ffffff'),
+									'border-color':selected.colorId == color.id ? '#706000':'#606266',
+									'color':selected.colorId == color.id ? '#ffffff':'#606266'}"
+									 style="padding: 20rpx;border:1px solid">{{color.name}}</div>
 								</div>
 							</div>
 						</div>
@@ -133,9 +134,10 @@
 							<p style="color: #909399;font-size: 26rpx;">尺码</p>
 							<div style="display: flex;flex-wrap:wrap;font-size: 24rpx;color: #606266;">
 								<div @click="selectSize(size)" v-for="size in goods.sizeList" :key="size.id" style="width: 152rpx;text-align: center;padding: 14rpx">
-									<div :style="{ 'background-color': selected.sizeId == size.id ? '#706000':'#F2F6FC',
-									'color':selected.sizeId == size.id ? '#FFFFFF':'#303133'}"
-									 style="padding: 20rpx;">{{size.name}}</div>
+									<div :style="{ 'background-color': selected.sizeId == size.id ? '#706000':(size.stockCount == 0 ? '#F2F6FC':'#ffffff'),
+									'border-color':selected.sizeId == size.id ? '#706000':'#606266',
+									'color':selected.sizeId == size.id ? '#ffffff':'#606266'}"
+									 style="padding: 20rpx;border:1px solid">{{size.name}}</div>
 								</div>
 							</div>
 						</div>
@@ -144,29 +146,41 @@
 			</view>
 			<!-- 第三行，按钮确定 -->
 			<div class="popup-button-div">
-				<div style="margin-left: 15px;margin-right: 15px;height: 60px;margin-top: 15px;">
-					<van-button @click="chooseIntoCart" custom-class="popup-button" size="large" color="#706000">确定</van-button>
+				<div @click="chooseIntoCart" style="margin-left: 15px;margin-right: 15px;height: 60px;margin-top: 15px;">
+					<van-button custom-class="popup-button" size="large" color="#706000">加入购物车</van-button>
 				</div>
 				<!-- <button class="popup-button">确定</button> -->
 			</div>
 		</van-popup>
-		<loginCom />
+		<van-popup :show="showPopup" @close="onClosePopup" position="bottom" custom-style="height: 910rpx">
+			<div style="text-align: center;" v-if="loadingImage">加载中...</div>
+			<div style="text-align: center;" v-show="!loadingImage">
+				<canvas class="canvas" canvas-id="mycanvas" />
+				<div style="position: absolute;bottom: 0;width: 100%;">
+				<van-button custom-class="popup-button" @click="saveImage" size="large" color="#706000">保存到相册</van-button>
+				</div>
+			</div>
+		</van-popup>
+		<van-dialog id="van-dialog" confirm-button-color="#706000" />
 	</view>
 </template>
 
 <script>
 	import Toast from '@/wxcomponents/vant/toast/toast'
-	import loginCom from '@/pages/shop/components/login'
+	import Dialog from 'wxcomponents/vant/dialog/dialog'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
 	export default {
 		components: {
-			uniSwiperDot,loginCom
+			uniSwiperDot
 		},
 		data() {
 			return {
 				goods: {
 					id: '',
 					code: '',
+					displayName:'',
+					price:'',
+					tagPrice:'',
 					imageList: [],
 					like: false,
 					imageDetailList: [],
@@ -187,27 +201,121 @@
 					color: "#eeeeee"
 				},
 				isShowGoodsDetail: false,
-				cartList: []
+				cartList: [],
+				showPopup: false,
+				shareImagePath: '',
+				windowWidth: 0,
+				user: {},
+				loadingImage:false,
+				cardList:[],
+				scene:''
 			}
 		},
 		onLoad(query) {
-			if (query.code) {
-				this.goods.code = query.code
-				this.getInfo()
+			if (query.scene) {
+				this.scene = decodeURIComponent(query.scene)
 			}
-			//加载购物车数量
-			if (wx.getStorageSync('cartList') instanceof Array) {
-				this.cartList = wx.getStorageSync('cartList')
-			}
+			//登录
+			let that = this
+			Toast.loading({
+				duration: 0,
+				mask: true,
+				message: '加载中...'
+			})
+			wx.checkSession({
+				success() {
+					uni.request({
+						url: that.$baseURL + '/api/small_procedures/login/is_login',
+						method: 'GET',
+						header: {
+							'content-type': 'application/json',
+							'X-Token': that.$uniRequest.defaults.headers.common['X-Token'],
+							'tn_id': that.$tnId
+						},
+						success: (res) => {
+							res = res.data
+							if(res.code == 0){
+								that.init(query)
+							}else{
+								that.login(query)
+							}
+						}
+					})
+				},
+				fail() {
+					that.login(query)
+				}
+			})
+			
 		},
 		methods: {
+			login(query){
+				let that = this
+				wx.login({
+					success(res) {
+						if (res.code) {
+							that.$uniRequest.get('/api/small_procedures/login/login', {
+								data: {
+									code: res.code
+								}
+							}).then(res => {
+								wx.setStorage({
+									key: 'token',
+									data: res.data
+								})
+								that.$uniRequest.defaults.headers.common['X-Token'] = res.data.token
+								that.init(query)
+							}).catch(error => {
+								console.log(error)
+							})
+						}
+					}
+				})
+			},
+			init(query){
+				var systemInfo = wx.getSystemInfoSync()
+				this.windowWidth = systemInfo.windowWidth
+				if(this.scene != ''){
+					this.$recommender.uid = this.scene.split(",")[0]
+					wx.setStorageSync('recommend',query.u)
+					this.goods.code = this.scene.split(",")[1]
+					this.getInfo()
+				}else if (query.g) {
+					this.goods.code = query.g
+					this.getInfo()
+				}
+				//加载购物车数量
+				if (wx.getStorageSync('cartList') instanceof Array) {
+					this.cartList = wx.getStorageSync('cartList')
+				}
+			},
+			onClosePopup() {
+				this.showPopup = false
+			},
 			selectSize(size) {
+				if (this.selected.colorId == '') {
+					Toast("请先选择颜色")
+					return
+				}
+				if (size.stockCount <= 0) {
+					Toast("该尺码已经售罄")
+					return
+				}
 				this.selected.sizeId = size.id
 				this.selected.sizeName = size.name
 			},
 			selectColor(color) {
+				if (color.stockCount <= 0) {
+					Toast("该颜色已经售罄")
+					return
+				}
 				this.selected.colorId = color.id
 				this.selected.colorName = color.name
+				//加载尺码的库存
+				this.goods.sizeList.forEach(si => {
+					si.stockCount = this.goods.stockList.filter(s => s.colorId === this.selected.colorId && si.id === s.sizeId).reduce(
+						(t, a) => t + a.stockCount, 0)
+				})
 			},
 			discount(goods) {
 				if (goods.price == null || goods.tagPrice == null) {
@@ -229,43 +337,71 @@
 				})
 			},
 			getInfo() {
-				Toast.loading('加载中...')
+				Toast.clear()
+				let user = wx.getStorageSync('token')
+				if (user != '' && user != null) {
+					this.cardList = user.cardList
+				}
+				Toast.loading({
+					duration: 0,
+					mask: true,
+					message: '加载中...'
+				})
 				this.$uniRequest.get('/api/small/shop/goods/info', {
 					data: {
 						code: this.goods.code
 					}
 				}).then(res => {
 					this.goods = res.data
-					if(this.goods.colorList.length == 1){
-						this.selectColor(this.goods.colorList[0])
-					}
-					if(this.goods.sizeList.length == 1){
-						this.selectSize(this.goods.sizeList[0])
-					}
+					//设置颜色的库存
+					this.goods.colorList.forEach(c => {
+						c.stockCount = this.goods.stockList.filter(s => s.colorId === c.id).reduce((t, a) => t + a.stockCount, 0)
+						if (c.stockCount > 0 && this.goods.colorList.length == 1) {
+							this.selectColor(c)
+							//设置尺码
+							if (this.goods.colorList.sizeList == 1 && this.goods.sizeList[0].stockCount > 0) {
+								this.selectSize(this.goods.sizeList[0])
+							}
+						}
+					})
+					Toast.clear()
 				}).finally(() => Toast.clear())
 			},
 			//收藏
 			doLike() {
+				if(!this.hasVipCard()){
+					return
+				}
+				Toast.loading({
+					duration: 0,
+					mask: true,
+					message: '加载中...'
+				})
 				this.$uniRequest.post('/api/small/shop/user_collect/collect', {
 					id: this.goods.id
 				}).then(res => {
+					Toast.clear()
 					this.goods.like = !this.goods.like
 					Toast(res.message)
 				}).catch(e => Toast.clear())
 			},
+			//添加购物车
 			addToCart() {
 				if (this.selected.sizeId != '' && this.selected.colorId != '') {
-
+					this.chooseIntoCart()
 				} else {
 					this.showGoodsDetail()
 				}
 			},
+			//显示明细
 			showGoodsDetail() {
 				this.isShowGoodsDetail = true
 			},
+			//关闭明细
 			onCloseGoodsDetail() {
 				this.isShowGoodsDetail = false
 			},
+			//选择加入到购物车
 			chooseIntoCart() {
 				if (this.selected.colorId == '') {
 					Toast('请选择颜色')
@@ -275,12 +411,14 @@
 					Toast('请选择尺码')
 					return
 				}
-				this.onCloseGoodsDetail()
 				let cart = this.cartList.find(c => c.goodsId === this.goods.id && c.colorId === this.selected.colorId && c.sizeId ===
 					this.selected.sizeId)
 				if (cart != null) {
 					cart.quantity += 1
 				} else {
+					let stockCount = this.goods.stockList.filter(s => s.colorId === this.selected.colorId && this.selected.sizeId ===
+						s.sizeId).reduce(
+						(t, a) => t + a.stockCount, 0)
 					this.cartList.push({
 						goodsId: this.goods.id,
 						goodsCode: this.goods.code,
@@ -293,11 +431,14 @@
 						sizeName: this.selected.sizeName,
 						quantity: 1,
 						checked: true,
-						imageList: this.goods.imageList
+						imageList: this.goods.imageList,
+						stockCount: stockCount,
+						limitBuyCount: this.goods.limitBuyCount
 					})
 				}
 				wx.setStorageSync('cartList', this.cartList)
 				Toast('成功加入购物车')
+				this.onCloseGoodsDetail()
 			},
 			goToCart() {
 				uni.switchTab({
@@ -308,6 +449,170 @@
 				uni.switchTab({
 					url: '/pages/shop/index/index'
 				})
+			},
+			goToBrandList() {
+				uni.redirectTo({
+					url: '/pages/shop/goods/goods_list?b=' + this.goods.brandId
+				})
+			},
+			setUserName(ctx) {
+				// this.user.nickName = '嘻嘻嘻啊哈哈哈哈哈哈哈'
+				// this.goods.displayName = '嘻嘻嘻啊哈哈哈哈哈哈哈嘻嘻嘻啊哈哈哈哈哈哈哈displayName'
+				// this.goods.price = 10
+				// this.goods.tagPrice = 10
+				let displayName = this.goods.displayName.length > 12 ? (this.goods.displayName.substring(0, 11) + '...') : this.goods
+					.displayName
+				//写入来自谁的分享
+				ctx.setFillStyle("#909399")
+				ctx.setFontSize(this.rpxToPx(24))
+				ctx.fillText('来自' + this.user.nickName + '的分享', this.rpxToPx(100), this.rpxToPx(720))
+				//写入商品名称
+				ctx.setFillStyle("#606266")
+				ctx.setFontSize(this.rpxToPx(32))
+				ctx.fillText(displayName, this.rpxToPx(34), this.rpxToPx(580), this.rpxToPx(380))
+				//写入吊牌
+				let priceLength = (this.goods.price + '').length
+				let tagPriceLength = (this.goods.tagPrice + '').length
+				let left = 80 + ((priceLength) * 19)
+				let lengthLeft = (tagPriceLength) * 19
+				ctx.setFillStyle("#909399")
+				ctx.setFontSize(this.rpxToPx(20))
+				ctx.fillText('￥' + this.goods.tagPrice, this.rpxToPx(left), this.rpxToPx(640))
+				//长按二维码购买
+				ctx.setFillStyle("#606266")
+				ctx.setFontSize(this.rpxToPx(24))
+				ctx.fillText('长按二维码购买', this.rpxToPx(420), this.rpxToPx(700))
+				//删除线
+				ctx.setFillStyle("#909399")
+				ctx.beginPath()
+				ctx.setLineWidth(1)
+				ctx.moveTo(this.rpxToPx(left), this.rpxToPx(630))
+				ctx.lineTo(this.rpxToPx(left + lengthLeft), this.rpxToPx(630))
+				ctx.stroke()
+				//写入价钱
+				ctx.setFillStyle("#F56C6C")
+				ctx.setFontSize(this.rpxToPx(38))
+				ctx.fillText('￥' + this.goods.price, this.rpxToPx(30), this.rpxToPx(640))
+			},
+			//绘制用户头像
+			setAvatarUrl(ctx, avatarRes) {
+				let sWidth = avatarRes.width > avatarRes.height ? avatarRes.width : avatarRes.height
+				ctx.arc(this.rpxToPx(30 + 30), this.rpxToPx(680 + 30), this.rpxToPx(30), 0, 2 * Math.PI)
+				ctx.clip()
+				ctx.drawImage(avatarRes.path, 0, 0, sWidth, sWidth, this.rpxToPx(30), this.rpxToPx(680), this.rpxToPx(60), this.rpxToPx(
+					60))
+			},
+			setQrCode(context, url) {
+				context.drawImage(url, 0, 0, 480, 480, this.rpxToPx(440), this.rpxToPx(540), this.rpxToPx(150), this.rpxToPx(
+					150))
+			},
+			//将canvas转换为图片保存到本地，然后将图片路径传给image图片的src
+			rpxToPx(rpx) {
+				return rpx * this.windowWidth / 750
+			},
+			createNewImg() {
+				if(!this.hasVipCard()){
+					return
+				}
+				let _this = this
+				this.showPopup = true
+				this.user = wx.getStorageSync("token")
+				//加载中...
+				this.loadingImage = true
+				wx.downloadFile({
+					url: this.$baseURL + '/api/small/shop/goods/share_qr_code?goodsCode=' + this.goods.code,
+					header: {
+						'content-type': 'application/json',
+						'X-Token': this.$uniRequest.defaults.headers.common['X-Token'],
+						'tn_id': this.$tnId
+					},
+					success(res) {
+						let qrCodeUrl = res.tempFilePath
+						wx.getImageInfo({
+							src: _this.user.avatarUrl,
+							success(res) {
+								let avatarRes = res
+								//请求服务器生成一张小程序二维码
+								wx.getImageInfo({
+									src: _this.goods.imageList[0].replace("http:","https:"),
+									success(res) {
+										let context = wx.createCanvasContext('mycanvas')
+										context.setFillStyle('#ffffff')
+										context.fillRect(0, 0, 600, 800)
+										context.restore()
+										let path = res.path
+										let sWidth = res.width > res.height ? res.width : res.height
+										context.drawImage(path, 0, 0, sWidth, sWidth, _this.rpxToPx(50), _this.rpxToPx(40), _this.rpxToPx(500),
+											_this.rpxToPx(
+												500))
+										_this.setUserName(context)
+										_this.setQrCode(context, qrCodeUrl)
+										_this.setAvatarUrl(context, avatarRes)
+										context.draw()
+										context.save()
+										_this.loadingImage = false
+									},
+									fail(e) {
+										console.log(e)
+										Toast('生成海报失败，重新重新来过吧')
+									}
+								})
+							},
+							fail(e) {
+								console.log(e)
+								Toast('生成海报失败，重新重新来过吧')
+							}
+						})
+					},
+					fail(e) {
+						Toast('生成海报失败，重新重新来过吧')
+					}
+				})
+			},
+			saveImage() {
+				let _this = this
+				wx.canvasToTempFilePath({
+					canvasId: 'mycanvas',
+					success: function(res) {
+						let shareImagePath = res.tempFilePath
+						wx.saveImageToPhotosAlbum({
+							filePath: shareImagePath,
+							success(res) {
+								Toast('保存成功')
+								_this.onClosePopup()
+							}
+						})
+					},
+					fail: function(res) {
+						console.log(res.errMsg)
+					}
+				})
+			},
+			hasVipCard() {
+				if (this.cardList == null) {
+					Dialog.confirm({
+						message: '您还没有注册成会员，现在去注册吗？'
+					}).then(() => {
+						wx.setStorageSync('registerGoPage', '/pages/shop/my/index')
+						uni.navigateTo({
+							url: '/pages/register/register'
+						})
+					}).catch(e=>{})
+					return false
+				}
+				if (this.cardList.length == 0) {
+					Dialog.confirm({
+						message: '还未绑定会员卡，现在去绑定吗？'
+					}).then(() => {
+						wx.setStorageSync('registerGoPage', '/pages/shop/cart/index')
+						uni.navigateTo({
+							url: '/pages/bind_vip/bind_vip'
+						})
+					}).catch(e=>{})
+					return false
+				} else {
+					return true
+				}
 			}
 		}
 	}
@@ -320,6 +625,13 @@
 </style>
 
 <style scoped>
+	.canvas {
+		width: 600rpx;
+		height: 800rpx;
+		margin: auto;
+		background-color: #ffffff;
+	}
+
 	.text-button {
 		background-color: #ffffff;
 		padding: auto;
@@ -339,13 +651,13 @@
 	}
 
 	.swiper-box {
-		height: 1000rpx;
+		height: 750rpx;
 	}
 
 	.dot-image {
 		background-color: #eeeeee;
 		width: 750rpx;
-		height: 1000rpx;
+		height: 750rpx;
 	}
 
 	.card {

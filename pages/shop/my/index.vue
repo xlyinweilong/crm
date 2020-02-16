@@ -4,7 +4,7 @@
 			<!-- 基础模块 -->
 			<view class="card" style="border-bottom: 1px solid #EBEEF5;	padding-left: 30rpx;padding-right: 30rpx;">
 				<!-- 用户信息栏 -->
-				<view style="height: 240rpx;">
+				<view v-if="user.avatarUrl != null" style="height: 240rpx;" @click="goPage('info/membershipCode')">
 					<!-- 头像 -->
 					<div class="left">
 						<div class="user-img">
@@ -24,6 +24,19 @@
 						<van-icon custom-style="color:#DCDFE6;margin-top: 90rpx;" name="arrow" size="40rpx" />
 					</div>
 				</view>
+				<view v-if="user.avatarUrl == null" style="height: 240rpx;" @click="goPage('info/membershipCode')">
+					<!-- 头像 -->
+					<!-- 用户昵称、会员卡 -->
+					<div class="left" style="margin-left: 10rpx;">
+						<p style="color: #303133;font-size: 40rpx;margin-top: 34rpx;">
+							点击注册
+						</p>
+					</div>
+					<!-- 箭头 -->
+					<div style="float: right;">
+						<van-icon custom-style="color:#DCDFE6;margin-top: 90rpx;" name="arrow" size="40rpx" />
+					</div>
+				</view>
 				<!-- 优惠卷、积分 -->
 				<view class="flex-row" style="padding-top: 35rpx;padding-bottom: 50rpx;text-align: center;">
 					<div @click="goPage('ticket/list')" style="width:50%; ">
@@ -37,20 +50,20 @@
 				</view>
 			</view>
 			<!-- 订单 -->
-			<van-cell title="全部订单" value="查看全部" :border="false" is-link />
+			<van-cell @click="goPage('shop/my/order/index')" title="全部订单" value="查看全部" :border="false" is-link />
 			<view class="card">
 				<view class="flex-row" style="padding-top: 15rpx;padding-bottom: 50rpx;text-align: center;">
-					<div style="width:33%; ">
+					<div style="width:33%; " @click="goPage('shop/my/order/index')">
 						<van-icon name="idcard" size="50rpx" />
 						<p style="font-size: 28rpx;color:#606266">全部订单</p>
 					</div>
-					<div style="width:33%;">
+					<div style="width:33%;" @click="goPage('shop/my/order/index?s=PENDING_PAYMENT')">
 						<van-icon name="logistics" size="50rpx" />
-						<p style="font-size: 28rpx;color:#606266">代付款</p>
+						<p style="font-size: 28rpx;color:#606266">待付款</p>
 					</div>
-					<div style="width:33%;">
+					<div style="width:33%;" @click="goPage('shop/my/order/index?s=PENDING_EVALUATE')">
 						<van-icon name="pending-payment" size="50rpx" />
-						<p style="font-size: 28rpx;color:#606266">待处理</p>
+						<p style="font-size: 28rpx;color:#606266">待评价</p>
 					</div>
 				</view>
 			</view>
@@ -59,11 +72,11 @@
 				<van-cell title="其他功能" :border="false" />
 				<view class="card">
 					<view class="flex-row" style="padding-top: 15rpx;padding-bottom: 50rpx;text-align: center;">
-						<div style="width:50%; " @click="goPage('shop/my/location/index')">
+						<div style="width:50%;" @click="goPage('shop/my/location/index')">
 							<van-icon name="location-o" size="50rpx" />
 							<p style="font-size: 28rpx;color:#606266">地址管理</p>
 						</div>
-						<div style="width:50%;">
+						<div style="width:50%;" @click="goPage('shop/my/like/index')">
 							<van-icon name="like-o" size="50rpx" />
 							<p style="font-size: 28rpx;color:#606266">我的收藏</p>
 						</div>
@@ -72,17 +85,17 @@
 			</view>
 			<!-- 线下功能 -->
 			<view style="margin-top: 30rpx;">
-				<van-cell title="线下功能" value="会员中心" :border="false" is-link />
+				<van-cell title="线下功能" value="会员中心" :border="false" is-link @click="reLaunchPage('info/index')" />
 				<view class="card">
 					<view class="flex-row" style="padding-top: 15rpx;text-align: center;">
 						<div style="width:33%; ">
-							<button @click="goPage('vip/power')" class="text-button" open-type="contact" bindcontact="handleContact" hover-class="hover-button">
+							<button @click="goPage('vip/power')" class="text-button" hover-class="hover-button">
 								<div><span class="icon-under-line iconfont icon-huiyuanquanyi"></span></div>
 								<p class="text-under-line">会员权益</p>
 							</button>
 						</div>
 						<div style="width:33%;">
-							<button @click="goPage('sale_bill/list')" class="text-button" open-type="contact" bindcontact="handleContact" hover-class="hover-button">
+							<button @click="goPage('sale_bill/list')" class="text-button" hover-class="hover-button">
 								<div><span class="icon-under-line iconfont icon-chakandingdan"></span></div>
 								<p class="text-under-line">消费记录</p>
 							</button>
@@ -96,20 +109,20 @@
 						</div>
 					</view>
 					<view class="flex-row" style="padding-top: 50rpx;padding-bottom: 50rpx;text-align: center;">
-						<div style="width:33%; ">
-							<button @click="goPage('channel/nearby')" class="text-button" open-type="contact" bindcontact="handleContact" hover-class="hover-button">
+						<div style="width:33%;">
+							<button @click="goPage('channel/nearby')" class="text-button" hover-class="hover-button">
 								<div><span class="icon-under-line iconfont icon-fujinmendian"></span></div>
 								<p class="text-under-line">附近门店</p>
 							</button>
 						</div>
 						<div style="width:33%;">
-							<button @click="goPage('evaluate/index')" class="text-button" open-type="contact" bindcontact="handleContact" hover-class="hover-button">
+							<button @click="goPage('evaluate/index')" class="text-button" hover-class="hover-button">
 								<div><span class="icon-under-line iconfont icon-pingjiaguanli"></span></div>
 								<p class="text-under-line">评价管理</p>
 							</button>
 						</div>
 						<div style="width:33%;">
-							<button @click="goPage('nursing/index')" class="text-button" open-type="contact" bindcontact="handleContact" hover-class="hover-button">
+							<button @click="goPage('nursing/index')" class="text-button" hover-class="hover-button">
 								<div><span class="icon-under-line iconfont icon-baobeihuanxin"></span></div>
 								<p class="text-under-line">宝贝换新</p>
 							</button>
@@ -118,23 +131,31 @@
 				</view>
 			</view>
 		</view>
-		<tabbar :active="3"/>
+		<tabbar :active="3" />
 		<loginCom />
+		<van-dialog id="van-dialog" confirm-button-color="#706000" />
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
+	import Toast from '@/wxcomponents/vant/toast/toast'
 	import tabbar from '@/pages/shop/components/index'
 	import loginCom from '@/pages/shop/components/login'
+	import Dialog from 'wxcomponents/vant/dialog/dialog'
 	export default {
 		components: {
-			tabbar,loginCom
+			tabbar,
+			loginCom
 		},
 		data() {
 			return {
 				loading: false,
-				user: {},
-				card: {},
+				user: {
+				},
+				card: {
+					vipCode: ''
+				},
 				iconPx: 30,
 				userInfo: {
 					coupon: 0
@@ -184,15 +205,16 @@
 			//计算
 			let systemInfo = wx.getSystemInfoSync();
 			this.iconPx = 35 / 750 * systemInfo.windowWidth;
+		},
+		onShow() {
 			this.user = wx.getStorageSync('token')
 			if (this.user.cardList != null && this.user.cardList.length > 0 && this.user.defaultVipErpId) {
 				this.card = this.user.cardList.find(c => c.vipErpId == this.user.defaultVipErpId)
-				console.log(this.card)
 			}
-			// this.$uniRequest.get('/api/small_procedures/vip/my_info').then(res => {
-			// 	this.userInfo = res.data
-			// 	wx.setStorageSync('userInfo', this.userInfo)
-			// })
+			this.$uniRequest.get('/api/small_procedures/vip/my_info').then(res => {
+				this.userInfo = res.data
+				wx.setStorageSync('userInfo', this.userInfo)
+			})
 		},
 		methods: {
 			goPage(page) {
@@ -202,25 +224,34 @@
 					})
 				}
 			},
+			reLaunchPage(page) {
+				if (this.hasVipCard()) {
+					uni.reLaunch({
+						url: '/pages/' + page
+					})
+				}
+			},
 			hasVipCard() {
 				if (this.user.cardList == null) {
 					Dialog.confirm({
 						message: '您还没有注册成会员，现在去注册吗？'
 					}).then(() => {
+						wx.setStorageSync('registerGoPage', '/pages/shop/my/index')
 						uni.navigateTo({
 							url: '/pages/register/register'
 						})
-					})
+					}).catch(e => {})
 					return false
 				}
 				if (this.user.cardList.length == 0) {
 					Dialog.confirm({
 						message: '还未绑定会员卡，现在去绑定吗？'
 					}).then(() => {
+						wx.setStorageSync('registerGoPage', '/pages/shop/my/index')
 						uni.navigateTo({
 							url: '/pages/bind_vip/bind_vip'
 						})
-					})
+					}).catch(e => {})
 					return false
 				} else {
 					return true
@@ -243,6 +274,7 @@
 		line-height: 1;
 		overflow: auto;
 		display: inherit;
+		overflow-y: hidden;
 	}
 
 	.text-button:after {

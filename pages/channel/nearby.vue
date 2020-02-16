@@ -95,20 +95,15 @@
 				})
 			},
 			getLocation(reflush) {
-				console.log("调用getLocation")
 				let _this = this
 				wx.getSetting({
 					success(res) {
-						console.log("进入wx.getSetting的success")
 						if (!res.authSetting['scope.userLocation']) {
-							console.log("没有权限")
 							wx.authorize({
 								scope: 'scope.userLocation',
 								success() {
 									_this.getWxLocation(reflush)
 								},fail(e){
-									console.log("wx.authorize授权失败")
-									console.log(e)
 								}
 							})
 						} else {
@@ -116,23 +111,18 @@
 						}
 					},
 					fail(e){
-						console.log("授权失败")
 						console.log(e)
 					}
 				})
 			},
 			getWxLocation(reflush) {
-				console.log("掉用定位")
 				let _this = this
 				wx.getLocation({
 					type: 'wgs84',
 					success(res) {
-						console.log("定位成功")
-						console.log(res)
 						_this.getChannelList(res.latitude, res.longitude, reflush)
 					},
 					fail(e){
-						console.log("定位失败")
 						console.log(e)
 					}
 				})

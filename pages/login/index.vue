@@ -119,6 +119,13 @@
 					}
 				} else {
 					if (data.isRegister) {
+						//判断是否注册了公众号的openId
+						if (data.platformOpenId == null) {
+							uni.reLaunch({
+								url: '/pages/bind_vip/authorization'
+							})
+							return
+						}
 						if (data.isEmploy) {
 							wx.setStorageSync('powerKeyList', data.powerKeyList)
 							if (this.scene != null && this.scene.startsWith('nursing,')) {
@@ -141,13 +148,6 @@
 							})
 							return
 						} else {
-							//判断是否注册了公众号的openId
-							if (data.platformOpenId == null) {
-								uni.reLaunch({
-									url: '/pages/bind_vip/authorization'
-								})
-								return
-							}
 							//判断是否已经绑定卡
 							if (data.cardList.length == 0) {
 								uni.reLaunch({

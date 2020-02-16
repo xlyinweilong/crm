@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App'
 
 import uniRequest from 'uni-request'
+Vue.prototype.$recommender = {uid:''}
 // Vue.prototype.$baseURL = 'http://192.168.1.109:9090/crm'
 Vue.prototype.$baseURL = 'http://192.168.1.113:9090/crm'
 // Vue.prototype.$baseURL = 'http://192.168.43.63:9090/crm'
@@ -11,7 +12,7 @@ Vue.prototype.$baseURL = 'http://192.168.1.113:9090/crm'
 Vue.prototype.$baseImageURL = 'https://crm.wisdomyy.com/images/'
 uniRequest.defaults.baseURL = Vue.prototype.$baseURL
 // Vue.prototype.$tnId='11'
-Vue.prototype.$tnId='jljy'
+Vue.prototype.$tnId = 'jljy'
 uniRequest.defaults.headers['tn_id'] = Vue.prototype.$tnId
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json'
 Vue.prototype.$uniRequest = uniRequest
@@ -32,10 +33,10 @@ app.$mount()
 uniRequest.interceptors.request.use(
 	request => {
 		//配置基本信息
-		return request;
+		return request
 	},
 	err => {
-		console.log('请求失败');
+		console.log('请求失败')
 		return Promise.reject(err);
 	});
 
@@ -43,8 +44,25 @@ uniRequest.interceptors.request.use(
 uniRequest.interceptors.response.use(function(res) {
 	wx.hideLoading()
 	if (res.data.code === 50008) {
-		uni.redirectTo({
-			url: '/pages/login/index'
+		wx.login({
+			success(res) {
+				if (res.code) {
+					Vue.prototype.$uniRequest.get('/api/small_procedures/login/login', {
+						data: {
+							code: res.code
+						}
+					}).then(res => {
+						wx.setStorage({
+							key: 'token',
+							data: res.data
+						})
+						Vue.prototype.$uniRequest.defaults.headers.common['X-Token'] = res.data.token
+						//重新发送请求
+					}).catch(error => {
+						console.log(error)
+					})
+				}
+			}
 		})
 		return Promise.reject()
 	}
@@ -60,4 +78,37 @@ uniRequest.interceptors.response.use(function(res) {
 }, function(error) {
 	console.log('返回进入拦截失败')
 	return Promise.reject(error);
-});
+})
+
+var reLogin = function() {
+
+}
+console.log("注册main.js")
+setInterval(() => {
+	wx.checkSession({
+		success() {
+			Vue.prototype.$uniRequest.get('/api/small_procedures/login/is_login')
+		},
+		fail() {
+			wx.login({
+				success(res) {
+					if (res.code) {
+						Vue.prototype.$uniRequest.get('/api/small_procedures/login/login', {
+							data: {
+								code: res.code
+							}
+						}).then(res => {
+							wx.setStorage({
+								key: 'token',
+								data: res.data
+							})
+							Vue.prototype.$uniRequest.defaults.headers.common['X-Token'] = res.data.token
+						}).catch(error => {
+							console.log(error)
+						})
+					}
+				}
+			})
+		}
+	})
+}, 1000 * 60 * 10)

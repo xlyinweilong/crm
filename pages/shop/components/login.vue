@@ -28,10 +28,7 @@
 							}).then(res => {
 								that.loginOk(res.data)
 							}).catch(error => {
-								wx.showToast({
-									title: '服务器错误，请稍清理缓存重新进入',
-									icon: 'none'
-								})
+								console.log(error)
 							})
 						}
 					}
@@ -42,27 +39,28 @@
 					key: 'token',
 					data: data
 				})
+				this.$uniRequest.defaults.headers.common['X-Token'] = data.token
 			}
 		},
 		created() {
 		},
-		onLoad() {
-		},
-		beforeMount() {
-		},
+		onLoad() {},
+		beforeMount() {},
 		mounted() {
-			if(wx.getStorageSync('token') == ''){
-				this.login()
-			}
+			let that = this
+			wx.checkSession({
+				success() {
+					that.$uniRequest.get('/api/small_procedures/login/is_login')
+				},
+				fail() {
+					that.login()
+				}
+			})
 		},
-		beforeUpdate() {
-		},
-		updated() {
-		},
-		beforeDestroy() {
-		},
-		destroyed() {
-		}
+		beforeUpdate() {},
+		updated() {},
+		beforeDestroy() {},
+		destroyed() {}
 	}
 </script>
 

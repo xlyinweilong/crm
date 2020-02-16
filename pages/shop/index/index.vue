@@ -3,14 +3,14 @@
 		<view class="container">
 			<!-- 搜索商品 -->
 			<div class="top">
-				<div class="search-div" @click="scanCode">
+				<div class="search-div" @click="goToSearch">
 					<input class="search" placeholder="搜索您喜欢的商品" />
 					<div style="float:right;margin-top: 4rpx;">
 						<van-icon name="search" size="40rpx" />
 					</div>
 				</div>
 			</div>
-			<div style="margin-top: 45px;">
+			<div style="margin-top: 45px;margin-bottom: 55px;">
 				<div v-for="c in theme.componentList" :key="c.index">
 					<div v-if="c.key == 'carousel'" :style="{'margin-top':c.marginTop+'px','margin-bottom':c.marginBottom+'px'}">
 						<uni-swiper-dot :info="c.imageList" :current="c.current" field="content" :mode="mode" :dotsStyles="dotsStyles">
@@ -74,13 +74,6 @@
 			this.$refs.tabbar.active = 0
 		},
 		methods: {
-			scanCode(){
-				wx.scanCode({
-				  success (res) {
-				    console.log(res)
-				  }
-				})
-			},
 			goToPage(ele) {
 				if (ele.imageType == 'H5') {
 					uni.navigateTo({
@@ -94,7 +87,7 @@
 					return
 				} else if (ele.imageType == 'GOODS') {
 					uni.navigateTo({
-						url: '/pages/shop/goods/goods_detail?code=' + encodeURIComponent(ele.goodsCode)
+						url: '/pages/shop/goods/goods_detail?g=' + encodeURIComponent(ele.goodsCode)
 					})
 					return
 				}

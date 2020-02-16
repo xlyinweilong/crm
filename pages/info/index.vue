@@ -85,9 +85,9 @@
 			<div class="icons">
 				<van-row custom-class="icons-row">
 					<van-col span="8">
-						<div @click="goPage('vip/power')" hover-class="user-info-hover">
-							<div><span class="iconfont icon-huiyuanquanyi"></span></div>
-							<div class="wenzi">会员权益</div>
+						<div @click="reLaunchPage('shop/index/index')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-guanfangshangcheng"></span></div>
+							<div class="wenzi">官方商城</div>
 						</div>
 					</van-col>
 					<van-col span="8">
@@ -114,12 +114,6 @@
 							<div class="wenzi">积分商城</div>
 						</div>
 					</van-col> -->
-					<!-- <van-col span="8">
-						<div @click="comingsone" hover-class="user-info-hover">
-							<div><span class="iconfont icon-guanfangshangcheng"></span></div>
-							<div class="wenzi">官方商城</div>
-						</div>
-					</van-col> -->
 					<van-col span="8">
 						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-fujinmendian"></span></div>
@@ -139,6 +133,14 @@
 						</div>
 					</van-col>
 				</van-row>
+				<van-row custom-class="icons-row">
+				<van-col span="8">
+					<div @click="goPage('vip/power')" hover-class="user-info-hover">
+						<div><span class="iconfont icon-huiyuanquanyi"></span></div>
+						<div class="wenzi">会员权益</div>
+					</div>
+				</van-col>
+						</van-row>
 			</div>
 			<view class="footer1">
 				<uni-swiper-dot :info="info" :current="current" field="content" :mode="'long'">
@@ -348,6 +350,13 @@
 			goPage(page) {
 				if (this.hasVipCard()) {
 					uni.navigateTo({
+						url: '/pages/' + page
+					})
+				}
+			},
+			reLaunchPage(page) {
+				if (this.hasVipCard()) {
+					uni.reLaunch({
 						url: '/pages/' + page
 					})
 				}

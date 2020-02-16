@@ -29,8 +29,9 @@
 				<div class="subCell">
 					<div class="text">详细地址</div>
 					<div class="input">
-						<textarea style="width: 510rpx;" v-model="form.address" placeholder="街道门牌信息" />
-						</div>
+						<div class="input"><input confirm-type="done" v-model="form.address" placeholder="街道门牌信息" /></div>
+						<!-- <textarea style="width: 510rpx;position: fixed;z-index: 1;" v-model="form.address" placeholder="街道门牌信息" /> -->
+					</div>
 				</div>
 			</div>
 		</div>
@@ -39,15 +40,16 @@
 				<van-button @click="save" :loading="loading" custom-class="popup-button" size="large" color="#706000">保存</van-button>
 			</div>
 		</div>
-		<van-popup z-index="200" :show="isShowPop" closeable position="bottom" custom-style="height:800rpx" @close="onClosePop">
+		<van-popup z-index="900" :show="isShowPop" closeable position="bottom" custom-style="height:800rpx" @close="onClosePop">
 			<div v-if="loadingDetail" style="text-align: center;">加载中...</div>
 			<div v-if="!loadingDetail">
 				<div class="popup-row">
 					<div style="font-size: 30rpx;color:#303133">
 						<span style="color:#706000" v-if="selectedLocation.provinceId == ''">请选择</span>
 						<span @click="reChoose('province')" :style="{color:selectedLocation.cityId == '' ? '#706000':'#303133'}" v-if="selectedLocation.provinceId != ''">{{selectedLocation.provinceName}}</span>
-						<span @click="reChoose('city')" :style="{color:selectedLocation.stationId == '' ? '#706000':'#303133'}" style="margin-left: 16rpx;" v-if="selectedLocation.cityId != ''">{{selectedLocation.cityName}}</span>
-						<span style="margin-left: 16rpx;color:#706000" v-if="selectedLocation.stationId != ''">{{selectedLocation.stationName}}</span>
+						<span @click="reChoose('city')" :style="{color:selectedLocation.stationId == '' ? '#706000':'#303133'}" style="margin-left: 16rpx;"
+						 v-if="selectedLocation.cityId != ''">{{selectedLocation.cityName}}</span>
+						<span style="margin-left: 16rpx;color:#706000;" v-if="selectedLocation.stationId != ''">{{selectedLocation.stationName}}</span>
 					</div>
 				</div>
 				<scroll-view style="height: 700rpx;" scroll-y="true">
@@ -76,36 +78,36 @@
 			return {
 				loading: false,
 				form: {
-					name:'',
+					name: '',
 					receiver: '',
 					mobile: '',
 					address: '',
-					stationId:'',
-					cityId:'',
-					provinceId:'',
-					locationStr:''
+					stationId: '',
+					cityId: '',
+					provinceId: '',
+					locationStr: ''
 				},
-				loadingDetail:false,
-				isShowPop:false,
-				location:[],
-				selectedLocation:{
-					stationId:'',
-					stationName:'',
-					cityId:'',
-					cityName:'',
-					provinceId:'',
-					provinceName:'',
-					type:'province'
+				loadingDetail: false,
+				isShowPop: false,
+				location: [],
+				selectedLocation: {
+					stationId: '',
+					stationName: '',
+					cityId: '',
+					cityName: '',
+					provinceId: '',
+					provinceName: '',
+					type: 'province'
 				}
 			}
 		},
 		computed: {
 			showLocation() {
-				if(this.selectedLocation.type == 'province'){
+				if (this.selectedLocation.type == 'province') {
 					return this.location.filter(l => l.type == 'province')
-				}else if(this.selectedLocation.type == 'city'){
+				} else if (this.selectedLocation.type == 'city') {
 					return this.location.filter(l => l.pid == this.selectedLocation.provinceId)
-				}else if(this.selectedLocation.type == 'station'){
+				} else if (this.selectedLocation.type == 'station') {
 					return this.location.filter(l => l.pid == this.selectedLocation.cityId)
 				}
 			}
@@ -113,7 +115,11 @@
 		onLoad(query) {
 			if (query.id) {
 				Toast.loading()
-				this.$uniRequest.get('/api/small/shop/location/info',{data:{id:query.id}}).then(res => {
+				this.$uniRequest.get('/api/small/shop/location/info', {
+					data: {
+						id: query.id
+					}
+				}).then(res => {
 					this.form = res.data
 					this.selectedLocation.stationId = this.form.stationId
 					this.selectedLocation.cityId = this.form.cityId
@@ -122,61 +128,64 @@
 					this.selectedLocation.cityName = this.form.cityName
 					this.selectedLocation.provinceName = this.form.provinceName
 					this.selectedLocation.type = 'station'
-					this.form.locationStr = this.selectedLocation.provinceName + ' ' + this.selectedLocation.cityName + ' ' + this.selectedLocation.stationName
+					this.form.locationStr = this.selectedLocation.provinceName + ' ' + this.selectedLocation.cityName + ' ' + this.selectedLocation
+						.stationName
 				}).finally(() => Toast.clear())
 			}
 		},
 		methods: {
-			onOpenPop(){
+			onOpenPop() {
 				this.isShowPop = true
-				if(this.location.length == 0){
+				if (this.location.length == 0) {
 					this.loadingDetail = true
 					this.$uniRequest.get('/api/small/shop/location/location').then(res => {
-						this.location = res.data
+						this.location = res.data.filter(l => l.isShow).map(l => {
+							return {
+								id: l.id,
+								type: l.type,
+								name: l.name,
+								pid: l.pid
+							}
+						})
 					}).finally(() => this.loadingDetail = false)
 				}
 			},
-			onClosePop(){
+			onClosePop() {
 				this.isShowPop = false
 			},
-			goPage(page) {
-				uni.navigateTo({
-					url: '/pages/' + page
-				})
-			},
 			save() {
-				if(this.form.receiver == ''){
+				if (this.form.receiver == '') {
 					Toast('请输入收货人')
 					return
 				}
-				if(this.form.mobile == ''){
+				if (this.form.mobile == '') {
 					Toast('请输入联系电话')
 					return
 				}
-				if(this.form.stationId == ''){
+				if (this.form.stationId == '') {
 					Toast('请选择地区')
 					return
 				}
-				if(this.form.address == ''){
+				if (this.form.address == '') {
 					Toast('请输入详细地址')
 					return
 				}
 				this.loading = true
-				this.$uniRequest.post('/api/small/shop/location/save',this.form).then(res => {
+				this.$uniRequest.post('/api/small/shop/location/save', this.form).then(res => {
 					Toast('保存成功')
 					uni.navigateBack()
 				}).finally(() => this.loading = false)
 			},
-			selectLocation(location){
-				if(this.selectedLocation.type == 'province'){
+			selectLocation(location) {
+				if (this.selectedLocation.type == 'province') {
 					this.selectedLocation.provinceId = location.id
 					this.selectedLocation.provinceName = location.name
 					this.selectedLocation.type = 'city'
-				}else if(this.selectedLocation.type == 'city'){
+				} else if (this.selectedLocation.type == 'city') {
 					this.selectedLocation.cityId = location.id
 					this.selectedLocation.cityName = location.name
 					this.selectedLocation.type = 'station'
-				}else if(this.selectedLocation.type == 'station'){
+				} else if (this.selectedLocation.type == 'station') {
 					this.selectedLocation.stationId = location.id
 					this.selectedLocation.stationName = location.name
 					this.selectedLocation.type = 'station'
@@ -186,16 +195,17 @@
 					this.form.provinceName = this.selectedLocation.provinceName
 					this.form.cityName = this.selectedLocation.cityName
 					this.form.stationName = this.selectedLocation.stationName
-					this.form.locationStr = this.selectedLocation.provinceName + ' ' + this.selectedLocation.cityName + ' ' + this.selectedLocation.stationName
+					this.form.locationStr = this.selectedLocation.provinceName + ' ' + this.selectedLocation.cityName + ' ' + this.selectedLocation
+						.stationName
 					this.onClosePop()
 				}
 			},
-			reChoose(t){
-				if(t == 'province'){
+			reChoose(t) {
+				if (t == 'province') {
 					this.selectedLocation.type = 'province'
 					this.selectedLocation.cityId = ''
 					this.selectedLocation.stationId = ''
-				}else if(t == 'city'){
+				} else if (t == 'city') {
 					this.selectedLocation.type = 'city'
 					this.selectedLocation.stationId = ''
 				}
@@ -250,13 +260,13 @@
 		border-top: 1px solid #DCDFE6;
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 	}
-	
-	.popup-row{
+
+	.popup-row {
 		padding-top: 30rpx;
 		padding-bottom: 30rpx;
 		padding-left: 24rpx;
 		font-size: 36rpx;
-		color:#303133;
+		color: #303133;
 		border-bottom: 1px solid #DCDFE6;
 	}
 </style>

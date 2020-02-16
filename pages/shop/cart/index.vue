@@ -1,25 +1,13 @@
 <template>
 	<view>
-		<!-- 用户没有登录的时候 -->
-		<view style="text-align: center;">
-			<!-- 购物车图标 -->
-			<!-- <div style="margin-top: 150rpx;">
-				<van-icon color="#909399" name="shopping-cart-o" size="200rpx" />
-			</div> -->
-			<!-- 按钮 -->
-			<!-- <p style="margin-top: 30rpx;size: 30rpx;">您还未登录</p>
-			<div style="margin-top: 30rpx;">
-				<van-button color="#706000">登录/注册</van-button>
-			</div> -->
-		</view>
 		<!-- 购物车空的时候 -->
 		<view v-if="cartList.length == 0" style="text-align: center;">
 			<div style="margin-top: 150rpx;">
 				<van-icon color="#909399" name="shopping-cart-o" size="200rpx" />
 			</div>
 			<p style="margin-top: 30rpx;size: 30rpx;">购物车空空</p>
-			<div style="margin-top: 30rpx;">
-				<van-button color="#706000" @click="goToGoodsList">去逛逛</van-button>
+			<div style="margin-top: 30rpx;" @click="goToGoodsList">
+				<van-button color="#706000">去逛逛</van-button>
 			</div>
 		</view>
 		<!-- 购物车有商品的时候 -->
@@ -34,7 +22,7 @@
 					</div>
 					<!-- 商品图片 -->
 					<div @click="goToGoodsDetail(e)" style="width:250rpx;margin-top: 25rpx;">
-						<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFill" :src="e.imageList[0]" />
+						<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFit" :src="e.imageList[0]" />
 					</div>
 					<!-- 右侧区域 -->
 					<div style="font-size:26rpx;padding-top: 10px;color: #606266;width:400rpx;margin-left: 10rpx;">
@@ -60,11 +48,13 @@
 						<div style="margin-top: 50rpx;text-align: right;">
 							<div style="float:left;margin-top: 15rpx;">￥{{e.price}}</div>
 							<van-stepper input-width="60rpx" @change="onChangeStepper($event,e,index)" button-size="60rpx" :value="e.quantity"
-							 :step="1" :min="1" />
+							 :step="1" :min="1" :max="e.stockCount > 1 ? e.stockCount : 1" />
 						</div>
 					</div>
 				</div>
 			</div>
+			<div v-if="cardTips != ''" style="margin-top: 10px;padding-left: 20rpx;padding-right: 20;font-size: 22rpx;color:#706000">{{cardTips}}</div>
+			<div style="margin-bottom: 10px;height: 10px;"></div>
 			<!-- 结算栏 -->
 			<div class="settle">
 				<!-- 全选 -->
@@ -75,7 +65,7 @@
 				</div>
 				<!-- 结算 -->
 				<div style="float: right">
-					<div class="settle-button">结算</div>
+					<div class="settle-button" @click="doSettle">结算</div>
 				</div>
 				<!-- 总计 -->
 				<div style="float: right;margin-right: 20rpx;padding-top: 13px;">
@@ -94,12 +84,11 @@
 					<div class="popup-image-div">
 						<!-- 图片 -->
 						<div style="float: left;margin-top: 15px;margin-left: 15px;">
-							<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFill" :src="selected.imageList[0]" />
+							<image style="width: 250rpx; height: 250rpx; background-color: #eeeeee;" mode="aspectFit" :src="selected.imageList[0]" />
 						</div>
 						<div style="float: left;margin-left: 20px;margin-top: 15px;">
 							<!-- 价格 -->
 							<p style="font-size: 18px;color:#303133">￥{{goods.price}}</p>
-							<!-- <p style="font-size: 14px;color: #909399;">颜色：香槟 尺码：XXL</p> -->
 							<p style="font-size: 24rpx;color: #909399;">
 								<span v-if="selected.colorId != ''">颜色：{{selected.colorName}}</span>
 								<span v-if="selected.colorId == ''">请选择颜色</span>
@@ -118,9 +107,10 @@
 									<p style="color: #909399;font-size: 26rpx;">颜色</p>
 									<div style="display: flex;font-size: 24rpx;color: #606266;">
 										<div @click="selectColor(color)" v-for="color in goods.colorList" :key="color.id" style="width: 152rpx;text-align: center;padding: 14rpx">
-											<div :style="{ 'background-color': selected.colorId == color.id ? '#706000':'#F2F6FC',
-										'color':selected.colorId == color.id ? '#FFFFFF':'#303133'}"
-											 style="padding: 20rpx;">{{color.name}}</div>
+											<div :style="{ 'background-color': selected.colorId == color.id ? '#706000':(color.stockCount == 0 ? '#F2F6FC':'#ffffff'),
+									'border-color':selected.colorId == color.id ? '#706000':'#606266',
+									'color':selected.colorId == color.id ? '#ffffff':'#606266'}"
+											 style="padding: 20rpx;border:1px solid">{{color.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -128,9 +118,10 @@
 									<p style="color: #909399;font-size: 26rpx;">尺码</p>
 									<div style="display: flex;flex-wrap:wrap;font-size: 24rpx;color: #606266;">
 										<div @click="selectSize(size)" v-for="size in goods.sizeList" :key="size.id" style="width: 152rpx;text-align: center;padding: 14rpx">
-											<div :style="{ 'background-color': selected.sizeId == size.id ? '#706000':'#F2F6FC',
-										'color':selected.sizeId == size.id ? '#FFFFFF':'#303133'}"
-											 style="padding: 20rpx;">{{size.name}}</div>
+											<div :style="{  'background-color': selected.sizeId == size.id ? '#706000':(size.stockCount == 0 ? '#F2F6FC':'#ffffff'),
+									'border-color':selected.sizeId == size.id ? '#706000':'#606266',
+									'color':selected.sizeId == size.id ? '#ffffff':'#606266'}"
+											 style="padding: 20rpx;border:1px solid">{{size.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -140,7 +131,10 @@
 					<!-- 第三行，按钮确定 -->
 					<div class="popup-button-div">
 						<div style="margin-left: 15px;margin-right: 15px;height: 60px;margin-top: 15px;">
-							<van-button @click="onOkGoodsDetail" custom-class="popup-button" size="large" color="#706000">确定</van-button>
+							<van-button @click="onOkGoodsDetail" :disabled="selected.stockCount == 0" custom-class="popup-button" size="large"
+							 color="#706000">
+								<span v-text="selected.stockCount == 0 ? '售罄' : '确定'"></span>
+							</van-button>
 						</div>
 					</div>
 				</div>
@@ -148,6 +142,7 @@
 		</view>
 		<tabbar :active="2" />
 		<loginCom />
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
@@ -155,9 +150,11 @@
 	import tabbar from '@/pages/shop/components/index'
 	import Dialog from 'wxcomponents/vant/dialog/dialog'
 	import loginCom from '@/pages/shop/components/login'
+	import Toast from '@/wxcomponents/vant/toast/toast'
 	export default {
 		components: {
-			tabbar,loginCom
+			tabbar,
+			loginCom
 		},
 		data() {
 			return {
@@ -166,40 +163,109 @@
 				cartList: [],
 				isShowGoodsDetail: false,
 				selected: {},
-				goods: {}
+				goods: {},
+				cardList: [],
+				baseExpressFee: -1,
+				expressAmountFree: -1,
+				cardTips: ''
 			}
 		},
 		computed: {
 			totalAmount() {
+				if (this.cartList == null) {
+					return 0
+				}
 				return this.cartList.filter(e => e.checked).reduce((t, a) => t + (a.quantity * a.price), 0)
 			},
 			checkedAll() {
+				if (this.cartList == null) {
+					return false
+				}
 				return this.cartList.every(c => c.checked)
 			}
 		},
 		onLoad(query) {
-			
-		},
-		onShow(){
-			if (wx.getStorageSync('cartList') instanceof Array) {
-				this.cartList = wx.getStorageSync('cartList')
+			let user = wx.getStorageSync('token')
+			if (user != '' && user != null) {
+				this.cardList = user.cardList
 			}
 		},
+		onShow() {
+			if (wx.getStorageSync('cartList') instanceof Array) {
+				this.cartList = wx.getStorageSync('cartList')
+				this.loadInfo()
+			}
+		},
+		onReady() {},
 		methods: {
+			loadInfo() {
+				Toast.loading({
+					duration: 0,
+					mask: true,
+					message: '加载中...'
+				})
+				let _this = this
+				uni.request({
+					url: _this.$baseURL + '/api/small/shop/order/settle_info',
+					data: _this.cartList,
+					method: 'POST',
+					header: {
+						'content-type': 'application/json',
+						'X-Token': _this.$uniRequest.defaults.headers.common['X-Token'],
+						'tn_id': _this.$tnId
+					},
+					success: (res) => {
+						res = res.data
+						if (res.code == 0) {
+							_this.baseExpressFee = res.data.baseExpressFee
+							_this.expressAmountFree = res.data.expressAmountFree
+							_this.cardTips = res.data.cardTips
+							//刷新库存数量
+							_this.cartList = res.data.settleList
+							Toast.clear()
+							wx.setStorageSync('cartList', _this.cartList)
+						} else {
+							Toast.clear()
+							Toast(res.message)
+						}
+					},
+					fail() {
+						Toast('fail')
+						Toast.clear()
+					}
+				})
+			},
 			//选择尺码
 			selectSize(size) {
+				if (this.selected.colorId == '') {
+					Toast("请先选择颜色")
+					return
+				}
+				if (size.stockCount <= 0) {
+					return
+				}
 				this.selected.sizeId = size.id
 				this.selected.sizeName = size.name
+				this.selected.stockCount = size.stockCount
 			},
 			//选择颜色
 			selectColor(color) {
+				if (color.stockCount <= 0) {
+					return
+				}
 				this.selected.colorId = color.id
 				this.selected.colorName = color.name
+				//加载尺码的库存
+				this.goods.sizeList.forEach(si => {
+					si.stockCount = this.goods.stockList.filter(s => s.colorId === this.selected.colorId && this.selected.sizeId ===
+						s.sizeId).reduce(
+						(t, a) => t + a.stockCount, 0)
+				})
 			},
 			//跳转到商品明细
 			goToGoodsDetail(e) {
 				uni.navigateTo({
-					url: '/pages/shop/goods/goods_detail?code=' + e.goodsCode
+					url: '/pages/shop/goods/goods_detail?g=' + e.goodsCode
 				})
 			},
 			//跳转到商品列表
@@ -211,6 +277,10 @@
 			//选中，或者取消
 			onChangeCheck(e, d) {
 				d.checked = e.detail
+				if (e.detail && d.stockCount <= 0) {
+					Toast("库存不足")
+					d.checked = false
+				}
 				wx.setStorageSync('cartList', this.cartList)
 			},
 			//修改数量
@@ -239,6 +309,21 @@
 					}
 				}).then(res => {
 					this.goods = res.data
+					this.goods.colorList.forEach(c => {
+						c.stockCount = this.goods.stockList.filter(s => s.colorId === c.id).reduce((t, a) => t + a.stockCount, 0)
+					})
+					this.goods.sizeList.forEach(si => {
+						si.stockCount = this.goods.stockList.filter(s => s.colorId === this.selected.colorId && si.id === s.sizeId).reduce(
+							(t, a) => t + a.stockCount, 0)
+					})
+					//判断当前货品的库存是否够
+					e.stockCount = this.goods.stockList.filter(s => s.colorId === this.selected.colorId && this.selected.sizeId ===
+						s.sizeId).reduce(
+						(t, a) => t + a.stockCount, 0)
+					if (e.stockCount < 0) {
+						e.checked = false
+						wx.setStorageSync('cartList', this.cartList)
+					}
 				}).finally(() => this.loadingDetail = false)
 			},
 			//确定弹出页面
@@ -252,6 +337,7 @@
 				this.cartList = wx.getStorageSync('cartList')
 				this.isShowGoodsDetail = false
 			},
+			//删除商品
 			deleteEle(ele, index) {
 				Dialog.confirm({
 					title: '提示',
@@ -260,16 +346,66 @@
 					this.cartList.splice(index, 1)
 					wx.setStorageSync('cartList', this.cartList)
 				}).catch(() => {})
+			},
+			//结算
+			doSettle() {
+				if (this.hasVipCard()) {
+					if (this.cartList.filter(e => e.checked).length == 0) {
+						Toast("请选择要结算的商品")
+						return
+					}
+					//判断限购
+					let outList = this.cartList.filter(g => g.checked && g.limitBuyCount != null && g.limitBuyCount > 0 && g.quantity > g.limitBuyCount);
+					if (outList.length > 0) {
+						Dialog.alert({
+							message: outList[0].goodsDisplayName + '限购' + outList[0].limitBuyCount
+						}).then(() => {
+							// on close
+						})
+						return
+					}
+					//售罄判断
+					let saleOut = this.cartList.filter(g => g.checked && g.quantity == 0)
+					if (saleOut.length > 0) {
+						Toast(saleOut[0].goodsDisplayName + saleOut[0].colorName + saleOut[0].sizeName + '已经售罄')
+						return
+					}
+					uni.navigateTo({
+						url: '/pages/shop/settle/index'
+					})
+				}
+			},
+			hasVipCard() {
+				if (this.cardList == null) {
+					Dialog.confirm({
+						message: '您还没有注册成会员，现在去注册吗？'
+					}).then(() => {
+						wx.setStorageSync('registerGoPage', '/pages/shop/my/index')
+						uni.navigateTo({
+							url: '/pages/register/register'
+						})
+					})
+					return false
+				}
+				if (this.cardList.length == 0) {
+					Dialog.confirm({
+						message: '还未绑定会员卡，现在去绑定吗？'
+					}).then(() => {
+						wx.setStorageSync('registerGoPage', '/pages/shop/cart/index')
+						uni.navigateTo({
+							url: '/pages/bind_vip/bind_vip'
+						})
+					})
+					return false
+				} else {
+					return true
+				}
 			}
 		}
 	}
 </script>
 
 <style>
-	/* page {
-		background-color: #F2F6FC;
-	} */
-
 	page {
 		background-color: #ffffff;
 	}
@@ -293,7 +429,6 @@
 
 	.goods_list {
 		background-color: #ffffff;
-		margin-bottom: 110px;
 	}
 
 	.goods_detail {
