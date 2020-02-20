@@ -164,7 +164,7 @@
 				isShowGoodsDetail: false,
 				selected: {},
 				goods: {},
-				cardList: [],
+				cardList: null,
 				baseExpressFee: -1,
 				expressAmountFree: -1,
 				cardTips: ''
@@ -191,6 +191,7 @@
 			}
 		},
 		onShow() {
+			
 			if (wx.getStorageSync('cartList') instanceof Array) {
 				this.cartList = wx.getStorageSync('cartList')
 				this.loadInfo()

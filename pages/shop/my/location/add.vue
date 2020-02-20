@@ -133,6 +133,8 @@
 				}).finally(() => Toast.clear())
 			}
 		},
+		onShow() {
+		},
 		methods: {
 			onOpenPop() {
 				this.isShowPop = true

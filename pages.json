@@ -166,6 +166,7 @@
 				"usingComponents": {
 					"van-toast": "/wxcomponents/vant/toast/index",
 					"van-button": "/wxcomponents/vant/button/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-popup": "/wxcomponents/vant/popup/index"
 				}
 			}

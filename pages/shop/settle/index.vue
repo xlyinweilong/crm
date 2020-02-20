@@ -141,6 +141,7 @@
 				</div>
 			</div>
 		</van-popup>
+		<van-dialog id="van-dialog" confirm-button-color="#706000" />
 		<loginCom />
 	</view>
 </template>
@@ -169,7 +170,8 @@
 				baseExpressFee: -1,
 				expressAmountFree: -1,
 				consumeGotIntegral: 0,
-				gotIntegral: 0
+				gotIntegral: 0,
+				cardList:null
 			}
 		},
 		computed: {
@@ -192,6 +194,10 @@
 			this.loadLocation()
 		},
 		onShow() {
+			let user = wx.getStorageSync('token')
+			if (user != '' && user != null) {
+				this.cardList = user.cardList
+			}
 			if (wx.getStorageSync('cartList') instanceof Array) {
 				this.cartList = wx.getStorageSync('cartList')
 			}
@@ -273,6 +279,9 @@
 			},
 			//支付
 			doPay() {
+				if(!this.hasVipCard()){
+					return
+				}
 				//判断是否选择的地址
 				if (this.receiveType == 'express' && this.selectedLocation.id == null) {
 					Toast("请选择收货地址")
@@ -340,6 +349,9 @@
 			},
 			//调转到选择地址
 			selectLocation() {
+				if(!this.hasVipCard()){
+					return
+				}
 				uni.navigateTo({
 					url: '/pages/shop/my/location/index?type=settle'
 				})
@@ -358,6 +370,32 @@
 				}
 				this.selectChannel = selected
 				this.onCloseChannel()
+			},
+			hasVipCard() {
+				if (this.cardList == null) {
+					Dialog.confirm({
+						message: '您还没有注册成会员，现在去注册吗？'
+					}).then(() => {
+						wx.setStorageSync('registerGoPage', '/pages/shop/my/index')
+						uni.navigateTo({
+							url: '/pages/register/register'
+						})
+					})
+					return false
+				}
+				if (this.cardList.length == 0) {
+					Dialog.confirm({
+						message: '还未绑定会员卡，现在去绑定吗？'
+					}).then(() => {
+						wx.setStorageSync('registerGoPage', '/pages/shop/cart/index')
+						uni.navigateTo({
+							url: '/pages/bind_vip/bind_vip'
+						})
+					})
+					return false
+				} else {
+					return true
+				}
 			}
 		}
 	}

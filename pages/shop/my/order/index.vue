@@ -29,16 +29,18 @@
 									<div style="margin-top: 30rpx;width:410rpx;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
 										<span>颜色:{{g.colorName}}</span>
 										<span style="margin-left: 18rpx;">尺码:{{g.sizeName}}</span>
-										<span style="margin-left: 18rpx;">数量:{{g.quantity}}</span>
 									</div>
 									<div style="margin-top: 12rpx;width:410rpx;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
 										单价：￥{{g.price}}
 									</div>
+									<div style="margin-top: 12rpx;width:410rpx;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+										数量：{{g.quantity}}<span v-if="g.totalRefundQuantity > 0" style="margin-left: 12px;">退数量：{{g.totalRefundQuantity}}</span>
+									</div>
 								</div>
 							</div>
 							<div class="detail_info_total">
-								<span>共{{o.quantity}}件商品</span>
-								<span style="margin-left: 18rpx;">合计：{{o.amount}}</span>
+								<span>共{{o.quantity - o.totalRefundQuantity}}件商品</span>
+								<span style="margin-left: 18rpx;">合计：￥{{o.totalCleanAmount }}</span>
 							</div>
 						</div>
 						<div class="detail_option">

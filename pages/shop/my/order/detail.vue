@@ -39,10 +39,12 @@
 						<div style="margin-top: 30rpx;width:410rpx;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
 							<span>颜色:{{g.colorName}}</span>
 							<span style="margin-left: 18rpx;">尺码:{{g.sizeName}}</span>
-							<span style="margin-left: 18rpx;">数量:{{g.quantity}}</span>
 						</div>
 						<div style="margin-top: 12rpx;width:410rpx;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
 							单价：￥{{g.price}}
+						</div>
+						<div style="margin-top: 12rpx;width:410rpx;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+							数量：{{g.quantity}}<span v-if="g.totalRefundQuantity > 0" style="margin-left: 12px;">退数量：{{g.totalRefundQuantity}}</span>
 						</div>
 					</div>
 				</div>
@@ -52,13 +54,17 @@
 						<div style="width: 300rpx;">商品金额</div>
 						<div style="width: 420rpx;text-align: right;padding-right: 30rpx;">￥{{g.amount}}</div>
 					</div>
+					<div v-if="g.totalRefundAmount > 0" style="display: flex;margin-top: 20rpx;">
+						<div style="width: 300rpx;">商品退款</div>
+						<div style="width: 420rpx;text-align: right;padding-right: 30rpx;">￥{{g.totalRefundAmount}}</div>
+					</div>
 					<div style="display: flex;margin-top: 20rpx;">
 						<div style="width: 300rpx;">活动优惠</div>
 						<div style="width: 420rpx;text-align: right;padding-right: 30rpx;">-￥0.00</div>
 					</div>
 					<div style="display: flex;margin-top: 20rpx;margin-bottom: 18rpx;">
 						<div style="width: 300rpx;">获得积分</div>
-						<div style="width: 420rpx;text-align: right;padding-right: 30rpx;">0</div>
+						<div style="width: 420rpx;text-align: right;padding-right: 30rpx;">{{g.cleanIntegral}}</div>
 					</div>
 				</div>
 			</div>

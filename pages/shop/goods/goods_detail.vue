@@ -211,6 +211,32 @@
 				scene:''
 			}
 		},
+		onShareAppMessage(options) {
+			var that = this;
+			let user = wx.getStorageSync('token')
+			var shareObj = {
+				// title: "一起", // 默认是小程序的名称(可以写slogan等)
+				path: '/pages/shop/goods/goods_detail?scene=' + user.id + ',' + that.goods.code,
+				imageUrl: '',
+				success(res) {
+					// 转发成功之后的回调
+					if (res.errMsg == 'shareAppMessage:ok') {}
+				},
+				fail() {
+					// 转发失败之后的回调
+					if (res.errMsg == 'shareAppMessage:fail cancel') {
+						// 用户取消转发
+					} else if (res.errMsg == 'shareAppMessage:fail') {
+						// 转发失败，其中 detail message 为详细失败信息
+					}
+				},
+				complete() {
+					// 转发结束之后的回调（转发成不成功都会执行）
+				}
+			}
+			// 返回shareObj
+			return shareObj
+		},
 		onLoad(query) {
 			if (query.scene) {
 				this.scene = decodeURIComponent(query.scene)
@@ -265,8 +291,6 @@
 								})
 								that.$uniRequest.defaults.headers.common['X-Token'] = res.data.token
 								that.init(query)
-							}).catch(error => {
-								console.log(error)
 							})
 						}
 					}
@@ -365,7 +389,7 @@
 						}
 					})
 					Toast.clear()
-				}).finally(() => Toast.clear())
+				}).catch(() => Toast.clear())
 			},
 			//收藏
 			doLike() {

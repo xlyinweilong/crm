@@ -138,18 +138,20 @@
 				}).finally(error => this.loadingPage = false)
 			},
 			isPayed(ele) {
-				let user = wx.getStorageSync('token')
-				let _this = this
-				this.loadingPage = true
-				this.$uniRequest.post('/api/small_procedures/pay/has_payed_order', {
-					id: ele.id
-				}).then(res => {
-					if (res.data) {
-						_this.useThis(ele, "PAYED")
-					} else {
-						_this.zhifu(ele)
-					}
-				}).finally(error => this.loadingPage = false)
+				if(!this.loadingPage){
+					let user = wx.getStorageSync('token')
+					let _this = this
+					this.loadingPage = true
+					this.$uniRequest.post('/api/small_procedures/pay/has_payed_order', {
+						id: ele.id
+					}).then(res => {
+						if (res.data) {
+							_this.useThis(ele, "PAYED")
+						} else {
+							_this.zhifu(ele)
+						}
+					}).finally(() => this.loadingPage = false)
+				}
 			},
 			zhifu(ele) {
 				let user = wx.getStorageSync('token')
