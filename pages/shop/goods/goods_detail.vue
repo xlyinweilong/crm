@@ -44,6 +44,11 @@
 					</button>
 				</div>
 			</div>
+			<!-- 悬浮的客服电话 -->
+			<div v-if="service400 != ''" @click="makePhoneCall" style="position:fixed;right:45px;bottom:160px;background-color: #ffffff;
+			border-radius:20px;height: 40px;width: 40px;
+			border: 1px solid #d9d9d9;
+			box-shadow: 2px 2px 12px 2px rgba(0, 0, 0, 0.1)"><span style="font-size: 38px;" class="iconfont icon-service"></span></div>
 			<!-- 品牌 -->
 			<div class="card" style="display: flex;">
 				<div style="width: 200rpx;">
@@ -157,7 +162,7 @@
 			<div style="text-align: center;" v-show="!loadingImage">
 				<canvas class="canvas" canvas-id="mycanvas" />
 				<div style="position: absolute;bottom: 0;width: 100%;">
-				<van-button custom-class="popup-button" @click="saveImage" size="large" color="#706000">保存到相册</van-button>
+					<van-button custom-class="popup-button" @click="saveImage" size="large" color="#706000">保存到相册</van-button>
 				</div>
 			</div>
 		</van-popup>
@@ -178,9 +183,9 @@
 				goods: {
 					id: '',
 					code: '',
-					displayName:'',
-					price:'',
-					tagPrice:'',
+					displayName: '',
+					price: '',
+					tagPrice: '',
 					imageList: [],
 					like: false,
 					imageDetailList: [],
@@ -206,9 +211,10 @@
 				shareImagePath: '',
 				windowWidth: 0,
 				user: {},
-				loadingImage:false,
-				cardList:[],
-				scene:''
+				loadingImage: false,
+				cardList: [],
+				scene: '',
+				service400: ''
 			}
 		},
 		onShareAppMessage(options) {
@@ -260,9 +266,9 @@
 						},
 						success: (res) => {
 							res = res.data
-							if(res.code == 0){
+							if (res.code == 0) {
 								that.init(query)
-							}else{
+							} else {
 								that.login(query)
 							}
 						}
@@ -272,10 +278,10 @@
 					that.login(query)
 				}
 			})
-			
+
 		},
 		methods: {
-			login(query){
+			login(query) {
 				let that = this
 				wx.login({
 					success(res) {
@@ -296,15 +302,15 @@
 					}
 				})
 			},
-			init(query){
+			init(query) {
 				var systemInfo = wx.getSystemInfoSync()
 				this.windowWidth = systemInfo.windowWidth
-				if(this.scene != ''){
+				if (this.scene != '') {
 					this.$recommender.uid = this.scene.split(",")[0]
-					wx.setStorageSync('recommend',query.u)
+					wx.setStorageSync('recommend', query.u)
 					this.goods.code = this.scene.split(",")[1]
 					this.getInfo()
-				}else if (query.g) {
+				} else if (query.g) {
 					this.goods.code = query.g
 					this.getInfo()
 				}
@@ -312,9 +318,16 @@
 				if (wx.getStorageSync('cartList') instanceof Array) {
 					this.cartList = wx.getStorageSync('cartList')
 				}
+				let user = wx.getStorageSync('token')
+				this.service400 = (user.service400 != null && user.service400 != '') ? user.service400 : ''
 			},
 			onClosePopup() {
 				this.showPopup = false
+			},
+			makePhoneCall(){
+				wx.makePhoneCall({
+				  phoneNumber: this.service400
+				})
 			},
 			selectSize(size) {
 				if (this.selected.colorId == '') {
@@ -393,7 +406,7 @@
 			},
 			//收藏
 			doLike() {
-				if(!this.hasVipCard()){
+				if (!this.hasVipCard()) {
 					return
 				}
 				Toast.loading({
@@ -535,7 +548,7 @@
 				return rpx * this.windowWidth / 750
 			},
 			createNewImg() {
-				if(!this.hasVipCard()){
+				if (!this.hasVipCard()) {
 					return
 				}
 				let _this = this
@@ -558,7 +571,7 @@
 								let avatarRes = res
 								//请求服务器生成一张小程序二维码
 								wx.getImageInfo({
-									src: _this.goods.imageList[0].replace("http:","https:"),
+									src: _this.goods.imageList[0].replace("http:", "https:"),
 									success(res) {
 										let context = wx.createCanvasContext('mycanvas')
 										context.setFillStyle('#ffffff')
@@ -621,7 +634,7 @@
 						uni.navigateTo({
 							url: '/pages/register/register'
 						})
-					}).catch(e=>{})
+					}).catch(e => {})
 					return false
 				}
 				if (this.cardList.length == 0) {
@@ -632,7 +645,7 @@
 						uni.navigateTo({
 							url: '/pages/bind_vip/bind_vip'
 						})
-					}).catch(e=>{})
+					}).catch(e => {})
 					return false
 				} else {
 					return true

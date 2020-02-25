@@ -12,7 +12,8 @@ Vue.prototype.$baseURL = 'https://crm.wisdomyy.com/crm'
 Vue.prototype.$baseImageURL = 'https://crm.wisdomyy.com/images/'
 uniRequest.defaults.baseURL = Vue.prototype.$baseURL
 // Vue.prototype.$tnId='11'
-Vue.prototype.$tnId = 'jljy'
+// Vue.prototype.$tnId = 'jljy'
+Vue.prototype.$tnId = 'bona'
 uniRequest.defaults.headers['tn_id'] = Vue.prototype.$tnId
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json'
 Vue.prototype.$uniRequest = uniRequest
@@ -41,7 +42,7 @@ uniRequest.interceptors.request.use(
 	});
 
 // 响应拦截
-uniRequest.interceptors.response.use(function(res) {
+uniRequest.interceptors.response.use(function(res) { 
 	wx.hideLoading()
 	if (res.data.code === 50008) {
 		wx.login({

@@ -54,12 +54,18 @@
     "quickapp" : {},
     /* 快应用特有相关 */
     "mp-weixin" : {
-        "appid" : "wx05b66ca078137785",
+        "appid" : "wxeb82d151a4a0f326",
         "setting" : {
             "urlCheck" : false,
             "minified" : true
         },
         "usingComponents" : true,
+        "plugins" : {
+            "contactPlugin" : {
+                "version" : "1.3.0",
+                "provider" : "wx104a1a20c3f81ec2"
+            }
+        },
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "页面展示效果"

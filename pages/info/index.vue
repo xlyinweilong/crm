@@ -98,11 +98,16 @@
 					</van-col>
 					<van-col span="8">
 						<div style="border:10px;background-color:transparent;">
-							<button class="text-button" style="background-color:transparent;" open-type="contact" bindcontact="handleContact"
+							<button class="text-button" style="background-color:transparent;" @click="goPage('info/customer/index')"
 							 hover-class="user-info-hover">
 								<div><span class="iconfont icon-zhuanshuguwen"></span></div>
 								<div class="wenzi">专属顾问</div>
 							</button>
+							<!-- <button class="text-button" style="background-color:transparent;" open-type="contact" bindcontact="handleContact"
+							 hover-class="user-info-hover">
+								<div><span class="iconfont icon-zhuanshuguwen"></span></div>
+								<div class="wenzi">专属顾问</div>
+							</button> -->
 						</div>
 					</van-col>
 				</van-row>
