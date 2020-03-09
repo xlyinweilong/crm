@@ -208,9 +208,10 @@
 					this.$uniRequest.post('/api/small/shop/order/receive_order', {
 						id: o.id
 					}).then(res => {
+						Toast.clear()
 						Toast('操作成功')
 						this.reLoadList()
-					}).finally(() => Toast.clear())
+					}).catch(() => Toast.clear())
 				}).catch(e => {})
 			},
 			//删除单据
@@ -245,7 +246,6 @@
 			},
 			//线下单据明细
 			goDetail(e) {
-				console.log(e)
 				uni.navigateTo({
 					url: '/pages/sale_bill/detail?posCode=' + e.posCode
 				})

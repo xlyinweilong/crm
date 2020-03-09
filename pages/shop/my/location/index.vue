@@ -9,7 +9,7 @@
 		</div>
 		<div v-if="loading" style="text-align: center;font-size: 32rpx;color: #606266;">加载中。。。</div>
 		<div v-if="!loading && list.length > 0">
-			<div v-if="type == 'settle'" style="color: #ffffff;font-size: 11px;background-color: #706000;text-align: center;padding-top: 8px;padding-bottom: 8px;">
+			<div v-if="type == 'settle' || type == 'refund'" style="color: #ffffff;font-size: 11px;background-color: #706000;text-align: center;padding-top: 8px;padding-bottom: 8px;">
 				点击选择地址
 			</div>
 			<div v-for="e in list" :key="e.id" style="background-color: #ffffff;margin-bottom: 10rpx;">
@@ -62,12 +62,16 @@
 				marginTop: 0,
 				loading: false,
 				list: [],
-				type: ''
+				type: '',
+				eleId:''
 			}
 		},
 		computed: {},
 		onLoad(query) {
 			this.type = query.type
+			if(query.id){
+				this.eleId = query.id
+			}
 			let systemInfo = wx.getSystemInfoSync()
 			this.marginTop = systemInfo.windowHeight / 2 - 120
 		},
@@ -79,6 +83,10 @@
 				if(this.type == 'settle'){
 					uni.redirectTo({
 						url: '/pages/shop/settle/index?locationId=' + e.id
+					})
+				}else if(this.type == 'refund'){
+					uni.redirectTo({
+						url: '/pages/shop/my/order/refund?locationId=' + e.id + "&id=" + this.eleId
 					})
 				}
 			},

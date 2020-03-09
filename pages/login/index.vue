@@ -18,6 +18,19 @@
 		},
 		onLoad(query) {
 			let _this = this
+			// 查看是否授权
+			wx.getSetting({
+				success(res) {
+					if (res.authSetting['scope.userInfo']) {
+						wx.getUserInfo({
+							withCredentials: true,
+							success: function(res) {
+								console.log(res)
+							}
+						})
+					}
+				}
+			})
 			this.onload(query)
 			this.loadConfig()
 		},

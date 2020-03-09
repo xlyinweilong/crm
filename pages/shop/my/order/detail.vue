@@ -77,10 +77,27 @@
 				<div style="margin-top: 18rpx;">快递：{{ele.expressCompanyName}}</div>
 				<div style="margin-top: 18rpx;">快递单号：{{ele.expressCode}}</div>
 			</div>
+			<!-- 订单快递 -->
+			<div v-if="!loadingDetail && expressLocationList.length > 0" class="order_detail">
+				<div v-for="e in expressLocationList" :key="e.actionType" style="margin-top: 18rpx;height: 30rpx;padding-right: 18rpx;">
+					<div style="float: left;">{{e.actionTime}}</div>
+					<div style="float: right;">{{e.actionMsg}}</div>
+				</div>
+			</div>
 			<!-- 订单操作 -->
+			<div class="detail_option">
+				<div style="margin-top: 18rpx;margin-bottom: 18rpx;">
+					<span v-if="ele.statusCode == 'PENDING_SEND'" class="detail_option_button" @click="cancelOrder(ele)">取消订单</span>
+					<span v-if="ele.statusCode == 'PENDING_RECEIVE'" class="detail_option_button" @click="receive(ele)" style="color:#706000;border-color:#706000">确认收货</span>
+					<span v-if="ele.canRefund" class="detail_option_button" @click="refund(ele)" style="color:#706000;border-color:#706000">退货</span>
+				</div>
+			</div>
 		</div>
 		<van-toast id="van-toast" />
 		<van-dialog id="van-dialog" confirm-button-color="#706000" />
+		<uni-popup ref="popup" type="bottom">
+			邮寄地址：{{locationMessage}}
+		</uni-popup>
 	</view>
 </template>
 
@@ -88,15 +105,19 @@
 	import Toast from '@/wxcomponents/vant/toast/toast'
 	import Dialog from '@/wxcomponents/vant/dialog/dialog'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 
 	export default {
 		components: {
-			uniLoadMore
+			uniLoadMore,uniPopup
 		},
 		data() {
 			return {
 				id: '',
-				ele: {}
+				ele: {},
+				loadingDetail: false,
+				expressLocationList: [],
+				locationMessage:''
 			}
 		},
 		computed: {},
@@ -122,12 +143,86 @@
 					}
 				}).then(res => {
 					this.ele = res.data
+					this.loadDetail()
 				}).finally(() => Toast.clear())
 			},
 			showGoodsDetail(g) {
 				uni.navigateTo({
 					url: '/pages/shop/goods/goods_detail?g=' + g.goodsCode
 				})
+			},
+			loadDetail() {
+				if (this.ele.packageId != null && this.ele.packageId != '') {
+					this.loadingDetail = true
+					this.$uniRequest.get('/api/small/shop/order/express_path', {
+						data: {
+							id: this.ele.packageId
+						}
+					}).then(res => {
+						this.expressLocationList = res.data
+					}).finally(() => this.loadingDetail = false)
+				}
+			},
+			//取消
+			cancelOrder() {
+				Dialog.confirm({
+					message: '确定要取消吗？'
+				}).then(() => {
+					Toast.loading({
+						duration: 0,
+						mask: true,
+						message: '加载中...'
+					})
+					this.$uniRequest.post('/api/small/shop/order/cancel_order', {
+						id: this.id
+					}).then(res => {
+						Toast.clear()
+						Toast('取消成功')
+						this.info()
+					}).catch(e => Toast.clear())
+				}).catch(e => {})
+			},
+			//收货
+			receive(o) {
+				Dialog.confirm({
+					message: '要确定收货吗？'
+				}).then(() => {
+					Toast.loading({
+						duration: 0,
+						mask: true,
+						message: '加载中...'
+					})
+					this.$uniRequest.post('/api/small/shop/order/receive_order', {
+						id: o.id
+					}).then(res => {
+						Toast.clear()
+						Toast('操作成功')
+						this.info()
+					}).catch(() => Toast.clear())
+				}).catch(e => {})
+			},
+			//退款
+			refund(o) {
+				Toast.loading({
+					duration: 0,
+					mask: true,
+					message: '加载中...'
+				})
+				this.$uniRequest.get('/api/config/sysconfig/info', {
+					data:{
+						key:"SHOP_CONFIG_received_location"
+					}
+				}).then(res => {
+					Toast.clear()
+					if(res.data.configValue == '' || res.data.configValue == null){
+						uni.navigateTo({
+							url: '/pages/shop/my/order/refund?id=' + o.id
+						})
+					}else{
+						this.locationMessage = res.data.configValue
+						 this.$refs.popup.open()
+					}
+				}).catch(() => Toast.clear())
 			}
 		}
 	}
@@ -162,5 +257,27 @@
 	.detail_info_text {
 		padding-top: 24rpx;
 		display: flex;
+	}
+
+	.detail_option {
+		background-color: #ffffff;
+		font-size: 26rpx;
+		color: #606266;
+		border-bottom: 1px solid #F7F7F7;
+		text-align: right;
+		padding-right: 20rpx;
+		padding-top: 24rpx;
+		padding-bottom: 24rpx;
+	}
+
+	.detail_option_button {
+		margin-right: 20rpx;
+		padding-top: 20rpx;
+		padding-bottom: 20rpx;
+		text-align: center;
+		padding-left: 30rpx;
+		padding-right: 30rpx;
+		color: #000000;
+		border: 1px solid #000000;
 	}
 </style>

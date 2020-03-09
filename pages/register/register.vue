@@ -45,7 +45,7 @@
 				uni.getUserInfo({
 					provider: 'weixin',
 					success: function(infoRes) {
-						that.register(infoRes.userInfo)
+						that.register(infoRes)
 					},
 					fail: function() {
 						wx.showToast({
@@ -55,7 +55,8 @@
 					}
 				})
 			},
-			register(userInfo) {
+			register(infoRes) {
+				let userInfo = infoRes.userInfo
 				this.loading = true
 				userInfo.vipCode = this.vipCode
 				let recommend = wx.getStorageSync('recommend')
@@ -74,6 +75,8 @@
 				if (registerFrom != null && registerFrom != '') {
 					userInfo.registerFrom = registerFrom
 				}
+				userInfo.encryptedData = infoRes.encryptedData
+				userInfo.iv = infoRes.iv
 				this.$uniRequest.post('/api/small_procedures/login/register', userInfo).then(res => {
 					wx.setStorageSync('token', res.data)
 					//跳转到授权公众号

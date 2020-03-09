@@ -4,7 +4,7 @@
 			<view style="margin-bottom: 60px;">
 				<!-- 提示栏目 -->
 				<div style="color: #ffffff;font-size: 11px;background-color: #706000;text-align: center;padding-top: 8px;padding-bottom: 8px;">
-					为了保障您的包裹顺利到达，请填写真是姓名
+					为了保障您的包裹顺利到达，请填写真实姓名
 				</div>
 				<div style="display: flex;background: #ffffff;font-size: 28rpx;
 					color:#303133;align-items: center;

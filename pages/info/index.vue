@@ -90,6 +90,12 @@
 							<div class="wenzi">官方商城</div>
 						</div>
 					</van-col>
+					<!-- <van-col span="8">
+						<div @click="goPageBase('pagesA/live/room')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-play"></span></div>
+							<div class="wenzi">直播列表</div>
+						</div>
+					</van-col> -->
 					<van-col span="8">
 						<div @click="goPage('sale_bill/list')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-chakandingdan"></span></div>
@@ -98,16 +104,16 @@
 					</van-col>
 					<van-col span="8">
 						<div style="border:10px;background-color:transparent;">
-							<button class="text-button" style="background-color:transparent;" @click="goPage('info/customer/index')"
-							 hover-class="user-info-hover">
-								<div><span class="iconfont icon-zhuanshuguwen"></span></div>
-								<div class="wenzi">专属顾问</div>
-							</button>
-							<!-- <button class="text-button" style="background-color:transparent;" open-type="contact" bindcontact="handleContact"
+							<!-- <button class="text-button" style="background-color:transparent;" @click="goPage('info/customer/index')"
 							 hover-class="user-info-hover">
 								<div><span class="iconfont icon-zhuanshuguwen"></span></div>
 								<div class="wenzi">专属顾问</div>
 							</button> -->
+							<button class="text-button" style="background-color:transparent;" open-type="contact" bindcontact="handleContact"
+							 hover-class="user-info-hover">
+								<div><span class="iconfont icon-zhuanshuguwen"></span></div>
+								<div class="wenzi">专属顾问</div>
+							</button>
 						</div>
 					</van-col>
 				</van-row>
@@ -139,13 +145,14 @@
 					</van-col>
 				</van-row>
 				<van-row custom-class="icons-row">
-				<van-col span="8">
-					<div @click="goPage('vip/power')" hover-class="user-info-hover">
-						<div><span class="iconfont icon-huiyuanquanyi"></span></div>
-						<div class="wenzi">会员权益</div>
-					</div>
-				</van-col>
-						</van-row>
+					<van-col span="8">
+						<div @click="goPage('vip/power')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-huiyuanquanyi"></span></div>
+							<div class="wenzi">会员权益</div>
+						</div>
+					</van-col>
+					
+				</van-row>
 			</div>
 			<view class="footer1">
 				<uni-swiper-dot :info="info" :current="current" field="content" :mode="'long'">
@@ -230,7 +237,7 @@
 					coupon: 0,
 					totalIntegral: 0,
 					evaluateCount: null,
-					pendingReceiveCount:null
+					pendingReceiveCount: null
 				},
 				footerUrl: "../../static/images/footer2.jpg",
 				footerUrlGoUrl: '',
@@ -363,6 +370,13 @@
 				if (this.hasVipCard()) {
 					uni.reLaunch({
 						url: '/pages/' + page
+					})
+				}
+			},
+			goPageBase(page){
+				if (this.hasVipCard()) {
+					uni.navigateTo({
+						url: '/' + page
 					})
 				}
 			},
