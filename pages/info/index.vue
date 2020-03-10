@@ -90,18 +90,13 @@
 							<div class="wenzi">官方商城</div>
 						</div>
 					</van-col>
-					<!-- <van-col span="8">
+					<van-col span="8">
 						<div @click="goPageBase('pagesA/live/room')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-play"></span></div>
 							<div class="wenzi">直播列表</div>
 						</div>
-					</van-col> -->
-					<van-col span="8">
-						<div @click="goPage('sale_bill/list')" hover-class="user-info-hover">
-							<div><span class="iconfont icon-chakandingdan"></span></div>
-							<div class="wenzi">消费记录</div>
-						</div>
 					</van-col>
+					
 					<van-col span="8">
 						<div style="border:10px;background-color:transparent;">
 							<!-- <button class="text-button" style="background-color:transparent;" @click="goPage('info/customer/index')"
@@ -151,7 +146,12 @@
 							<div class="wenzi">会员权益</div>
 						</div>
 					</van-col>
-					
+					<van-col span="8">
+						<div @click="goPage('sale_bill/list')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-chakandingdan"></span></div>
+							<div class="wenzi">消费记录</div>
+						</div>
+					</van-col>
 				</van-row>
 			</div>
 			<view class="footer1">
@@ -239,7 +239,7 @@
 					evaluateCount: null,
 					pendingReceiveCount: null
 				},
-				footerUrl: "../../static/images/footer2.jpg",
+				footerUrl: "../../static/images/footer1.png",
 				footerUrlGoUrl: '',
 				fileListUrls: ''
 			}

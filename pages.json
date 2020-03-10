@@ -861,25 +861,32 @@
 			}
 		}
 	],
-	// "subPackages": [{
-	// 	"root": "pagesA",
-	// 	"pages":  [{
- //            "path": "live/room",
- //            "plugins": {
- //            	"live-player-plugin": {
- //            		"version": "1.0.0", // 填写该直播组件最新版本号，微信开发者工具调试时可获取最新版本号
- //            		"provider": "wx2b03c6e691cd7370" // 必须填该直播组件appid，该示例值即为直播组件appid
- //            	}
- //            }
- //        }]
-	// }],
-	//预加载
-	// "preloadRule": {
-	// 	"pagesA/live/room": {
-	// 		"network": "all",
-	// 		"packages": ["__APP__"]
-	// 	}
-	// },
+	"subPackages": [{
+		"root": "pagesA",
+		"pages": [{
+			"path": "live/room",
+			"style": {
+				"navigationBarTitleText": "直播间列表",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"enablePullDownRefresh": true
+			}
+		}],
+		"plugins": {
+			"myPlugin": {
+				"version": "1.0.2",
+				"provider": "wx2b03c6e691cd7370"
+			}
+		}
+	}],
+	// 预加载
+	"preloadRule": {
+		"pagesA/live/room": {
+			"network": "all",
+			"packages": ["__APP__"]
+		}
+	},
 	"tabBar": {
 		"custom": true,
 		"color": "#7a7e83",

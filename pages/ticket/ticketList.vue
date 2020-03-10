@@ -120,10 +120,10 @@
 		background-color: #FFFFFF;
 	}
 
-	@font-face {
+	/* @font-face {
 		font-family: 'AvantGarde';
 		src: url('../../static/font/Avant Garde Book BT.ttf') format('truetype');
-	}
+	} */
 
 	/* 	@font-face {
 		font-family: 'msyh';
