@@ -80,14 +80,16 @@
 		},
 		methods: {
 			chooseLocation(e){
+				let pages = getCurrentPages()
+				let currPage = pages[pages.length - 1]   //当前页面
+				let prevPage = pages[pages.length - 2]  //上一个页面
 				if(this.type == 'settle'){
-					uni.redirectTo({
-						url: '/pages/shop/settle/index?locationId=' + e.id
-					})
+					prevPage.$vm.locationId = e.id
+					uni.navigateBack()
 				}else if(this.type == 'refund'){
-					uni.redirectTo({
-						url: '/pages/shop/my/order/refund?locationId=' + e.id + "&id=" + this.eleId
-					})
+					prevPage.$vm.locationId = e.id
+					prevPage.$vm.id = this.eleId
+					uni.navigateBack()
 				}
 			},
 			goPage(page) {

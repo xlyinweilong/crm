@@ -71,7 +71,7 @@
 		data() {
 			return {
 				selectedList: [],
-				activeTag: 1,
+				activeTag: '1',
 				selected: {},
 				list: [],
 				loading: false,

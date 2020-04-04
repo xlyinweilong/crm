@@ -152,6 +152,12 @@
 							<div class="wenzi">消费记录</div>
 						</div>
 					</van-col>
+					<van-col span="8">
+						<div @click="goPage('ticket/shelf/list')" hover-class="user-info-hover">
+							<div><span class="iconfont icon-youhuijuan"></span></div>
+							<div class="wenzi">领券中心</div>
+						</div>
+					</van-col>
 				</van-row>
 			</div>
 			<view class="footer1">

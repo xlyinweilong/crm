@@ -1,5 +1,9 @@
 export function format(time, format) {
 	var t = new Date(time)
+	return formatDate(time, format)
+}
+
+export function formatDate(t, format) {
 	var tf = function(i) {
 		return (i < 10 ? '0' : '') + i
 	}

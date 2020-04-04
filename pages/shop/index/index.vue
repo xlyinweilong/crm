@@ -35,6 +35,11 @@
 				</div>
 			</div>
 		</view>
+		<!-- 悬浮的客服电话 -->
+		<div v-if="service400 != ''" @click="makePhoneCall" style="position:fixed;right:45px;bottom:160px;background-color: #ffffff;
+		border-radius:20px;height: 40px;width: 40px;
+		border: 1px solid #d9d9d9;
+		box-shadow: 2px 2px 12px 2px rgba(0, 0, 0, 0.1)"><span style="font-size: 38px;" class="iconfont icon-service"></span></div>
 		<van-toast id="van-toast" />
 		<tabbar ref="tabbar" :active="0" />
 		<loginCom/>
@@ -62,7 +67,8 @@
 				},
 				theme: {
 					componentList: []
-				}
+				},
+				service400: ''
 			}
 		},
 		onLoad(query) {
@@ -97,6 +103,11 @@
 					url: '/pages/shop/search/index'
 				})
 			},
+			makePhoneCall(){
+				wx.makePhoneCall({
+				  phoneNumber: this.service400
+				})
+			},
 			loadIndex() {
 				this.theme = wx.getStorageSync('indexPage')
 				if (this.theme.id == null) {
@@ -104,6 +115,7 @@
 				}
 				this.$uniRequest.get('/api/small/shop/theme/active').then(res => {
 					this.theme = res.data
+					this.service400 = (this.theme.service400 != null && this.theme.service400 != '') ? this.theme.service400 : ''
 					wx.setStorageSync('indexPage', this.theme)
 				}).finally(() => Toast.clear())
 			},

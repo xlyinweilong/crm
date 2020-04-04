@@ -7,7 +7,7 @@
 			<div v-show="(type == 2 || activeTag == 4) && totalSettleAmount > 0" class="item" style="text-align: right;">
 				<b style="padding-right: 20rpx;">总结算额：{{totalSettleAmount}}</b>
 			</div>
-			<view v-for="ele in list">
+			<view v-for="ele in list" :key="ele.id">
 				<div class="item">
 					<div style="height: 45rpx;">
 						<div class="item_title_left">

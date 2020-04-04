@@ -48,7 +48,8 @@
 			<div v-if="service400 != ''" @click="makePhoneCall" style="position:fixed;right:45px;bottom:160px;background-color: #ffffff;
 			border-radius:20px;height: 40px;width: 40px;
 			border: 1px solid #d9d9d9;
-			box-shadow: 2px 2px 12px 2px rgba(0, 0, 0, 0.1)"><span style="font-size: 38px;" class="iconfont icon-service"></span></div>
+			box-shadow: 2px 2px 12px 2px rgba(0, 0, 0, 0.1)"><span
+				 style="font-size: 38px;" class="iconfont icon-service"></span></div>
 			<!-- 品牌 -->
 			<div class="card" style="display: flex;">
 				<div style="width: 200rpx;">
@@ -69,7 +70,10 @@
 			<!-- 同系列推荐todo -->
 
 			<!-- 上滑查看图文详情 -->
-			<div class="card" style="margin-top: 10px;padding-top: 26rpx;padding-bottom: 26rpx;text-align: center;">
+			<div v-if="goods.imageDetailList.length == 0" class="card" style="margin-top: 10px;padding-top: 26rpx;padding-bottom: 26rpx;text-align: center;">
+				暂无图文详情
+			</div>
+			<div v-if="goods.imageDetailList.length > 0" class="card" style="margin-top: 10px;padding-top: 26rpx;padding-bottom: 26rpx;text-align: center;">
 				上滑查看图文详情
 			</div>
 			<!-- 图片明细 -->
@@ -94,9 +98,13 @@
 					</div>
 				</div>
 				<!-- 加入购物车 -->
-				<div style="width: 490rpx;" @click="addToCart">
+				<div style="width: 244rpx;" @click="addToCart">
 					<van-button custom-class="popup-button" size="large" color="#706000">加入购物车</van-button>
 				</div>
+				<div style="width: 246rpx;" @click="buyNow">
+					<van-button custom-class="popup-button" size="large" color="#333">立即购买</van-button>
+				</div>
+			</div>
 			</div>
 		</view>
 		<van-toast id="van-toast" />
@@ -152,7 +160,8 @@
 			<!-- 第三行，按钮确定 -->
 			<div class="popup-button-div">
 				<div @click="chooseIntoCart" style="margin-left: 15px;margin-right: 15px;height: 60px;margin-top: 15px;">
-					<van-button custom-class="popup-button" size="large" color="#706000">加入购物车</van-button>
+					<van-button v-if="type == 0" custom-class="popup-button" size="large" color="#706000">加入购物车</van-button>
+					<van-button v-if="type == 1" custom-class="popup-button" size="large" color="#333">立即购买</van-button>
 				</div>
 				<!-- <button class="popup-button">确定</button> -->
 			</div>
@@ -214,7 +223,8 @@
 				loadingImage: false,
 				cardList: [],
 				scene: '',
-				service400: ''
+				service400: '',
+				type: 0
 			}
 		},
 		onShareAppMessage(options) {
@@ -242,6 +252,9 @@
 			}
 			// 返回shareObj
 			return shareObj
+		},
+		onPullDownRefresh() {
+			this.getInfo()
 		},
 		onLoad(query) {
 			if (query.scene) {
@@ -305,7 +318,7 @@
 			init(query) {
 				var systemInfo = wx.getSystemInfoSync()
 				this.windowWidth = systemInfo.windowWidth
-				if (this.scene != '') {
+				if (this.scene != '' && query.room_id == null) {
 					this.$recommender.uid = this.scene.split(",")[0]
 					wx.setStorageSync('recommend', query.u)
 					this.goods.code = this.scene.split(",")[1]
@@ -324,9 +337,9 @@
 			onClosePopup() {
 				this.showPopup = false
 			},
-			makePhoneCall(){
+			makePhoneCall() {
 				wx.makePhoneCall({
-				  phoneNumber: this.service400
+					phoneNumber: this.service400
 				})
 			},
 			selectSize(size) {
@@ -395,13 +408,17 @@
 						c.stockCount = this.goods.stockList.filter(s => s.colorId === c.id).reduce((t, a) => t + a.stockCount, 0)
 						if (c.stockCount > 0 && this.goods.colorList.length == 1) {
 							this.selectColor(c)
-							//设置尺码
-							if (this.goods.colorList.sizeList == 1 && this.goods.sizeList[0].stockCount > 0) {
-								this.selectSize(this.goods.sizeList[0])
+							//设置尺码							
+							if (this.goods.sizeList.length == 1) {
+								let stock = this.goods.stockList.find(s => s.colorId === c.id && s.sizeId === this.goods.sizeList[0].id)
+								if (stock != null && stock.stockCount > 0) {
+									this.selectSize(this.goods.sizeList[0])
+								}
 							}
 						}
 					})
 					Toast.clear()
+					uni.stopPullDownRefresh()
 				}).catch(() => Toast.clear())
 			},
 			//收藏
@@ -424,6 +441,19 @@
 			},
 			//添加购物车
 			addToCart() {
+				this.type = 0
+				if (this.selected.sizeId != '' && this.selected.colorId != '') {
+					this.chooseIntoCart()
+				} else {
+					this.showGoodsDetail()
+				}
+			},
+			//立即购买
+			buyNow() {
+				if (!this.hasVipCard()) {
+					return
+				}
+				this.type = 1
 				if (this.selected.sizeId != '' && this.selected.colorId != '') {
 					this.chooseIntoCart()
 				} else {
@@ -448,34 +478,45 @@
 					Toast('请选择尺码')
 					return
 				}
-				let cart = this.cartList.find(c => c.goodsId === this.goods.id && c.colorId === this.selected.colorId && c.sizeId ===
-					this.selected.sizeId)
-				if (cart != null) {
-					cart.quantity += 1
+				if (this.type == 0) {
+					let cart = this.cartList.find(c => c.goodsId === this.goods.id && c.colorId === this.selected.colorId && c.sizeId ===
+						this.selected.sizeId)
+					if (cart != null) {
+						cart.quantity += 1
+					} else {
+						this.cartList.push(this.newEle())
+					}
+					wx.setStorageSync('cartList', this.cartList)
+					Toast('成功加入购物车')
 				} else {
-					let stockCount = this.goods.stockList.filter(s => s.colorId === this.selected.colorId && this.selected.sizeId ===
-						s.sizeId).reduce(
-						(t, a) => t + a.stockCount, 0)
-					this.cartList.push({
-						goodsId: this.goods.id,
-						goodsCode: this.goods.code,
-						goodsDisplayName: this.goods.displayName,
-						tagPrice: this.goods.tagPrice,
-						price: this.goods.price,
-						colorId: this.selected.colorId,
-						colorName: this.selected.colorName,
-						sizeId: this.selected.sizeId,
-						sizeName: this.selected.sizeName,
-						quantity: 1,
-						checked: true,
-						imageList: this.goods.imageList,
-						stockCount: stockCount,
-						limitBuyCount: this.goods.limitBuyCount
+					//跳转到支付页面
+					wx.setStorageSync('settle', this.newEle())
+					uni.redirectTo({
+						url: '/pages/shop/settle/index?type=settle'
 					})
 				}
-				wx.setStorageSync('cartList', this.cartList)
-				Toast('成功加入购物车')
 				this.onCloseGoodsDetail()
+			},
+			newEle() {
+				let stockCount = this.goods.stockList.filter(s => s.colorId === this.selected.colorId && this.selected.sizeId ===
+					s.sizeId).reduce(
+					(t, a) => t + a.stockCount, 0)
+				return {
+					goodsId: this.goods.id,
+					goodsCode: this.goods.code,
+					goodsDisplayName: this.goods.displayName,
+					tagPrice: this.goods.tagPrice,
+					price: this.goods.price,
+					colorId: this.selected.colorId,
+					colorName: this.selected.colorName,
+					sizeId: this.selected.sizeId,
+					sizeName: this.selected.sizeName,
+					quantity: 1,
+					checked: true,
+					imageList: this.goods.imageList,
+					stockCount: stockCount,
+					limitBuyCount: this.goods.limitBuyCount
+				}
 			},
 			goToCart() {
 				uni.switchTab({

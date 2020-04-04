@@ -331,6 +331,19 @@
 				"navigationBarTitleText": "领劵中心",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dropdown-item/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ticket/shelf/detail",
+			"style": {
+				"navigationBarTitleText": "领劵",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
 		},
@@ -438,6 +451,26 @@
 					"van-toast": "/wxcomponents/vant/toast/index",
 					"van-icon": "/wxcomponents/vant/icon/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/shop/goods_receive/index",
+			"style": {
+				"navigationBarTitleText": "商城取货",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
+				"usingComponents": {
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-icon": "/wxcomponents/vant/icon/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dropdown-item/index",
+					"van-field": "/wxcomponents/vant/field/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index"
 				}
 			}
 		},
@@ -639,7 +672,9 @@
 				"usingComponents": {
 					"van-dialog": "/wxcomponents/vant/dialog/index",
 					"van-tab": "/wxcomponents/vant/tab/index",
-					"van-tabs": "/wxcomponents/vant/tabs/index"
+					"van-tabs": "/wxcomponents/vant/tabs/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dropdown-item/index"
 				}
 			}
 		},
@@ -874,8 +909,8 @@
 			}
 		}],
 		"plugins": {
-			"myPlugin": {
-				"version": "1.0.2",
+			"live-player-plugin": {
+				"version": "1.0.4",
 				"provider": "wx2b03c6e691cd7370"
 			}
 		}

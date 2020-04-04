@@ -58,10 +58,10 @@
 						<div style="width: 300rpx;">商品退款</div>
 						<div style="width: 420rpx;text-align: right;padding-right: 30rpx;">￥{{g.totalRefundAmount}}</div>
 					</div>
-					<div style="display: flex;margin-top: 20rpx;">
+					<!-- <div style="display: flex;margin-top: 20rpx;">
 						<div style="width: 300rpx;">活动优惠</div>
 						<div style="width: 420rpx;text-align: right;padding-right: 30rpx;">-￥0.00</div>
-					</div>
+					</div> -->
 					<div style="display: flex;margin-top: 20rpx;margin-bottom: 18rpx;">
 						<div style="width: 300rpx;">获得积分</div>
 						<div style="width: 420rpx;text-align: right;padding-right: 30rpx;">{{g.cleanIntegral}}</div>
@@ -72,10 +72,18 @@
 			<div class="order_detail">
 				<div style="margin-top: 18rpx;">订单编号：{{ele.code}}</div>
 				<div style="margin-top: 18rpx;">创建时间：{{ele.createDate}}</div>
+				<div v-if="ele.ticketAmount > 0" style="display: flex;margin-top: 20rpx;">
+					<div style="width: 300rpx;">优惠卷</div>
+					<div style="width: 420rpx;text-align: right;padding-right: 30rpx;">-￥{{ele.ticketAmount}}</div>
+				</div>
 			</div>
 			<div v-if="ele.expressCode != null" class="order_detail">
 				<div style="margin-top: 18rpx;">快递：{{ele.expressCompanyName}}</div>
 				<div style="margin-top: 18rpx;">快递单号：{{ele.expressCode}}</div>
+			</div>
+			<div v-if="ele.packageId != null" class="order_detail">
+				<div style="margin-top: 18rpx;">快递：{{ele.shopPackagePo.deliveryId}}</div>
+				<div style="margin-top: 18rpx;">快递单号：{{ele.shopPackagePo.waybillId}}</div>
 			</div>
 			<!-- 订单快递 -->
 			<div v-if="!loadingDetail && expressLocationList.length > 0" class="order_detail">
@@ -84,10 +92,15 @@
 					<div style="float: right;">{{e.actionMsg}}</div>
 				</div>
 			</div>
+			<!-- 取货二维码 -->
+			<div v-if="ele.receiveType == 'self' && ele.status == 'PENDING_DELIVERY'" class="detail_option" style="text-align: center;">
+				<div style="margin-top: 8rpx;margin-bottom: 8rpx;">出示二维码取货</div>
+				<tkiQrcode ref="qrcode" :size="400" :val="ele.code" />
+			</div>
 			<!-- 订单操作 -->
 			<div class="detail_option">
 				<div style="margin-top: 18rpx;margin-bottom: 18rpx;">
-					<span v-if="ele.statusCode == 'PENDING_SEND'" class="detail_option_button" @click="cancelOrder(ele)">取消订单</span>
+					<span v-if="ele.statusCode == 'PENDING_SEND' || ele.statusCode == 'PENDING_DELIVERY'" class="detail_option_button" @click="cancelOrder(ele)">取消订单</span>
 					<span v-if="ele.statusCode == 'PENDING_RECEIVE'" class="detail_option_button" @click="receive(ele)" style="color:#706000;border-color:#706000">确认收货</span>
 					<span v-if="ele.canRefund" class="detail_option_button" @click="refund(ele)" style="color:#706000;border-color:#706000">退货</span>
 				</div>
@@ -106,18 +119,23 @@
 	import Dialog from '@/wxcomponents/vant/dialog/dialog'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import tkiQrcode from "@/components/tki-qrcode/tki-qrcode.vue"
 
 	export default {
 		components: {
-			uniLoadMore,uniPopup
+			uniLoadMore,
+			uniPopup,
+			tkiQrcode
 		},
 		data() {
 			return {
 				id: '',
-				ele: {},
+				ele: {
+					code: ''
+				},
 				loadingDetail: false,
 				expressLocationList: [],
-				locationMessage:''
+				locationMessage: ''
 			}
 		},
 		computed: {},
@@ -144,6 +162,11 @@
 				}).then(res => {
 					this.ele = res.data
 					this.loadDetail()
+					if(this.ele.receiveType == 'self' && this.ele.status == 'PENDING_DELIVERY'){
+						this.$nextTick(() => {
+							this.$refs.qrcode._makeCode()
+						})
+					}
 				}).finally(() => Toast.clear())
 			},
 			showGoodsDetail(g) {
@@ -209,18 +232,18 @@
 					message: '加载中...'
 				})
 				this.$uniRequest.get('/api/config/sysconfig/info', {
-					data:{
-						key:"SHOP_CONFIG_received_location"
+					data: {
+						key: "SHOP_CONFIG_received_location"
 					}
 				}).then(res => {
 					Toast.clear()
-					if(res.data.configValue == '' || res.data.configValue == null){
+					if (res.data.configValue == '' || res.data.configValue == null) {
 						uni.navigateTo({
 							url: '/pages/shop/my/order/refund?id=' + o.id
 						})
-					}else{
+					} else {
 						this.locationMessage = res.data.configValue
-						 this.$refs.popup.open()
+						this.$refs.popup.open()
 					}
 				}).catch(() => Toast.clear())
 			}

@@ -18,6 +18,8 @@
 				 icon="user-circle-o" />
 				<van-cell v-if="powerKeyList.indexOf('e_ticket_check') > -1" title="卡券核销" is-link @click="goTo('employ/ticket_list')"
 				 icon="records" />
+				 <van-cell v-if="powerKeyList.indexOf('e_shop_goods_receive') > -1" title="商城出货" is-link @click="goTo('employ/shop/goods_receive/index')"
+				  icon="shopping-cart-o" />
 			</van-cell-group>
 			<van-cell-group title="宝贝焕新" v-if="powerKeyList.indexOf('e_nursing') > -1 || powerKeyList.indexOf('e_nursing_wash') > -1">
 				<van-cell title="店铺收货" v-if="powerKeyList.indexOf('e_nursing') > -1" is-link @click="goTo('employ/nursing/list')" icon="logistics" />

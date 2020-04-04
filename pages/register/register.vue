@@ -56,38 +56,40 @@
 				})
 			},
 			register(infoRes) {
-				let userInfo = infoRes.userInfo
-				this.loading = true
-				userInfo.vipCode = this.vipCode
-				let recommend = wx.getStorageSync('recommend')
-				let recommendC = wx.getStorageSync('recommendC')
-				let recommendD = wx.getStorageSync('recommendD')
-				let registerFrom = wx.getStorageSync('registerFrom')
-				if (recommend != null && recommend != '') {
-					userInfo.recommendOpenId = recommend
+				if(!this.loading){
+					let userInfo = infoRes.userInfo
+					this.loading = true
+					userInfo.vipCode = this.vipCode
+					let recommend = wx.getStorageSync('recommend')
+					let recommendC = wx.getStorageSync('recommendC')
+					let recommendD = wx.getStorageSync('recommendD')
+					let registerFrom = wx.getStorageSync('registerFrom')
+					if (recommend != null && recommend != '') {
+						userInfo.recommendOpenId = recommend
+					}
+					if (recommendC != null && recommendC != '') {
+						userInfo.recommendChannelCode = recommendC
+					}
+					if (recommendD != null && recommendD != '') {
+						userInfo.recommendCode = recommendD
+					}
+					if (registerFrom != null && registerFrom != '') {
+						userInfo.registerFrom = registerFrom
+					}
+					userInfo.encryptedData = infoRes.encryptedData
+					userInfo.iv = infoRes.iv
+					this.$uniRequest.post('/api/small_procedures/login/register', userInfo).then(res => {
+						wx.setStorageSync('token', res.data)
+						//跳转到授权公众号
+						uni.redirectTo({
+							url: '/pages/bind_vip/authorization'
+						})
+						//跳转到绑定会员卡
+						// uni.redirectTo({
+						// 	url: '/pages/bind_vip/bind_vip'
+						// })
+					}).finally(() => this.loading = false)
 				}
-				if (recommendC != null && recommendC != '') {
-					userInfo.recommendChannelCode = recommendC
-				}
-				if (recommendD != null && recommendD != '') {
-					userInfo.recommendCode = recommendD
-				}
-				if (registerFrom != null && registerFrom != '') {
-					userInfo.registerFrom = registerFrom
-				}
-				userInfo.encryptedData = infoRes.encryptedData
-				userInfo.iv = infoRes.iv
-				this.$uniRequest.post('/api/small_procedures/login/register', userInfo).then(res => {
-					wx.setStorageSync('token', res.data)
-					//跳转到授权公众号
-					uni.redirectTo({
-						url: '/pages/bind_vip/authorization'
-					})
-					//跳转到绑定会员卡
-					// uni.redirectTo({
-					// 	url: '/pages/bind_vip/bind_vip'
-					// })
-				}).finally(() => this.loading = false)
 			}
 		}
 	}

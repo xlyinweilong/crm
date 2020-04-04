@@ -132,7 +132,6 @@
 
 <script>
 	import Toast from '@/wxcomponents/vant/toast/toast'
-	// import loginCom from '@/pages/shop/components/login'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
 	import uniDrawer from '@/components/uni-drawer/uni-drawer.vue'
@@ -140,8 +139,7 @@
 		components: {
 			uniSwiperDot,
 			uniLoadMore,
-			uniDrawer,
-			// loginCom
+			uniDrawer
 		},
 		data() {
 			return {
@@ -153,6 +151,7 @@
 					goodsCategoryIds: '',
 					goodsCategory2Ids: '',
 					sortKey: 'DEFUALT',
+					ticketId:'',
 					sortAsc: true
 				},
 				goodsList: [],
@@ -183,6 +182,9 @@
 			}
 			if (query.sk) {
 				this.listQuery.searchKey = query.sk
+			}
+			if (query.t) {
+				this.listQuery.ticketId = query.t
 			}
 			this.loadGoodsAttr()
 		},

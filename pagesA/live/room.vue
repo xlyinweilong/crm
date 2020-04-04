@@ -20,7 +20,7 @@
 <script>
 	import Toast from '@/wxcomponents/vant/toast/toast'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
-
+	let livePlayer = requirePlugin('live-player-plugin')
 	export default {
 		components: {
 			uniLoadMore
@@ -32,7 +32,8 @@
 					pageSize: 10
 				},
 				list: [],
-				status: "loading"
+				status: "loading",
+				a:'http://mmbiz.qpic.cn/mmbiz_jpg/sfLiaT4SGl9rpKStQdoBGzib24K6Pf5RsCS3SJsDyX1Oy2uAYOWxVShartJwLxiam20sjluj4h0lodORA1D11Xickw/0'
 			}
 		},
 		onLoad(query) {
@@ -55,6 +56,7 @@
 				this.getList()
 			},
 			getList() {
+				
 				if (this.status == "more") {
 					this.status = "loading"
 					this.$uniRequest.get('/api/live/list', {
@@ -65,8 +67,32 @@
 					}).then(res => {
 						res.data.content.forEach(c => {
 							if (this.list.every(e => e.id != c.id)) {
+								livePlayer.getLiveStatus({ room_id: c.roomid }).then(res => {
+								  // 101: 直播中, 102: 未开始, 103: 已结束, 104: 禁播, 105: 暂停中, 106: 异常, 107：已过期 
+									c.liveStatus = res.liveStatus
+									switch(c.liveStatus){
+										case 101:
+											c.liveStatusMean = '直播中'
+											break
+										case 102:
+											c.liveStatusMean = '未开始'
+											break
+										case 103:
+											c.liveStatusMean = '已结束'
+											break
+										case 105:
+											c.liveStatusMean = '暂停中'
+											break
+										case 107:
+											c.liveStatusMean = '已过期'
+											break
+										default:
+											c.liveStatusMean = '其他'
+									}
+								}).catch(err => {
+									console.log(err)
+								})
 								this.list.push(c)
-								console.log(c)
 							}
 						})
 						uni.hideNavigationBarLoading()

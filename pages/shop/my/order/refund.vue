@@ -117,12 +117,13 @@
 		onLoad(query) {
 			if (query.id) {
 				this.id = query.id
-				this.info()
 			}
 			this.locationId = query.locationId
-			this.loadLocation()
 		},
-		onShow() {},
+		onShow() {
+			this.loadLocation()
+			this.info()
+		},
 		methods: {
 			onClose() {
 				this.show = false

@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<!-- 门店自提 -->
-				<!-- <div style="display: flex;background: #ffffff;font-size: 28rpx;
+				<div style="display: flex;background: #ffffff;font-size: 28rpx;
 					color:#303133;align-items: center;
 					padding-top: 30rpx;padding-bottom: 30rpx;
 					padding-left: 20rpx;padding-right: 20rpx;">
@@ -47,7 +47,7 @@
 					padding-left: 20rpx;padding-right: 20rpx;">
 					<div v-if="selectChannel.id == null" @click="addChannel" style="font-size: 28rpx;color:#706000">+添加提货地址</div>
 					<div v-if="selectChannel.id != null" @click="addChannel" style="font-size: 28rpx;color:#706000">{{selectChannel.aliasName}}</div>
-				</div> -->
+				</div>
 				<!-- 商品明细 -->
 				<div class="goods_list">
 					<div class="goods_detail" v-for="(e,index) in goodsList" :key="index">
@@ -74,14 +74,18 @@
 				</div>
 				<!-- 优惠卷、活动、运费 -->
 				<div class="goods_list">
-					<!-- <div class="row">
+					<div class="row" @click="showTicketList">
 						<div class="left">使用优惠卷</div>
 						<div class="right">
-							没有使用优惠卷
-							<span style="font-size: 32rpx;" class="iconfont icon-arrow-right"></span>
+							<span v-if="selectedTicket.id == ''">
+								没有使用优惠卷
+								<span style="font-size: 32rpx;" class="iconfont icon-arrow-right"></span>
+							</span>
+							<span v-if="selectedTicket.id != ''">-￥{{selectedTicket.amount}}</span>
+							
 						</div>
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="left">活动优惠金额</div>
 						<div class="right">
 							-￥0.00
@@ -96,7 +100,7 @@
 					<div class="row">
 						<div class="left">估计获得积分</div>
 						<div class="right">
-							+{{gotIntegral}}
+							+{{nowGotIntegral}}
 						</div>
 					</div>
 				</div>
@@ -105,12 +109,14 @@
 			<div class="tools-bottom">
 				<div style="width: 500rpx;padding-left: 20px;display: flex;align-items: center;">
 					<div style="color: #909399;">
-						<p>总金额：<span style="color: #606266;">{{totalAmount + expressFee}}</span></p>
+						<p>总金额：<span style="color: #606266;">{{settleAmount}}</span></p>
 						<!-- <p>总积分：<span style="color: #606266;">100000</span></p> -->
 					</div>
 				</div>
 				<div style="width: 250rpx;">
-					<button style="background-color: #706000;" class="tools-bottom-button" @click="doPay" type="primary">立即支付</button>
+					<button v-if="settleAmount > 0" style="background-color: #706000;" class="tools-bottom-button" @click="doPay" type="primary">支付</button>
+					<button v-if="settleAmount == 0" style="background-color: #706000;" class="tools-bottom-button" @click="doPay"
+					 type="primary">确定</button>
 				</div>
 			</div>
 		</view>
@@ -143,19 +149,33 @@
 		</van-popup>
 		<van-dialog id="van-dialog" confirm-button-color="#706000" />
 		<loginCom />
+		<van-popup :show="isShowTicketList" z-index="201" closeable position="bottom" custom-style="height:1000rpx" @close="onCloseTicketList">
+			<div style="margin-top: 40px;padding-left: 2rpx;padding-right: 2rpx;">
+				<div style="border-bottom: 1px solid #E4E7ED;"></div>
+				<div v-for="t in ticketDetailList" :key="t.id">
+					<div class="row" @click="chooseTicket(t)">
+						<div class="left">{{t.title}}</div>
+						<div class="right">
+							{{t.amount}}
+							<span v-if="t.id === selectedTicket.id" style="font-size: 36rpx;color: #706000;font-weight:900;margin-left: 6rpx;"
+							 class="iconfont icon-zhengque"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div></div>
+		</van-popup>
 	</view>
 </template>
 
 <script>
 	import Dialog from 'wxcomponents/vant/dialog/dialog'
-	import loginCom from '@/pages/shop/components/login'
 	import Toast from '@/wxcomponents/vant/toast/toast'
 	export default {
-		components: {
-			loginCom
-		},
+		components: {},
 		data() {
 			return {
+				isShowTicketList: false,
 				loading: false,
 				loadingLocation: false,
 				loadingChannel: false,
@@ -171,15 +191,37 @@
 				expressAmountFree: -1,
 				consumeGotIntegral: 0,
 				gotIntegral: 0,
-				cardList:null
+				cardList: null,
+				type: '',
+				ticketDetailList: [],
+				selectedTicket: {
+					id: '',
+					amount: 0
+				}
 			}
 		},
 		computed: {
+			nowGotIntegral(){
+				if(this.gotIntegral <= 0){
+					return 0
+				}
+				if(this.selectedTicket.amount == null || this.selectedTicket.amount == 0){
+					return this.gotIntegral
+				}
+				return this.gotIntegral - this.selectedTicket.amount
+			},
 			goodsList() {
 				return this.cartList.filter(c => c.checked)
 			},
 			totalAmount() {
 				return this.cartList.filter(e => e.checked).reduce((t, a) => t + (a.quantity * a.price), 0)
+			},
+			settleAmount() {
+				if (this.selectedTicket.id != '') {
+					let r = this.totalAmount + this.expressFee - this.selectedTicket.amount
+					return r > 0 ? r : 0
+				}
+				return this.totalAmount + this.expressFee
 			},
 			expressFee() {
 				if (this.totalAmount >= this.expressAmountFree) {
@@ -190,34 +232,91 @@
 			}
 		},
 		onLoad(query) {
-			this.locationId = query.locationId
-			this.loadLocation()
+			this.type = ''
+			// this.locationId = query.locationId
+			if (query.type) {
+				this.type = query.type
+			}
 		},
 		onShow() {
+			this.loadLocation()
 			let user = wx.getStorageSync('token')
 			if (user != '' && user != null) {
 				this.cardList = user.cardList
 			}
-			if (wx.getStorageSync('cartList') instanceof Array) {
-				this.cartList = wx.getStorageSync('cartList')
+			if (this.type == 'settle') {
+				let o = wx.getStorageSync('settle')
+				this.cartList = []
+				this.cartList.push(o)
+			} else {
+				if (wx.getStorageSync('cartList') instanceof Array) {
+					this.cartList = wx.getStorageSync('cartList')
+				}
 			}
 			this.loadInfo()
 		},
 		methods: {
+			chooseTicket(ticket) {
+				if (ticket.id === this.selectedTicket.id) {
+					this.selectedTicket.id = ''
+					this.selectedTicket.amount = 0
+				} else {
+					this.selectedTicket.id = ticket.id
+					this.selectedTicket.amount = ticket.amount
+				}
+				this.onCloseTicketList()
+			},
+			onCloseTicketList() {
+				this.isShowTicketList = false
+			},
 			loadInfo() {
 				Toast.loading({
 					duration: 0,
 					mask: true,
 					message: '加载中...'
 				})
-				this.$uniRequest.get('/api/small/shop/order/settle_info').then(res => {
-					this.baseExpressFee = res.data.baseExpressFee
-					this.expressAmountFree = res.data.expressAmountFree
-					this.consumeGotIntegral = res.data.consumeGotIntegral
-					//设置每个货品可以获得的积分
-					this.cartList.filter(c => c.checked).forEach(g => g.integral = Math.floor(g.price) * this.consumeGotIntegral)
-					this.gotIntegral = this.cartList.filter(c => c.checked).reduce((t, a) => t + a.integral * a.quantity, 0)
-				}).finally(() => Toast.clear())
+				let _this = this
+				uni.request({
+					url: _this.$baseURL + '/api/small/shop/order/settle_info',
+					data: _this.goodsList,
+					method: 'POST',
+					header: {
+						'content-type': 'application/json',
+						'X-Token': _this.$uniRequest.defaults.headers.common['X-Token'],
+						'tn_id': _this.$tnId
+					},
+					success: (res) => {
+						res = res.data
+						if (res.code == 0) {
+							_this.ticketDetailList = res.data.ticketDetailList.filter(t => t.isCanUse)
+							_this.baseExpressFee = res.data.baseExpressFee
+							_this.expressAmountFree = res.data.expressAmountFree
+							_this.consumeGotIntegral = res.data.consumeGotIntegral
+							_this.cardTips = res.data.cardTips
+							//刷新库存数量
+							_this.cartList = res.data.settleList
+							//设置每个货品可以获得的积分
+							_this.cartList.filter(c => c.checked).forEach(g => g.integral = Math.floor(g.price) * this.consumeGotIntegral)
+							_this.gotIntegral = this.cartList.filter(c => c.checked).reduce((t, a) => t + a.integral * a.quantity, 0)
+							//自动选择优惠券
+							if (_this.ticketDetailList.length > 0) {
+								_this.ticketDetailList.forEach(d => {
+									if (_this.selectedTicket.amount < d.amount) {
+										_this.chooseTicket(d)
+									}
+								})
+							}
+							Toast.clear()
+						} else {
+							Toast.clear()
+							Toast(res.message)
+						}
+					},
+					fail() {
+						Toast('fail')
+						Toast.clear()
+					}
+				})
 			},
 			//关闭店铺列表
 			onCloseChannel() {
@@ -236,6 +335,7 @@
 						_this.getChannelList(res.latitude, res.longitude)
 					},
 					fail(e) {
+						console.log(e)
 						Toast("请在小程序设置中开启定位授权")
 					}
 				})
@@ -279,7 +379,7 @@
 			},
 			//支付
 			doPay() {
-				if(!this.hasVipCard()){
+				if (!this.hasVipCard()) {
 					return
 				}
 				//判断是否选择的地址
@@ -303,7 +403,8 @@
 					channelId: this.selectChannel.id,
 					goodsList: goodsList,
 					expressFee: this.expressFee,
-					recommendUid:this.$recommender.uid
+					recommendUid: this.$recommender.uid,
+					ticketDetailIds: [this.selectedTicket.id]
 				}
 				let _this = this
 				uni.request({
@@ -317,41 +418,63 @@
 					},
 					success: (res) => {
 						res = res.data
-						if(res.code == 0){
+						if (res.code == 0) {
 							//删除购物车
-							wx.setStorageSync('cartList', this.cartList.filter(c => !c.checked))
+							if (_this.type == '') {
+								wx.setStorageSync('cartList', this.cartList.filter(c => !c.checked))
+							}
 							Toast.clear()
-							wx.requestPayment({
-								timeStamp: res.data.timeStamp + '',
-								nonceStr: res.data.nonceStr,
-								package: res.data.package,
-								signType: 'MD5',
-								paySign: res.data.paySign,
-								success(res) {
-									Toast("支付成功")
-									uni.redirectTo({
-										url: '/pages/shop/my/order/index?s=PENDING_SEND'
-									})
-								},
-								fail(res) {
-									uni.redirectTo({
-										url: '/pages/shop/my/order/index?s=PENDING_PAYMENT'
-									})
-								}
-							})
-						}else{
+							if (_this.settleAmount > 0) {
+								wx.requestPayment({
+									timeStamp: res.data.timeStamp + '',
+									nonceStr: res.data.nonceStr,
+									package: res.data.package,
+									signType: 'MD5',
+									paySign: res.data.paySign,
+									success(res) {
+										Toast("支付成功")
+										uni.redirectTo({
+											url: '/pages/shop/my/order/index'
+										})
+									},
+									fail(res) {
+										uni.redirectTo({
+											url: '/pages/shop/my/order/index?s=PENDING_PAYMENT'
+										})
+									}
+								})
+							} else {
+								Toast("下单成功")
+								uni.redirectTo({
+									url: '/pages/shop/my/order/index'
+								})
+							}
+						} else {
 							Toast.clear()
 							Toast(res.message)
 						}
 					},
-					
+
 				})
 			},
 			//调转到选择地址
 			selectLocation() {
-				if(!this.hasVipCard()){
+				if (!this.hasVipCard()) {
 					return
 				}
+				let _this = this
+				// wx.chooseAddress({
+				//   success (res) {
+				// 	_this.selectedLocation.receiver = res.userName
+				// 	_this.selectedLocation.postalCode = res.postalCode
+				// 	_this.selectedLocation.provinceName = res.provinceName
+				// 	_this.selectedLocation.cityName = res.cityName
+				// 	_this.selectedLocation.stationName = res.countyName
+				// 	_this.selectedLocation.address = res.detailInfo
+				// 	_this.selectedLocation.nationalCode = res.nationalCode
+				// 	_this.selectedLocation.mobile = res.telNumber
+				//   }
+				// })
 				uni.navigateTo({
 					url: '/pages/shop/my/location/index?type=settle'
 				})
@@ -396,6 +519,10 @@
 				} else {
 					return true
 				}
+			},
+			//显示优惠卷
+			showTicketList() {
+				this.isShowTicketList = true
 			}
 		}
 	}
@@ -436,6 +563,9 @@
 		width: 240rpx;
 		text-align: left;
 		color: #303133;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.right {

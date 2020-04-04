@@ -155,6 +155,13 @@
 								})
 								return
 							}
+							if (this.scene != null && this.scene.startsWith('ti,')) {
+								let code = this.scene.split(",")[1]
+								uni.reLaunch({
+									url: '/pages/ticket/shelf/detail?code=' + code
+								})
+								return
+							}
 							//判断是否员工
 							uni.redirectTo({
 								url: '/pages/employ/index'
@@ -168,6 +175,13 @@
 								})
 								return
 							} else {
+								if (this.scene != null && this.scene.startsWith('ti,')) {
+									let code = this.scene.split(",")[1]
+									uni.reLaunch({
+										url: '/pages/ticket/shelf/detail?code=' + code
+									})
+									return
+								}
 								if (this.scene != null && this.scene.startsWith('channel,')) {
 									uni.reLaunch({
 										url: '/pages/channel/nearby'
@@ -229,6 +243,9 @@
 						} else if (this.scene != null && this.scene.startsWith('share,info_index,')) {
 							wx.setStorageSync('recommend', this.scene.replace("share,info_index,", "").trim())
 							wx.setStorageSync('registerFrom', "share,info_index")
+						} else if (this.scene != null && this.scene.startsWith('ti,')) {
+							let code = this.scene.replace("ti,", "").trim()
+							wx.setStorageSync('registerGoPage', '/pages/ticket/shelf/detail?code=' + code)
 						} else {
 							wx.removeStorageSync('registerGoPage')
 						}
