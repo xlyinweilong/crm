@@ -28,7 +28,9 @@
 					<div v-for="g in goodsList" :key="g.id" class="item" @click="goToDetail(g)">
 						<!-- 图片区域 -->
 						<div>
-							<div class="sell-out" v-if="g.stockCount <= 0"><div style="margin-top: 170rpx;opacity:1">售罄</div></div>
+							<div class="sell-out" v-if="g.stockCount <= 0">
+								<div style="margin-top: 170rpx;opacity:1">售罄</div>
+							</div>
 							<image class="goods_image" mode="aspectFit" :src="g.imageUrl1" />
 						</div>
 						<!-- 价格 -->
@@ -114,6 +116,28 @@
 						</div>
 					</div>
 				</view>
+				<view class="drawer-item">
+					<view class="drawer-title" @click="goodsCategory2All = !goodsCategory2All">
+						价格
+					</view>
+					<div class="drawer-content">
+						<div style="padding-left: 10rpx;padding-right: 10rpx;">
+							<div class="drawer-selected-price">
+								<input type="digit" v-model="startPrice" class="uni-input" placeholder="最低价" />
+							</div>
+						</div>
+						<div style="padding-left: 10rpx;padding-right: 10rpx;">
+							<div class="drawer-selected-price-to">
+								~
+							</div>
+						</div>
+						<div style="padding-left: 10rpx;padding-right: 10rpx;">
+							<div class="drawer-selected-price">
+								<input type="digit" v-model="endPrice" class="uni-input" placeholder="最高价" />
+							</div>
+						</div>
+					</div>
+				</view>
 			</scroll-view>
 			<!-- 按钮区域 -->
 			<view class="drawer-button">
@@ -150,10 +174,17 @@
 					goodsBrandIds: '',
 					goodsCategoryIds: '',
 					goodsCategory2Ids: '',
+					goodsYearIds: '',
+					goodsSeasonIds: '',
 					sortKey: 'DEFUALT',
-					ticketId:'',
-					sortAsc: true
+					ticketId: '',
+					sortAsc: true,
+					startPrice:'',
+					endPrice:'',
+					diyGoodsListCode:''
 				},
+				startPrice:'',
+				endPrice:'',
 				goodsList: [],
 				status: "loading",
 				showDrawer: false,
@@ -171,6 +202,10 @@
 			this.winHeight = uni.getSystemInfoSync().windowHeight;
 		},
 		onLoad(query) {
+			console.log(query)
+			if (query.diy) {
+				this.listQuery.diyGoodsListCode = query.diy
+			}
 			if (query.c) {
 				this.listQuery.goodsCategoryIds = query.c
 			}
@@ -179,6 +214,14 @@
 			}
 			if (query.b) {
 				this.listQuery.goodsBrandIds = query.b
+			}
+			this.listQuery.goodsYearIds = ''
+			if (query.y) {
+				this.listQuery.goodsYearIds = query.y
+			}
+			this.listQuery.goodsSeasonIds = ''
+			if (query.s) {
+				this.listQuery.goodsSeasonIds = query.s
 			}
 			if (query.sk) {
 				this.listQuery.searchKey = query.sk
@@ -225,6 +268,8 @@
 				this.listQuery.goodsBrandIds = this.goodsBrandList.filter(g => g.selected).map(g => g.erpId).join(',')
 				this.listQuery.goodsCategoryIds = this.goodsCategoryList.filter(g => g.selected).map(g => g.erpId).join(',')
 				this.listQuery.goodsCategory2Ids = this.goodsCategory2List.filter(g => g.selected).map(g => g.erpId).join(',')
+				this.listQuery.startPrice = this.startPrice
+				this.listQuery.endPrice = this.endPrice
 				this.showDrawer = false
 				this.reSearch()
 			},
@@ -233,6 +278,8 @@
 				this.goodsBrandList.filter(g => g.selected).forEach(g => g.selected = false)
 				this.goodsCategoryList.filter(g => g.selected).forEach(g => g.selected = false)
 				this.goodsCategory2List.filter(g => g.selected).forEach(g => g.selected = false)
+				this.listQuery.startPrice = ''
+				this.listQuery.endPrice = ''
 			},
 			clickDrawer() {
 				this.setDrawer()
@@ -318,20 +365,19 @@
 </style>
 
 <style scoped>
-	
-	.sell-out{
+	.sell-out {
 		color: #ffffff;
 		font-size: 40rpx;
 		text-align: center;
 		margin: auto;
 		width: 360rpx;
 		height: 360rpx;
-		position:absolute;
+		position: absolute;
 		z-index: 18;
 		background-color: #000000;
-		opacity:0.4;
+		opacity: 0.4;
 	}
-	
+
 	.goods_image {
 		background-color: #eeeeee;
 		margin: auto;
@@ -382,8 +428,8 @@
 		-webkit-box-orient: vertical;
 		word-break: break-all;
 	}
-	
-	.limitBuyCount{
+
+	.limitBuyCount {
 		margin-left: 20rpx;
 		margin-right: 20rpx;
 		font-size: 24rpx;
@@ -502,6 +548,33 @@
 		padding-bottom: 18rpx;
 		color: #606266;
 		background-color: #E4E7ED;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.drawer-selected-price {
+		margin-top: 20rpx;
+		font-size: 24rpx;
+		width: 270rpx;
+		text-align: center;
+		padding-top: 18rpx;
+		padding-bottom: 18rpx;
+		color: #606266;
+		background-color: #E4E7ED;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	
+	.drawer-selected-price-to{
+		margin-top: 20rpx;
+		font-size: 24rpx;
+		width: 30rpx;
+		text-align: center;
+		padding-top: 18rpx;
+		padding-bottom: 18rpx;
+		color: #606266;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;

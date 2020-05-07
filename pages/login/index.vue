@@ -215,11 +215,14 @@
 									})
 									return
 								} else if (this.scene != null && this.scene.startsWith('share,ticket_shelf_list,')) {
+									this.$recommender.uid = this.scene.replace("share,ticket_shelf_list,", "").trim()
 									uni.reLaunch({
 										url: '/pages/ticket/shelf/list'
 									})
 									return
-								} else if (this.scene != null && this.scene.startsWith('share,info_index,')) {}
+								} else if (this.scene != null && this.scene.startsWith('share,info_index,')) {
+									this.$recommender.uid = this.scene.replace("share,info_index,", "").trim()
+								}
 								uni.reLaunch({
 									url: '/pages/info/index'
 								})
@@ -237,10 +240,12 @@
 								wx.setStorageSync('registerGoPage', '/pages/evaluate/complaint?code=' + code)
 							}
 						} else if (this.scene != null && this.scene.startsWith('share,ticket_shelf_list,')) {
+							this.$recommender.uid = this.scene.replace("share,ticket_shelf_list,", "").trim()
 							wx.setStorageSync('registerGoPage', '/pages/ticket/shelf/list')
 							wx.setStorageSync('recommend', this.scene.replace("share,ticket_shelf_list,", "").trim())
 							wx.setStorageSync('registerFrom', "share,ticket_shelf_list")
 						} else if (this.scene != null && this.scene.startsWith('share,info_index,')) {
+							this.$recommender.uid = this.scene.replace("share,info_index,", "").trim()
 							wx.setStorageSync('recommend', this.scene.replace("share,info_index,", "").trim())
 							wx.setStorageSync('registerFrom', "share,info_index")
 						} else if (this.scene != null && this.scene.startsWith('ti,')) {

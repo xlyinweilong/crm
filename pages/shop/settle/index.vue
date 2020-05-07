@@ -35,13 +35,13 @@
 					</div>
 				</div>
 				<!-- 门店自提 -->
-				<div style="display: flex;background: #ffffff;font-size: 28rpx;
+				<div v-if="shopOrderSelf != 0" style="display: flex;background: #ffffff;font-size: 28rpx;
 					color:#303133;align-items: center;
 					padding-top: 30rpx;padding-bottom: 30rpx;
 					padding-left: 20rpx;padding-right: 20rpx;">
 					<van-checkbox checked-color="#706000" :value="receiveType == 'self'" @change="checkReceiveType($event,'self')">门店自提</van-checkbox>
 				</div>
-				<div v-if="receiveType == 'self'" style="display: flex;background: #ffffff;font-size: 28rpx;
+				<div v-if="shopOrderSelf != 0 && receiveType == 'self'" style="display: flex;background: #ffffff;font-size: 28rpx;
 					color:#303133;align-items: center;
 					padding-top: 10rpx;padding-bottom: 30rpx;
 					padding-left: 20rpx;padding-right: 20rpx;">
@@ -193,6 +193,7 @@
 				gotIntegral: 0,
 				cardList: null,
 				type: '',
+				shopOrderSelf:0,
 				ticketDetailList: [],
 				selectedTicket: {
 					id: '',
@@ -293,6 +294,7 @@
 							_this.expressAmountFree = res.data.expressAmountFree
 							_this.consumeGotIntegral = res.data.consumeGotIntegral
 							_this.cardTips = res.data.cardTips
+							_this.shopOrderSelf = res.data.shopOrderSelf
 							//刷新库存数量
 							_this.cartList = res.data.settleList
 							//设置每个货品可以获得的积分
