@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<view class="myInfo">
-			<div v-if="cardImageDiyUrl != null && cardImageDiyUrl != ''" class="image-div">
-				<image class="image" mode="widthFix" :src="cardImageDiyUrl" />
+			<div v-if="crmImageUrl != null && crmImageUrl != ''" class="image-div">
+				<image class="image" mode="widthFix" :src="crmImageUrl" />
 				<div class="gradename">
 					{{gradeName}}
 				</div>
@@ -42,7 +42,7 @@
 		},
 		data() {
 			return {
-				cardImageDiyUrl: '',
+				crmImageUrl: '',
 				gradeName: '',
 				cardCode: '',
 				baseUrl: this.$baseURL + '/static/images/card/',
@@ -66,7 +66,7 @@
 				}
 				let grade = wx.getStorageSync('grade')
 				if (grade != null) {
-					this.cardImageDiyUrl = grade.cardImageDiyUrl
+					this.crmImageUrl = grade.crmImageUrl
 					this.gradeName = grade.name
 				}
 				this.getGradeInfo()
@@ -77,7 +77,7 @@
 					title: '加载中',
 				})
 				this.$uniRequest.get('/api/small_procedures/vip_grade/info').then(res => {
-					this.cardImageDiyUrl = res.data.cardImageDiyUrl
+					this.crmImageUrl = res.data.crmImageUrl
 					this.gradeName = res.data.name
 					wx.setStorageSync('grade', res.data)
 					this.$refs.qrcode._makeCode()

@@ -105,12 +105,12 @@
 							pageSize: 10
 						}
 					}).then(res => {
-						res.data.content.forEach(c => {
+						res.data.records.forEach(c => {
 							if (this.list.find(l => l.id === c.id) == null) {
 								this.list.push(c)
 							}
 						})
-						this.noMore = this.list.length >= res.data.totalElements
+						this.noMore = this.list.length >= res.data.total
 						uni.stopPullDownRefresh()
 					}).finally(() => this.loading = false)
 				}

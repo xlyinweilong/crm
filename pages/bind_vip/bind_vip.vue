@@ -89,6 +89,7 @@
 				}
 			},
 			createWeChartCard(list) {
+				
 				uni.redirectTo({
 					url: '/pages/info/index'
 				})

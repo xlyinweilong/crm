@@ -15,7 +15,7 @@
 					</uni-swiper-dot>
 				</div>
 				<div style="margin-top: 10px;">{{goods.displayName}}</div>
-				<div style="margin-top: 10px;font-size: 34rpx;">￥{{goods.price}}
+				<div style="margin-top: 10px;font-size: 34rpx;">￥{{goods.crmPrice}}
 					<span class="delete_price">￥{{goods.tagPrice}}</span>
 					<span class="discount">￥{{discount(goods)}}折</span>
 				</div>
@@ -117,7 +117,7 @@
 				</div>
 				<div style="float: left;margin-left: 20px;margin-top: 15px;">
 					<!-- 价格 -->
-					<p style="font-size: 30rpx;color:#303133">￥{{goods.price}}</p>
+					<p style="font-size: 30rpx;color:#303133">￥{{goods.crmPrice}}</p>
 					<p style="font-size: 24rpx;color: #909399;">
 						<span v-if="selected.colorId != ''">颜色：{{selected.colorName}}</span>
 						<span v-if="selected.colorId == ''">请选择颜色</span>
@@ -135,10 +135,10 @@
 						<div>
 							<p style="color: #909399;font-size: 26rpx;">颜色</p>
 							<div style="display: flex;font-size: 24rpx;color: #606266;">
-								<div @click="selectColor(color)" v-for="color in goods.colorList" :key="color.id" style="width: 152rpx;text-align: center;padding: 14rpx">
-									<div :style="{ 'background-color': selected.colorId == color.id ? '#706000':(color.stockCount == 0 ? '#F2F6FC':'#ffffff'),
-									'border-color':selected.colorId == color.id ? '#706000':'#606266',
-									'color':selected.colorId == color.id ? '#ffffff':'#606266'}"
+								<div @click="selectColor(color)" v-for="color in goods.colorList" :key="color.colorId" style="width: 152rpx;text-align: center;padding: 14rpx">
+									<div :style="{ 'background-color': selected.colorId == color.colorId ? '#706000':(color.stockCount == 0 ? '#F2F6FC':'#ffffff'),
+									'border-color':selected.colorId == color.colorId ? '#706000':'#606266',
+									'color':selected.colorId == color.colorId ? '#ffffff':'#606266'}"
 									 style="padding: 20rpx;border:1px solid">{{color.name}}</div>
 								</div>
 							</div>
@@ -193,7 +193,7 @@
 					id: '',
 					code: '',
 					displayName: '',
-					price: '',
+					crmPrice: '',
 					tagPrice: '',
 					imageList: [],
 					like: false,
@@ -328,8 +328,8 @@
 					this.getInfo()
 				}
 				//加载购物车数量
-				if (wx.getStorageSync('cartList') instanceof Array) {
-					this.cartList = wx.getStorageSync('cartList')
+				if (wx.getStorageSync('cartList3') instanceof Array) {
+					this.cartList = wx.getStorageSync('cartList3')
 				}
 				let user = wx.getStorageSync('token')
 				this.service400 = (user.service400 != null && user.service400 != '') ? user.service400 : ''
@@ -359,7 +359,7 @@
 					Toast("该颜色已经售罄")
 					return
 				}
-				this.selected.colorId = color.id
+				this.selected.colorId = color.colorId
 				this.selected.colorName = color.name
 				//加载尺码的库存
 				this.goods.sizeList.forEach(si => {
@@ -368,13 +368,13 @@
 				})
 			},
 			discount(goods) {
-				if (goods.price == null || goods.tagPrice == null) {
+				if (goods.crmPrice == null || goods.tagPrice == null) {
 					return null
 				}
 				if (goods.tagPrice == 0) {
 					return 0
 				}
-				return Math.floor(goods.price / goods.tagPrice * 100) / 10
+				return Math.floor(goods.crmPrice / goods.tagPrice * 100) / 10
 			},
 			changeImage(e) {
 				this.current = e.detail.current
@@ -405,12 +405,12 @@
 					this.goods = res.data
 					//设置颜色的库存
 					this.goods.colorList.forEach(c => {
-						c.stockCount = this.goods.stockList.filter(s => s.colorId === c.id).reduce((t, a) => t + a.stockCount, 0)
+						c.stockCount = this.goods.stockList.filter(s => s.colorId === c.colorId).reduce((t, a) => t + a.stockCount, 0)
 						if (c.stockCount > 0 && this.goods.colorList.length == 1) {
 							this.selectColor(c)
 							//设置尺码							
 							if (this.goods.sizeList.length == 1) {
-								let stock = this.goods.stockList.find(s => s.colorId === c.id && s.sizeId === this.goods.sizeList[0].id)
+								let stock = this.goods.stockList.find(s => s.colorId === c.colorId && s.sizeId === this.goods.sizeList[0].id)
 								if (stock != null && stock.stockCount > 0) {
 									this.selectSize(this.goods.sizeList[0])
 								}
@@ -486,7 +486,7 @@
 					} else {
 						this.cartList.push(this.newEle())
 					}
-					wx.setStorageSync('cartList', this.cartList)
+					wx.setStorageSync('cartList3', this.cartList)
 					Toast('成功加入购物车')
 				} else {
 					//跳转到支付页面
@@ -506,7 +506,7 @@
 					goodsCode: this.goods.code,
 					goodsDisplayName: this.goods.displayName,
 					tagPrice: this.goods.tagPrice,
-					price: this.goods.price,
+					price: this.goods.crmPrice,
 					colorId: this.selected.colorId,
 					colorName: this.selected.colorName,
 					sizeId: this.selected.sizeId,
@@ -549,7 +549,7 @@
 				ctx.setFontSize(this.rpxToPx(32))
 				ctx.fillText(displayName, this.rpxToPx(34), this.rpxToPx(580), this.rpxToPx(380))
 				//写入吊牌
-				let priceLength = (this.goods.price + '').length
+				let priceLength = (this.goods.crmPrice + '').length
 				let tagPriceLength = (this.goods.tagPrice + '').length
 				let left = 80 + ((priceLength) * 19)
 				let lengthLeft = (tagPriceLength) * 19
@@ -570,7 +570,7 @@
 				//写入价钱
 				ctx.setFillStyle("#F56C6C")
 				ctx.setFontSize(this.rpxToPx(38))
-				ctx.fillText('￥' + this.goods.price, this.rpxToPx(30), this.rpxToPx(640))
+				ctx.fillText('￥' + this.goods.crmPrice, this.rpxToPx(30), this.rpxToPx(640))
 			},
 			//绘制用户头像
 			setAvatarUrl(ctx, avatarRes) {

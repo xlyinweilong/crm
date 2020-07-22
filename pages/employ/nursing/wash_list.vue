@@ -133,6 +133,7 @@
 								value: c.id
 							})
 						})
+						this.onLoadList(this.activeTag)
 					})
 				}
 			},

@@ -11,7 +11,7 @@
 			</div>
 			<div class="ticket_limit" v-if="ele.leastCost != null">满{{ele.leastCost}}元可用</div>
 			<div style="padding-left: 24rpx;padding-right: 15px;margin-top: 24rpx;font-size: 20px;">
-				<button @click="receive" :disabled="!ele.canGot" type="primary" :loading="loading" v-text="ele.canGot ? '立即领取':'已经领取'">
+				<button @click="tryReceive(ele)" :disabled="!ele.canGot" type="primary" :loading="loading" v-text="getText(ele)">
 				</button>
 			</div>
 
@@ -36,19 +36,77 @@
 			this.info(query.code)
 		},
 		methods: {
+			getText(ele) {
+				if (ele.canGot) {
+					if (ele.needPay) {
+						return ele.gotStr
+					} else {
+						return "立即领取"
+					}
+				} else {
+					return "已经领取"
+				}
+			},
 			info(code) {
 				let _this = this
 				wx.showLoading({
 					title: '加载中',
 				})
-				console.log(code)
 				this.$uniRequest.get('/api/small_ticket_shelf/info', {
 					data: {
-						code:code
+						code: code
 					}
 				}).then(res => {
 					this.ele = res.data
 				}).finally(() => wx.hideLoading())
+			},
+			tryReceive(ele) {
+				if (ele.canGot) {
+					if (ele.needPay) {
+						this.zhifu(ele)
+					} else {
+						this.receive()
+					}
+				} else {
+					wx.showToast({
+						title: '已经领取，不要贪心哦',
+						icon: 'none',
+						duration: 1500
+					})
+				}
+			},
+			zhifu(ele) {
+				let user = wx.getStorageSync('token')
+				let _this = this
+				this.loading = true
+				this.$uniRequest.post('/api/small_procedures/pay/create_order', {
+					id: ele.id
+				}).then(res => {
+					wx.requestPayment({
+						timeStamp: res.data.timeStamp + '',
+						nonceStr: res.data.nonceStr,
+						package: res.data.package,
+						signType: 'MD5',
+						paySign: res.data.paySign,
+						success(res) {
+							wx.showToast({
+								title: '支付成功',
+								icon: 'none',
+								duration: 1500
+							})
+							//支付成功后跳转跳转到我的卡券列表
+							//_this.useThis(ele, "PAYED")
+							uni.navigateBack()
+						},
+						fail(res) {
+							wx.showToast({
+								title: '支付失败',
+								icon: 'none',
+								duration: 1500
+							})
+						}
+					})
+				}).finally(error => this.loading = false)
 			},
 			receive() {
 				this.loading = true

@@ -108,7 +108,7 @@
 						usePlatform:this.listQuery.usePlatform
 					}
 				}).then(res => {
-					res.data.content.forEach(c => {
+					res.data.records.forEach(c => {
 						if (this.list.find(l => l.id === c.id) == null) {
 							c.show = false
 							this.list.push(c)
@@ -117,7 +117,7 @@
 					uni.stopPullDownRefresh()
 					uni.hideNavigationBarLoading()
 					this.status = "more"
-					if (res.data.content.length == 0 || res.data.totalElements == this.list.length) {
+					if (res.data.records.length == 0 || res.data.total == this.list.length) {
 						this.status = "noMore"
 					}
 				}).catch(error => {

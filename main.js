@@ -4,11 +4,13 @@ import App from './App'
 import uniRequest from 'uni-request'
 Vue.prototype.$recommender = {uid:''}
 // Vue.prototype.$baseURL = 'http://192.168.1.109:9090/crm'
-// Vue.prototype.$baseURL = 'http://192.168.1.113:9090/crm'
+Vue.prototype.$baseURL = 'http://192.168.0.113:9080'
 // Vue.prototype.$baseURL = 'http://192.168.43.63:9090/crm'
 // Vue.prototype.$baseImageURL = 'http://192.168.1.113:8086/images/'
-Vue.prototype.$baseURL = 'https://crm.wisdomyy.com/crm'
-Vue.prototype.$baseImageURL = 'https://crm.wisdomyy.com/images/'
+// Vue.prototype.$baseURL = 'https://crm.wisdomyy.com/crm'
+// Vue.prototype.$baseImageURL = 'https://crm.wisdomyy.com/images/'
+// Vue.prototype.$baseURL = 'https://erp.wisdomyy.com/'
+Vue.prototype.$baseImageURL = 'https://erp.wisdomyy.com/images/'
 uniRequest.defaults.baseURL = Vue.prototype.$baseURL
 // Vue.prototype.$tnId='11'
 Vue.prototype.$tnId = 'jljy'
@@ -84,31 +86,3 @@ var reLogin = function() {
 
 }
 console.log("注册main.js")
-setInterval(() => {
-	wx.checkSession({
-		success() {
-			Vue.prototype.$uniRequest.get('/api/small_procedures/login/is_login')
-		},
-		fail() {
-			wx.login({
-				success(res) {
-					if (res.code) {
-						Vue.prototype.$uniRequest.get('/api/small_procedures/login/login', {
-							data: {
-								code: res.code
-							}
-						}).then(res => {
-							wx.setStorage({
-								key: 'token',
-								data: res.data
-							})
-							Vue.prototype.$uniRequest.defaults.headers.common['X-Token'] = res.data.token
-						}).catch(error => {
-							console.log(error)
-						})
-					}
-				}
-			})
-		}
-	})
-}, 1000 * 60 * 10)

@@ -81,8 +81,9 @@
 								没有使用优惠卷
 								<span style="font-size: 32rpx;" class="iconfont icon-arrow-right"></span>
 							</span>
-							<span v-if="selectedTicket.id != ''">-￥{{selectedTicket.amount}}</span>
-							
+							<span v-if="selectedTicket.id != ''">
+								-￥{{selectedTicket.discountAmount}}
+							</span>
 						</div>
 					</div>
 					<!-- <div class="row">
@@ -155,8 +156,13 @@
 				<div v-for="t in ticketDetailList" :key="t.id">
 					<div class="row" @click="chooseTicket(t)">
 						<div class="left">{{t.title}}</div>
-						<div class="right">
+						<div v-if="t.type == 'CASH'" class="right">
 							{{t.amount}}
+							<span v-if="t.id === selectedTicket.id" style="font-size: 36rpx;color: #706000;font-weight:900;margin-left: 6rpx;"
+							 class="iconfont icon-zhengque"></span>
+						</div>
+						<div v-if="t.type == 'DISCOUNT'" class="right">
+							<span v-if="t.onShelfType == 'CATEGORY'">部分商品</span>打{{t.discount}}折
 							<span v-if="t.id === selectedTicket.id" style="font-size: 36rpx;color: #706000;font-weight:900;margin-left: 6rpx;"
 							 class="iconfont icon-zhengque"></span>
 						</div>
@@ -171,6 +177,11 @@
 <script>
 	import Dialog from 'wxcomponents/vant/dialog/dialog'
 	import Toast from '@/wxcomponents/vant/toast/toast'
+	import {
+		accMul,
+		accSub,
+		accAdd
+	} from '@/utils/mathUtils'
 	export default {
 		components: {},
 		data() {
@@ -193,33 +204,36 @@
 				gotIntegral: 0,
 				cardList: null,
 				type: '',
-				shopOrderSelf:0,
+				shopOrderSelf: 0,
 				ticketDetailList: [],
 				selectedTicket: {
 					id: '',
-					amount: 0
+					amount: 0,
+					discount: 1,
+					type: '',
+					discountAmount: 0
 				}
 			}
 		},
 		computed: {
-			nowGotIntegral(){
-				if(this.gotIntegral <= 0){
+			nowGotIntegral() {
+				if (this.gotIntegral <= 0) {
 					return 0
 				}
-				if(this.selectedTicket.amount == null || this.selectedTicket.amount == 0){
+				if (this.selectedTicket.discountAmount == null || this.selectedTicket.discountAmount == 0) {
 					return this.gotIntegral
 				}
-				return this.gotIntegral - this.selectedTicket.amount
+				return this.gotIntegral - this.selectedTicket.discountAmount
 			},
 			goodsList() {
 				return this.cartList.filter(c => c.checked)
 			},
 			totalAmount() {
-				return this.cartList.filter(e => e.checked).reduce((t, a) => t + (a.quantity * a.price), 0)
+				return this.cartList.filter(e => e.checked).reduce((t, a) => accAdd(t,accMul(a.quantity,a.price)), 0)
 			},
 			settleAmount() {
 				if (this.selectedTicket.id != '') {
-					let r = this.totalAmount + this.expressFee - this.selectedTicket.amount
+					let r = this.totalAmount + this.expressFee - this.selectedTicket.discountAmount
 					return r > 0 ? r : 0
 				}
 				return this.totalAmount + this.expressFee
@@ -250,8 +264,8 @@
 				this.cartList = []
 				this.cartList.push(o)
 			} else {
-				if (wx.getStorageSync('cartList') instanceof Array) {
-					this.cartList = wx.getStorageSync('cartList')
+				if (wx.getStorageSync('cartList3') instanceof Array) {
+					this.cartList = wx.getStorageSync('cartList3')
 				}
 			}
 			this.loadInfo()
@@ -261,9 +275,20 @@
 				if (ticket.id === this.selectedTicket.id) {
 					this.selectedTicket.id = ''
 					this.selectedTicket.amount = 0
+					this.selectedTicket.discount = 1
+					this.selectedTicket.type = ''
+					this.selectedTicket.discountAmount = 0
 				} else {
 					this.selectedTicket.id = ticket.id
 					this.selectedTicket.amount = ticket.amount
+					this.selectedTicket.discount = ticket.discount
+					this.selectedTicket.type = ticket.type
+					if (this.selectedTicket.type == 'CASH') {
+						this.selectedTicket.discountAmount = ticket.amount
+					} else {
+						let discountAmount = this.goodsList.filter(g => ticket.onShelfType == 'FULL_COURT' || (ticket.goodsIds.indexOf(g.goodsId) > -1)).reduce((t, x) => accAdd(t, accMul(accMul(x.price, x.quantity),accSub(1,ticket.discount))),0);
+						this.selectedTicket.discountAmount = Math.floor(discountAmount)
+					}
 				}
 				this.onCloseTicketList()
 			},
@@ -302,8 +327,15 @@
 							_this.gotIntegral = this.cartList.filter(c => c.checked).reduce((t, a) => t + a.integral * a.quantity, 0)
 							//自动选择优惠券
 							if (_this.ticketDetailList.length > 0) {
-								_this.ticketDetailList.forEach(d => {
+								_this.ticketDetailList.filter(t => t.type == 'CASH').forEach(d => {
 									if (_this.selectedTicket.amount < d.amount) {
+										_this.chooseTicket(d)
+									}
+								})
+							}
+							if (_this.selectedTicket.id == '' && _this.ticketDetailList.length > 0) {
+								_this.ticketDetailList.filter(t => t.type == 'DISCOUNT').forEach(d => {
+									if (_this.selectedTicket.discount > d.discount) {
 										_this.chooseTicket(d)
 									}
 								})
@@ -423,7 +455,7 @@
 						if (res.code == 0) {
 							//删除购物车
 							if (_this.type == '') {
-								wx.setStorageSync('cartList', this.cartList.filter(c => !c.checked))
+								wx.setStorageSync('cartList3', this.cartList.filter(c => !c.checked))
 							}
 							Toast.clear()
 							if (_this.settleAmount > 0) {

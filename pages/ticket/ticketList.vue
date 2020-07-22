@@ -63,7 +63,7 @@
 		onLoad() {
 			wx.loadFontFace({
 				family: 'msyh',
-				source: 'url("https://crm.wisdomyy.com/长城长宋体.TTF")',
+				source: 'url("https://erp.wisdomyy.com/长城长宋体.TTF")',
 			})
 		},
 		methods: {

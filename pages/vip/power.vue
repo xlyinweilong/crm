@@ -28,15 +28,15 @@
 							<scroll-view class="scroll-view_w" scroll-x style="width:100%">
 								<view class="item" v-for="grade in gradeList">
 									<view class="top">
-										<span v-if="erpId === grade.erpId">
+										<span v-if="id === grade.id">
 											<van-icon color="#C80000" size="28rpx" name="arrow-down" /></span>
 									</view>
-									<view class="th" :class="{ activeItem: erpId ===  grade.erpId}">{{grade.name}}</view>
-									<view class="td" v-for="template in powerTemplateList" :class="{ activeItem: erpId ===  grade.erpId}">
-										<span class="iconfont icon-zhengque" v-if="isSuccessIcon(grade.erpId,template)" style="font-size: 30rpx;color:#C80000" />
-										<span class="iconfont icon-guanbi" v-if="!isSuccessIcon(grade.erpId,template) && template.templateType === 'BOOLEAN'"
+									<view class="th" :class="{ activeItem: id ===  grade.id}">{{grade.name}}</view>
+									<view class="td" v-for="template in powerTemplateList" :class="{ activeItem: id ===  grade.id}">
+										<span class="iconfont icon-zhengque" v-if="isSuccessIcon(grade.id,template)" style="font-size: 30rpx;color:#C80000" />
+										<span class="iconfont icon-guanbi" v-if="!isSuccessIcon(grade.id,template) && template.templateType === 'BOOLEAN'"
 										 style="font-size: 30rpx;color:#C0C4CC" />
-										<span @click="showMessageInfo(grade.erpId,template)">{{getText(grade.erpId,template)}}</span>
+										<span @click="showMessageInfo(grade.id,template)">{{getText(grade.id,template)}}</span>
 									</view>
 								</view>
 							</scroll-view>
@@ -60,13 +60,13 @@
 								<van-row gutter="24">
 									<view v-for="rule in iconDataList" @click="clickRule(rule)">
 										<van-col span="6">
-											<div class="iconFrame" :class="{'iconActive':erpId === rule.erpId}">
+											<div class="iconFrame" :class="{'iconActive':id === rule.id}">
 												<div class="iconDiv">
-													<image mode="widthFix" style="width: 100%;" :src="rule.cardImageDiyUrl" />
+													<image mode="widthFix" style="width: 100%;" :src="rule.crmImageUrl" />
 												</div>
 												<div class="iconName">{{rule.name}}</div>
 												<hr class="hr" />
-												<div class="iconInfo">{{rule.levelUpInfo}}</div>
+												<div class="iconInfo">{{rule.crmLevelUpInfo}}</div>
 											</div>
 										</van-col>
 									</view>
@@ -112,7 +112,7 @@
 		computed: {
 			iconDataList() {
 				let dataList = []
-				let index = this.gradeList.findIndex(r => this.erpId === r.erpId)
+				let index = this.gradeList.findIndex(r => this.id === r.id)
 				if (index == null) {
 					return dataList
 				}
@@ -132,18 +132,18 @@
 				return dataList
 			},
 			showDataGradeName() {
-				let rule = this.gradeList.find(r => this.erpId === r.erpId)
+				let rule = this.gradeList.find(r => this.id === r.id)
 				if (rule == null) {
 					return ''
 				}
 				return rule.name
 			},
 			showDataText() {
-				let rule = this.gradeList.find(r => this.erpId === r.erpId)
+				let rule = this.gradeList.find(r => this.id === r.id)
 				if (rule == null) {
 					return ''
 				}
-				return rule.info
+				return rule.crmLevelUpMessage
 			}
 		},
 		data() {
@@ -155,7 +155,7 @@
 				gradeList: [],
 				powerTemplateList: [],
 				powerList: [],
-				erpId: '',
+				id: '',
 				ruleList: [],
 				detailUrl: ''
 			}
@@ -170,7 +170,7 @@
 		},
 		methods: {
 			clickRule(rule) {
-				this.erpId = rule.erpId
+				this.id = rule.id
 			},
 			getConfig() {
 				this.$uniRequest.get('/api/config/sysconfig/info', {
@@ -222,12 +222,12 @@
 			},
 			getGradeAll() {
 				this.$uniRequest.get('/api/vip/vip_grade/all').then(res => {
-					this.gradeList = res.data.filter(d => !!d.powerShow && d.disabled == 0)
+					this.gradeList = res.data.filter(d => !!d.crmPowerShow && !d.disabled)
 					this.getPowerTemplateList()
 				})
 			},
 			getGradeInfo() {
-				this.$uniRequest.get('/api/small_procedures/vip_grade/info').then(res => this.erpId = res.data.erpId)
+				this.$uniRequest.get('/api/small_procedures/vip_grade/info').then(res => this.id = res.data.id)
 			},
 			showMessageInfo(gradeErpId, template) {
 				let text = this.getText(gradeErpId, template)
@@ -250,15 +250,15 @@
 				// })
 			},
 			clickIconTabLeft() {
-				let index = this.gradeList.findIndex(r => this.erpId === r.erpId)
+				let index = this.gradeList.findIndex(r => this.id === r.id)
 				if (index != null && index - 1 >= 0) {
-					this.erpId = this.gradeList[index - 1].erpId
+					this.id = this.gradeList[index - 1].id
 				}
 			},
 			clickIconTabRight() {
-				let index = this.gradeList.findIndex(r => this.erpId === r.erpId)
+				let index = this.gradeList.findIndex(r => this.id === r.id)
 				if (index != null && this.gradeList.length >= index + 2) {
-					this.erpId = this.gradeList[index + 1].erpId
+					this.id = this.gradeList[index + 1].id
 				}
 			}
 		}

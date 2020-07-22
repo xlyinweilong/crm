@@ -78,8 +78,10 @@
 					}
 					userInfo.encryptedData = infoRes.encryptedData
 					userInfo.iv = infoRes.iv
+					userInfo.token = wx.getStorageSync('token').token
 					this.$uniRequest.post('/api/small_procedures/login/register', userInfo).then(res => {
 						wx.setStorageSync('token', res.data)
+						this.$uniRequest.defaults.headers.common['X-Token'] = res.data.token
 						//跳转到授权公众号
 						uni.redirectTo({
 							url: '/pages/bind_vip/authorization'

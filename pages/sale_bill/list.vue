@@ -3,16 +3,16 @@
 		<!-- <van-search :value="searchKey" use-action-slot clearable placeholder="请输入搜索关键词" @search="onSearch">
 			<view slot="action" :tap="onSearch">搜索</view>
 		</van-search> -->
-		<div v-for="ele in list" class="content" @click="goDetail(ele.posCode)" hover-class="hover-div">
+		<div v-for="ele in list" class="content" @click="goDetail(ele.code)" hover-class="hover-div">
 			<div>
 				<span class="title">{{ele.channelName}}</span>
 				<span style="font-size: 26rpx;float: right;margin-top: 5rpx;">{{ele.billDate}}</span>
 			</div>
 			<div class="sub_content">
-				<div>单号：{{ele.posCode}}</div>
+				<div>单号：{{ele.code}}</div>
 				<div style="margin-top: 5rpx;">
-					<span>数量：*{{ele.totalCount}}件</span>
-					<span style="float: right;">支付：<span style="color:#C80000">{{ele.totalAmount}}</span>元</span>
+					<span>数量：*{{ele.quantity}}件</span>
+					<span style="float: right;">支付：<span style="color:#C80000">{{ele.amount}}</span>元</span>
 				</div>
 			</div>
 		</div>
@@ -79,8 +79,8 @@
 							type: type
 						}
 					}).then(res => {
-						res.data.content.forEach(c => this.list.push(c))
-						this.noMore = this.list.length >= res.data.totalElements
+						res.data.records.forEach(c => this.list.push(c))
+						this.noMore = this.list.length >= res.data.total
 					}).finally(error => {
 						this.loading = false
 					})

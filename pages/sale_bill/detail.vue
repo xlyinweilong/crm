@@ -1,12 +1,12 @@
 <template>
 	<view class="detail">
 		<van-cell-group>
-			<van-cell v-if="evaluateStatus != 'unevaluated'" title="单号" :value="posCode"/>
+			<van-cell v-if="evaluateStatus != 'unevaluated'" title="单号" :value="posCode" />
 			<van-cell v-if="evaluateStatus == 'unevaluated'" @click="goToPage" :value="posCode" is-link title-width="220rpx">
-			  <view slot="title">
-			    <span class="van-cell-text">单号</span>
-			    <van-tag type="danger">点击去评价</van-tag>
-			  </view>
+				<view slot="title">
+					<span class="van-cell-text">单号</span>
+					<van-tag type="danger">点击去评价</van-tag>
+				</view>
 			</van-cell>
 		</van-cell-group>
 		<van-cell-group>
@@ -16,12 +16,12 @@
 		</van-cell-group>
 		<div>
 			<van-cell-group v-for="ele in list">
-				<van-cell title="货号" :value="ele.goodsCode"/>
+				<van-cell title="货号" :value="ele.goodsCode" />
 				<van-cell title="货品" :value="ele.goodsName" />
-				<van-cell title="颜色" :value="ele.colorName" />
-				<van-cell title="尺码" :value="ele.sizeName" />
-				<van-cell title="数量" :value="ele.billCount" />
-				<van-cell title="金额" :value="ele.billAmount" />
+				<van-cell title="颜色" :value="ele.goodsColorName" />
+				<van-cell title="尺码" :value="ele.goodsSizeName" />
+				<van-cell title="数量" :value="ele.quantity" />
+				<van-cell title="金额" :value="ele.amount" />
 			</van-cell-group>
 		</div>
 		<van-toast id="van-toast" />
@@ -43,7 +43,8 @@
 				loading: false,
 				list: [],
 				posCode: '',
-				evaluateStatus:''
+				evaluateStatus: '',
+				ele: {}
 			}
 		},
 		onLoad(query) {
@@ -53,7 +54,7 @@
 			}
 		},
 		methods: {
-			goToPage(){
+			goToPage() {
 				uni.navigateTo({
 					url: '/pages/evaluate/do_evaluate?posCode=' + this.posCode
 				})
@@ -68,8 +69,9 @@
 						posCode: this.posCode
 					}
 				}).then(res => {
-					this.list = res.data
-					if(this.list.length > 0){
+					this.ele = res.data
+					this.list = res.data.goodsList
+					if (this.list.length > 0) {
 						this.evaluateStatus = this.list[0].evaluateStatus
 					}
 				}).finally(() => Toast.clear())

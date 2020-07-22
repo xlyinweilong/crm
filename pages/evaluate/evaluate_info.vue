@@ -80,13 +80,13 @@
 							status: this.status
 						}
 					}).then(res => {
-						res.data.content.forEach(c => {
+						res.data.records.forEach(c => {
 							if (this.list.find(l => l.posCode === c.posCode) == null) {
 								this.list.push(c)
 							}
 						})
-						this.noMore = this.list.length >= res.data.totalElements
-						this.$emit("setTotal", '('+res.data.totalElements+')')
+						this.noMore = this.list.length >= res.data.total
+						this.$emit("setTotal", '('+res.data.total+')')
 					}).finally(() => this.loading = false)
 				}
 			},

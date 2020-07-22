@@ -35,7 +35,7 @@
 						</div>
 						<!-- 价格 -->
 						<div class="price">
-							￥{{g.price}}
+							￥{{g.crmPrice}}
 							<span v-if="g.tagPrice > 0" class="delete_price">￥{{g.tagPrice}}</span>
 							<span v-if="discount(g) != null" class="discount">{{discount(g)}}折</span>
 						</div>
@@ -304,13 +304,13 @@
 				})
 			},
 			discount(goods) {
-				if (goods.price == null || goods.tagPrice == null) {
+				if (goods.crmPrice == null || goods.tagPrice == null) {
 					return null
 				}
 				if (goods.tagPrice == 0) {
 					return 0
 				}
-				return Math.floor(goods.price / goods.tagPrice * 100) / 10
+				return Math.floor(goods.crmPrice / goods.tagPrice * 100) / 10
 			},
 			goToDetail(goods) {
 				uni.navigateTo({
@@ -320,12 +320,12 @@
 			getList() {
 				this.status = "loading"
 				this.$uniRequest.post('/api/small/shop/goods/list', this.listQuery).then(res => {
-					res.data.content.filter(goods => this.goodsList.every(g => g.id !== goods.id)).forEach(goods => {
+					res.data.records.filter(goods => this.goodsList.every(g => g.id !== goods.id)).forEach(goods => {
 						this.goodsList.push(goods)
 					})
 					uni.hideNavigationBarLoading()
 					this.status = "more"
-					if (res.data.content.length == 0 || res.data.totalElements == this.goodsList.length) {
+					if (res.data.records.length == 0 || res.data.total == this.goodsList.length) {
 						this.status = "noMore"
 					}
 				}).catch(e => {

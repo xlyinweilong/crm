@@ -39,7 +39,7 @@
 		},
 		data() {
 			return {
-				activeTag: 1,
+				activeTag: "1",
 				showSheet: false,
 				selected: {},
 				actions: [{

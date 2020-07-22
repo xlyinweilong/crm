@@ -37,7 +37,7 @@
 				gradeList: [],
 				powerTemplateList: [],
 				powerList: [],
-				erpId: '',
+				id: '',
 				powerInfo:'',
 				ruleInfo:''
 			}
@@ -57,7 +57,7 @@
 			},
 			getGradeInfo() {
 				this.$uniRequest.get('/api/small_procedures/vip_grade/info').then(res => {
-					this.erpId = res.data.erpId
+					this.id = res.data.id
 					this.getPowerRuleInfo()
 				})
 				
@@ -65,7 +65,7 @@
 			getPowerRuleInfo() {
 				this.$uniRequest.get('/api/vip/vip_power_rule_info/info', {
 					data: {
-						gradeErpId: this.erpId
+						gradeErpId: this.id
 					}
 				}).then(res => {
 					this.powerInfo = res.data.powerInfo == null ? '' : res.data.powerInfo

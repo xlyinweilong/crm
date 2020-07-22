@@ -65,7 +65,7 @@
 							pageSize: this.listQuery.pageSize
 						}
 					}).then(res => {
-						res.data.content.forEach(c => {
+						res.data.records.forEach(c => {
 							if (this.list.every(e => e.id != c.id)) {
 								livePlayer.getLiveStatus({ room_id: c.roomid }).then(res => {
 								  // 101: 直播中, 102: 未开始, 103: 已结束, 104: 禁播, 105: 暂停中, 106: 异常, 107：已过期 
@@ -97,7 +97,7 @@
 						})
 						uni.hideNavigationBarLoading()
 						this.status = "more"
-						if (res.data.content.length == 0 || res.data.totalElements == this.goodsList.length) {
+						if (res.data.records.length == 0 || res.data.total == this.goodsList.length) {
 							this.status = "noMore"
 						}
 					}).catch(() => {

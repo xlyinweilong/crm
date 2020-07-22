@@ -94,12 +94,12 @@
 						}
 					}).then(res => {
 						this.pageIndex += 1
-						res.data.content.forEach(d => {
+						res.data.records.forEach(d => {
 							if (this.list.every(l => l.id !== d.id)) {
 								this.list.push(d)
 							}
 						})
-						this.noMore = this.list.length >= res.data.totalElements
+						this.noMore = this.list.length >= res.data.total
 						uni.stopPullDownRefresh()
 					}).finally(() => this.loading = false)
 				}

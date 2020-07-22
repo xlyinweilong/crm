@@ -226,7 +226,7 @@
 			},
 			getGradeInfo() {
 				this.$uniRequest.get('/api/small_procedures/vip_grade/info').then(res => {
-					this.cardImageDiyUrl = res.data.cardImageDiyUrl
+					this.crmImageUrl = res.data.crmImageUrl
 					this.gradeName = res.data.name
 					wx.setStorageSync('grade', res.data)
 					this.getDiyUserInfoField()
@@ -240,7 +240,7 @@
 						pageSize: 100
 					}
 				}).then(res => {
-					this.fieldList = res.data.content
+					this.fieldList = res.data.records
 					wx.setStorageSync('fieldList', this.fieldList)
 					uni.stopPullDownRefresh()
 				})

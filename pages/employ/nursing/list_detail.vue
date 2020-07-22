@@ -183,8 +183,8 @@
 							statusList: this.status
 						}
 					}).then(res => {
-						this.totalAmount = res.data[0]
-						this.totalSettleAmount = res.data[1]
+						this.totalAmount = res.data.amount
+						this.totalSettleAmount = res.data.settleAmount
 					}).finally(() => this.loadingTotal = false)
 				}
 			},
@@ -202,13 +202,13 @@
 							pageSize: 10
 						}
 					}).then(res => {
-						res.data.content.forEach(c => {
+						res.data.records.forEach(c => {
 							if (this.list.find(l => l.id === c.id) == null) {
 								c.checked = false
 								this.list.push(JSON.parse(JSON.stringify(c)))
 							}
 						})
-						this.noMore = this.list.length >= res.data.totalElements
+						this.noMore = this.list.length >= res.data.total
 					}).finally(() => this.loading = false)
 				}
 			},

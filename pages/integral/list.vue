@@ -175,8 +175,8 @@
 							pageSize: 10
 						}
 					}).then(res => {
-						res.data.content.forEach(c => this.list.push(c))
-						this.noMore = this.list.length >= res.data.totalElements
+						res.data.records.forEach(c => this.list.push(c))
+						this.noMore = this.list.length >= res.data.total
 					}).finally(error => {
 						this.loading = false
 					})

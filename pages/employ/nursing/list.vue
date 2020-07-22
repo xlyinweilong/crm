@@ -122,7 +122,6 @@
 			this.startDate = format(now, 'yyyyMM') + '01'
 			this.endDate = format(now, 'yyyyMMdd')
 			this.loadChannelList()
-			// this.onLoadList()
 		},
 		onPullDownRefresh() {},
 		methods: {
@@ -144,6 +143,7 @@
 								value: c.id
 							})
 						})
+						this.onLoadList()
 					})
 				}
 			},

@@ -88,7 +88,7 @@
 						</div>
 						<div style="float: left;margin-left: 20px;margin-top: 15px;">
 							<!-- 价格 -->
-							<p style="font-size: 18px;color:#303133">￥{{goods.price}}</p>
+							<p style="font-size: 18px;color:#303133">￥{{goods.crmPrice}}</p>
 							<p style="font-size: 24rpx;color: #909399;">
 								<span v-if="selected.colorId != ''">颜色：{{selected.colorName}}</span>
 								<span v-if="selected.colorId == ''">请选择颜色</span>
@@ -106,10 +106,10 @@
 								<div>
 									<p style="color: #909399;font-size: 26rpx;">颜色</p>
 									<div style="display: flex;font-size: 24rpx;color: #606266;">
-										<div @click="selectColor(color)" v-for="color in goods.colorList" :key="color.id" style="width: 152rpx;text-align: center;padding: 14rpx">
-											<div :style="{ 'background-color': selected.colorId == color.id ? '#706000':(color.stockCount == 0 ? '#F2F6FC':'#ffffff'),
-									'border-color':selected.colorId == color.id ? '#706000':'#606266',
-									'color':selected.colorId == color.id ? '#ffffff':'#606266'}"
+										<div @click="selectColor(color)" v-for="color in goods.colorList" :key="color.colorId" style="width: 152rpx;text-align: center;padding: 14rpx">
+											<div :style="{ 'background-color': selected.colorId == color.colorId ? '#706000':(color.stockCount == 0 ? '#F2F6FC':'#ffffff'),
+									'border-color':selected.colorId == color.colorId ? '#706000':'#606266',
+									'color':selected.colorId == color.colorId ? '#ffffff':'#606266'}"
 											 style="padding: 20rpx;border:1px solid">{{color.name}}</div>
 										</div>
 									</div>
@@ -191,9 +191,8 @@
 			}
 		},
 		onShow() {
-			
-			if (wx.getStorageSync('cartList') instanceof Array) {
-				this.cartList = wx.getStorageSync('cartList')
+			if (wx.getStorageSync('cartList3') instanceof Array) {
+				this.cartList = wx.getStorageSync('cartList3')
 				this.loadInfo()
 			}
 		},
@@ -224,7 +223,7 @@
 							//刷新库存数量
 							_this.cartList = res.data.settleList
 							Toast.clear()
-							wx.setStorageSync('cartList', _this.cartList)
+							wx.setStorageSync('cartList3', _this.cartList)
 						} else {
 							Toast.clear()
 							Toast(res.message)
@@ -254,7 +253,7 @@
 				if (color.stockCount <= 0) {
 					return
 				}
-				this.selected.colorId = color.id
+				this.selected.colorId = color.colorId
 				this.selected.colorName = color.name
 				//加载尺码的库存
 				this.goods.sizeList.forEach(si => {
@@ -282,13 +281,13 @@
 					Toast("库存不足")
 					d.checked = false
 				}
-				wx.setStorageSync('cartList', this.cartList)
+				wx.setStorageSync('cartList3', this.cartList)
 			},
 			//修改数量
 			onChangeStepper(e, d, index) {
 				d.quantity = e.detail
 				d.checked = true
-				wx.setStorageSync('cartList', this.cartList)
+				wx.setStorageSync('cartList3', this.cartList)
 			},
 			//全选
 			onChangeCheckAll(e) {
@@ -311,7 +310,7 @@
 				}).then(res => {
 					this.goods = res.data
 					this.goods.colorList.forEach(c => {
-						c.stockCount = this.goods.stockList.filter(s => s.colorId === c.id).reduce((t, a) => t + a.stockCount, 0)
+						c.stockCount = this.goods.stockList.filter(s => s.colorId === c.colorId).reduce((t, a) => t + a.stockCount, 0)
 					})
 					this.goods.sizeList.forEach(si => {
 						si.stockCount = this.goods.stockList.filter(s => s.colorId === this.selected.colorId && si.id === s.sizeId).reduce(
@@ -323,19 +322,19 @@
 						(t, a) => t + a.stockCount, 0)
 					if (e.stockCount < 0) {
 						e.checked = false
-						wx.setStorageSync('cartList', this.cartList)
+						wx.setStorageSync('cartList3', this.cartList)
 					}
 				}).finally(() => this.loadingDetail = false)
 			},
 			//确定弹出页面
 			onOkGoodsDetail() {
 				this.selected.checked = true
-				wx.setStorageSync('cartList', this.cartList)
+				wx.setStorageSync('cartList3', this.cartList)
 				this.isShowGoodsDetail = false
 			},
 			//关闭弹出页面
 			onCloseGoodsDetail() {
-				this.cartList = wx.getStorageSync('cartList')
+				this.cartList = wx.getStorageSync('cartList3')
 				this.isShowGoodsDetail = false
 			},
 			//删除商品
@@ -345,7 +344,7 @@
 					message: '确定要删除该商品吗？'
 				}).then(() => {
 					this.cartList.splice(index, 1)
-					wx.setStorageSync('cartList', this.cartList)
+					wx.setStorageSync('cartList3', this.cartList)
 				}).catch(() => {})
 			},
 			//结算

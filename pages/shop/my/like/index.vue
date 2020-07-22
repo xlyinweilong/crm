@@ -17,7 +17,7 @@
 						</div>
 						<!-- 价格 -->
 						<div class="price">
-							￥{{g.goods.price}}
+							￥{{g.goods.crmSalePrice}}
 							<span v-if="g.goods.tagPrice > 0" class="delete_price">￥{{g.goods.tagPrice}}</span>
 							<span v-if="discount(g.goods) != null" class="discount">{{discount(g.goods)}}折</span>
 						</div>
@@ -69,13 +69,13 @@
 		},
 		methods: {
 			discount(goods) {
-				if (goods.price == null || goods.tagPrice == null) {
+				if (goods.crmSalePrice == null || goods.tagPrice == null) {
 					return null
 				}
 				if (goods.tagPrice == 0) {
 					return 0
 				}
-				return Math.floor(goods.price / goods.tagPrice * 100) / 10
+				return Math.floor(goods.crmSalePrice / goods.tagPrice * 100) / 10
 			},
 			reLoad() {
 				this.loading = true
@@ -89,12 +89,12 @@
 					data: this.listQuery
 				}).then(res => {
 					this.loading = false
-					res.data.content.filter(e => this.list.every(g => g.id !== e.id)).forEach(e => {
+					res.data.records.filter(e => this.list.every(g => g.id !== e.id)).forEach(e => {
 						this.list.push(e)
 					})
 					uni.hideNavigationBarLoading()
 					this.status = "more"
-					if (res.data.content.length == 0 || res.data.totalElements == this.goodsList.length) {
+					if (res.data.records.length == 0 || res.data.total == this.goodsList.length) {
 						this.status = "noMore"
 					}
 				}).catch(e => {

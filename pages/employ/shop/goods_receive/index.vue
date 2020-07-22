@@ -145,12 +145,12 @@
 			getList() {
 				this.status = "loading"
 				this.$uniRequest.post('/api/small/shop/order/employ/list', this.listQuery).then(res => {
-					res.data.content.filter(d => this.list.every(g => g.id !== d.id)).forEach(d => {
+					res.data.records.filter(d => this.list.every(g => g.id !== d.id)).forEach(d => {
 						this.list.push(d)
 					})
 					uni.hideNavigationBarLoading()
 					this.status = "more"
-					if (res.data.content.length == 0 || res.data.totalElements == this.list.length) {
+					if (res.data.records.length == 0 || res.data.total == this.list.length) {
 						this.status = "noMore"
 					}
 				}).catch(e => {

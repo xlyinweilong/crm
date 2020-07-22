@@ -58,16 +58,16 @@
 			</van-tab>
 			<van-tab title="线下订单" name="2">
 				<div>
-					<div v-for="ele in list" :key="ele.posCode" class="content" @click="goDetail(ele)" hover-class="hover-div">
+					<div v-for="ele in list" :key="ele.code" class="content" @click="goDetail(ele)" hover-class="hover-div">
 						<div>
 							<span class="title">{{ele.channelName}}</span>
 							<span style="font-size: 26rpx;float: right;margin-top: 5rpx;">{{ele.billDate}}</span>
 						</div>
 						<div class="sub_content">
-							<div>单号：{{ele.posCode}}</div>
+							<div>单号：{{ele.code}}</div>
 							<div style="margin-top: 5rpx;">
-								<span>数量：*{{ele.totalCount}}件</span>
-								<span style="float: right;">支付：<span style="color:#C80000">{{ele.totalAmount}}</span>元</span>
+								<span>数量：*{{ele.quantity}}件</span>
+								<span style="float: right;">支付：<span style="color:#C80000">{{ele.amount}}</span>元</span>
 							</div>
 						</div>
 					</div>
@@ -150,12 +150,12 @@
 			getList() {
 				this.status = "loading"
 				this.$uniRequest.post('/api/small/shop/order/list', this.listQuery).then(res => {
-					res.data.content.filter(order => this.orderList.every(g => g.id !== order.id)).forEach(order => {
+					res.data.records.filter(order => this.orderList.every(g => g.id !== order.id)).forEach(order => {
 						this.orderList.push(order)
 					})
 					uni.hideNavigationBarLoading()
 					this.status = "more"
-					if (res.data.content.length == 0 || res.data.totalElements <= this.orderList.length) {
+					if (res.data.records.length == 0 || res.data.total <= this.orderList.length) {
 						this.status = "noMore"
 					}
 				}).catch(e => {
@@ -247,7 +247,7 @@
 			//线下单据明细
 			goDetail(e) {
 				uni.navigateTo({
-					url: '/pages/sale_bill/detail?posCode=' + e.posCode
+					url: '/pages/sale_bill/detail?posCode=' + e.code
 				})
 			},
 			getBillList() {
@@ -265,10 +265,10 @@
 						type: type
 					}
 				}).then(res => {
-					res.data.content.forEach(c => this.list.push(c))
+					res.data.records.forEach(c => this.list.push(c))
 					uni.hideNavigationBarLoading()
 					this.status = "more"
-					if (res.data.content.length == 0 || res.data.totalElements <= this.list.length) {
+					if (res.data.records.length == 0 || res.data.total <= this.list.length) {
 						this.status = "noMore"
 					}
 				}).catch(e => {

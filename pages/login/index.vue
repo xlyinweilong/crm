@@ -125,9 +125,16 @@
 						return
 					} else {
 						//跳转注册/绑定员工页面
-						uni.reLaunch({
-							url: '/pages/employ/register'
-						})
+						if (data.isRegister) {
+							uni.reLaunch({
+								url: '/pages/employ/register'
+							})
+						} else {
+							wx.setStorageSync('registerGoPage', '/pages/employ/register')
+							uni.reLaunch({
+								url: '/pages/register/register'
+							})
+						}
 						return
 					}
 				} else {
