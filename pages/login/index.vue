@@ -53,6 +53,9 @@
 				wx.login({
 					success(res) {
 						if (res.code) {
+							wx.showLoading({
+								title: '加载中',
+							})
 							that.$uniRequest.get('/api/small_procedures/login/login', {
 								data: {
 									code: res.code
