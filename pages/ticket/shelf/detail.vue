@@ -14,8 +14,8 @@
 				<button @click="tryReceive(ele)" :disabled="!ele.canGot" type="primary" :loading="loading" v-text="getText(ele)">
 				</button>
 			</div>
-
 		</div>
+		<van-dialog id="van-dialog" />
 	</view>
 </template>
 
@@ -29,16 +29,52 @@
 				ele: {
 					id: ''
 				},
+				code:'',
 				loading: false
 			}
 		},
 		onLoad(query) {
+			this.code = query.code
 			this.info(query.code)
+		},
+		onShareAppMessage(options) {
+			var that = this;
+			// 设置菜单中的转发按钮触发转发事件时的转发内容
+			let user = wx.getStorageSync('token')
+			var shareObj = {
+				// title: "我的优惠分你一半", // 默认是小程序的名称(可以写slogan等)
+				path: '/pages/login/index?scene=share,ticket_detail,' + this.code + ',' + user.id, // 默认是当前页面，必须是以‘/’开头的完整路径
+				imageUrl: '', //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
+				success(res) {
+					// 转发成功之后的回调
+					if (res.errMsg == 'shareAppMessage:ok') {}
+				},
+				fail() {
+					// 转发失败之后的回调
+					if (res.errMsg == 'shareAppMessage:fail cancel') {
+						// 用户取消转发
+					} else if (res.errMsg == 'shareAppMessage:fail') {
+						// 转发失败，其中 detail message 为详细失败信息
+					}
+				},
+				complete() {
+					// 转发结束之后的回调（转发成不成功都会执行）
+				}
+			}
+			// 来自页面内的按钮的转发
+			if (options.from == 'button') {
+				var eData = options.target.dataset;
+				console.log(eData.name); // shareBtn
+				// 此处可以修改 shareObj 中的内容
+				shareObj.path = '/pages/btnname/btnname?btn_name=' + eData.name;
+			}
+			// 返回shareObj
+			return shareObj
 		},
 		methods: {
 			getText(ele) {
 				if (ele.canGot) {
-					if (ele.needPay) {
+					if (ele.gainType === 'PAY' || ele.gainType === 'INTEGRAL') {
 						return ele.gotStr
 					} else {
 						return "立即领取"
@@ -62,8 +98,10 @@
 			},
 			tryReceive(ele) {
 				if (ele.canGot) {
-					if (ele.needPay) {
+					if (ele.gainType === 'PAY') {
 						this.zhifu(ele)
+					} else if (ele.gainType === 'INTEGRAL') {
+						this.zhifuIntegral(ele)
 					} else {
 						this.receive()
 					}
@@ -80,7 +118,9 @@
 				let _this = this
 				this.loading = true
 				this.$uniRequest.post('/api/small_procedures/pay/create_order', {
-					id: ele.id
+					id: ele.id,
+					recommendUid: this.$recommender.uid,
+					sourceScene: this.$recommender.sourceScene
 				}).then(res => {
 					wx.requestPayment({
 						timeStamp: res.data.timeStamp + '',
@@ -108,10 +148,21 @@
 					})
 				}).finally(error => this.loading = false)
 			},
+			zhifuIntegral(ele) {
+				let user = wx.getStorageSync('token')
+				let _this = this
+				Dialog.confirm({
+					message: '确定要支付积分购买吗？'
+				}).then(() => {
+					this.receive()
+				})
+			},
 			receive() {
 				this.loading = true
 				this.$uniRequest.post('/api/small_ticket_shelf/receive', {
-					id: this.ele.id
+					id: this.ele.id,
+					recommendUid: this.$recommender.uid,
+					sourceScene: this.$recommender.sourceScene
 				}).then(res => {
 					wx.showToast({
 						title: '领取成功',

@@ -12,8 +12,10 @@
 				 icon="gold-coin-o" />
 				<!-- <van-cell v-if="powerKeyList.indexOf('e_my_customer') > -1" title="我的顾客" is-link @click="goTo('employ/my_vip')"
 				 icon="user-circle-o" /> -->
-				<van-cell v-if="powerKeyList.indexOf('e_ticket_check') > -1" title="卡券核销" is-link @click="goTo('employ/ticket_list')"
+				<van-cell v-if="powerKeyList.indexOf('e_ticket_list') > -1" title="优惠券列表" is-link @click="goTo('employ/ticket_list')"
 				 icon="records" />
+				<van-cell v-if="powerKeyList.indexOf('e_ticket_check') > -1" title="优惠券核销" is-link @click="goTo('employ/ticket_check')"
+				 icon="description" />
 				<van-cell v-if="powerKeyList.indexOf('e_shop_goods_receive') > -1" title="商城出货" is-link @click="goTo('employ/shop/goods_receive/index')"
 				 icon="shopping-cart-o" />
 			</van-cell-group>

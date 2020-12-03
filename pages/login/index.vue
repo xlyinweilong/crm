@@ -167,9 +167,31 @@
 							}
 							if (this.scene != null && this.scene.startsWith('ti,')) {
 								let code = this.scene.split(",")[1]
+								this.$recommender.sourceScene = 'WE_CHAT_QR'
 								uni.reLaunch({
 									url: '/pages/ticket/shelf/detail?code=' + code
 								})
+								return
+							} else if (this.scene != null && this.scene.startsWith('share,ticket_shelf_list,')) {
+								this.$recommender.uid = this.scene.replace("share,ticket_shelf_list,", "").trim()
+								this.$recommender.sourceScene = 'SHELF_BY_SHARE'
+								uni.reLaunch({
+									url: '/pages/ticket/shelf/list'
+								})
+								return
+							} else if (this.scene != null && this.scene.startsWith('share,ticket_detail,')) {
+								let code = this.scene.replace("share,ticket_detail,", "").trim().split(',')[0]
+								this.$recommender.uid = this.scene.replace("share,ticket_detail,", "").trim().split(',')[1]
+								this.$recommender.sourceScene = 'DETAIL_BY_SHARE'
+								uni.reLaunch({
+									url: '/pages/ticket/shelf/detail?code=' + code
+								})
+								return
+							} else if (this.scene != null && this.scene.startsWith('tic,')) {
+								let code = this.scene.replace("tic,", "").trim()
+								//加载数据
+								this.$recommender.sourceScene = 'DETAIL_BY_QR'
+								this.loadTicketEmployCode(code, '/pages/ticket/shelf/detail?code=', true)
 								return
 							}
 							//判断是否员工
@@ -187,6 +209,7 @@
 							} else {
 								if (this.scene != null && this.scene.startsWith('ti,')) {
 									let code = this.scene.split(",")[1]
+									this.$recommender.sourceScene = 'WE_CHAT_QR'
 									uni.reLaunch({
 										url: '/pages/ticket/shelf/detail?code=' + code
 									})
@@ -226,12 +249,28 @@
 									return
 								} else if (this.scene != null && this.scene.startsWith('share,ticket_shelf_list,')) {
 									this.$recommender.uid = this.scene.replace("share,ticket_shelf_list,", "").trim()
+									this.$recommender.sourceScene = 'SHELF_BY_SHARE'
 									uni.reLaunch({
 										url: '/pages/ticket/shelf/list'
 									})
 									return
 								} else if (this.scene != null && this.scene.startsWith('share,info_index,')) {
 									this.$recommender.uid = this.scene.replace("share,info_index,", "").trim()
+									this.$recommender.sourceScene = 'SHELF_BY_INDEX'
+								} else if (this.scene != null && this.scene.startsWith('share,ticket_detail,')) {
+									let code = this.scene.replace("share,ticket_detail,", "").trim().split(',')[0]
+									this.$recommender.uid = this.scene.replace("share,ticket_detail,", "").trim().split(',')[1]
+									this.$recommender.sourceScene = 'DETAIL_BY_SHARE'
+									uni.reLaunch({
+										url: '/pages/ticket/shelf/detail?code=' + code
+									})
+									return
+								} else if (this.scene != null && this.scene.startsWith('tic,')) {
+									let code = this.scene.replace("tic,", "").trim()
+									//加载数据
+									this.$recommender.sourceScene = 'DETAIL_BY_QR'
+									this.loadTicketEmployCode(code, '/pages/ticket/shelf/detail?code=', true)
+									return
 								}
 								uni.reLaunch({
 									url: '/pages/info/index'
@@ -251,15 +290,31 @@
 							}
 						} else if (this.scene != null && this.scene.startsWith('share,ticket_shelf_list,')) {
 							this.$recommender.uid = this.scene.replace("share,ticket_shelf_list,", "").trim()
+							this.$recommender.sourceScene = 'SHELF_BY_SHARE'
 							wx.setStorageSync('registerGoPage', '/pages/ticket/shelf/list')
 							wx.setStorageSync('recommend', this.scene.replace("share,ticket_shelf_list,", "").trim())
 							wx.setStorageSync('registerFrom', "share,ticket_shelf_list")
 						} else if (this.scene != null && this.scene.startsWith('share,info_index,')) {
 							this.$recommender.uid = this.scene.replace("share,info_index,", "").trim()
+							this.$recommender.sourceScene = 'SHELF_BY_INDEX'
 							wx.setStorageSync('recommend', this.scene.replace("share,info_index,", "").trim())
 							wx.setStorageSync('registerFrom', "share,info_index")
+						} else if (this.scene != null && this.scene.startsWith('share,ticket_detail,')) {
+							let code = this.scene.replace("share,ticket_detail,", "").trim().split(',')[0]
+							this.$recommender.uid = this.scene.replace("share,ticket_detail,", "").trim().split(',')[1]
+							this.$recommender.sourceScene = 'DETAIL_BY_SHARE'
+							wx.setStorageSync('recommend', this.$recommender.uid)
+							wx.setStorageSync('registerFrom', "share,ticket_detail")
+							wx.setStorageSync('registerGoPage', '/pages/ticket/shelf/detail?code=' + code)
+						} else if (this.scene != null && this.scene.startsWith('tic,')) {
+							let code = this.scene.replace("tic,", "").trim()
+							//加载数据
+							this.$recommender.sourceScene = 'DETAIL_BY_QR'
+							this.loadTicketEmployCode(code, '/pages/info/index', false)
+							return
 						} else if (this.scene != null && this.scene.startsWith('ti,')) {
 							let code = this.scene.replace("ti,", "").trim()
+							this.$recommender.sourceScene = 'WE_CHAT_QR'
 							wx.setStorageSync('registerGoPage', '/pages/ticket/shelf/detail?code=' + code)
 						} else {
 							wx.removeStorageSync('registerGoPage')
@@ -277,6 +332,34 @@
 						return
 					}
 				}
+			},
+			loadTicketEmployCode(code, page, isGoPage) {
+				this.$uniRequest.get('/api/small_ticket/ticket_employ_by_code', {
+					data: {
+						code: code
+					}
+				}).then(res => {
+					let ele = res.data
+					if (ele != null) {
+						this.$recommender.uid = ele.uid
+						wx.setStorageSync('recommend', this.$recommender.uid)
+						wx.setStorageSync('registerFrom', "qr,ticket_detail")
+						wx.setStorageSync('registerGoPage', '/pages/ticket/shelf/detail?code=' + ele.ticketCode)
+						if (isGoPage) {
+							uni.reLaunch({
+								url: page + ele.ticketCode
+							})
+						}
+					} else {
+						uni.reLaunch({
+							url: '/pages/info/index'
+						})
+					}
+				}).catch(e => {
+					uni.reLaunch({
+						url: '/pages/info/index'
+					})
+				})
 			}
 		}
 	}

@@ -92,7 +92,7 @@
 							-￥0.00
 						</div>
 					</div> -->
-					<div class="row">
+					<div class="row" v-if="receiveType == 'express'">
 						<div class="left">运费</div>
 						<div class="right">
 							￥{{expressFee}}
@@ -223,23 +223,25 @@
 				if (this.selectedTicket.discountAmount == null || this.selectedTicket.discountAmount == 0) {
 					return this.gotIntegral
 				}
-				return this.gotIntegral - this.selectedTicket.discountAmount
+				return accSub(this.gotIntegral, this.selectedTicket.discountAmount)
 			},
 			goodsList() {
 				return this.cartList.filter(c => c.checked)
 			},
 			totalAmount() {
-				return this.cartList.filter(e => e.checked).reduce((t, a) => accAdd(t,accMul(a.quantity,a.price)), 0)
+				return this.cartList.filter(e => e.checked).reduce((t, a) => accAdd(t, accMul(a.quantity, a.price)), 0)
 			},
 			settleAmount() {
 				if (this.selectedTicket.id != '') {
-					let r = this.totalAmount + this.expressFee - this.selectedTicket.discountAmount
+					let r = accAdd(this.totalAmount, accSub(this.expressFee, this.selectedTicket.discountAmount))
 					return r > 0 ? r : 0
 				}
-				return this.totalAmount + this.expressFee
+				return accAdd(this.totalAmount, this.expressFee)
 			},
 			expressFee() {
 				if (this.totalAmount >= this.expressAmountFree) {
+					return 0
+				} else if (this.receiveType == 'self') {
 					return 0
 				} else {
 					return this.baseExpressFee
@@ -286,7 +288,8 @@
 					if (this.selectedTicket.type == 'CASH') {
 						this.selectedTicket.discountAmount = ticket.amount
 					} else {
-						let discountAmount = this.goodsList.filter(g => ticket.onShelfType == 'FULL_COURT' || (ticket.goodsIds.indexOf(g.goodsId) > -1)).reduce((t, x) => accAdd(t, accMul(accMul(x.price, x.quantity),accSub(1,ticket.discount))),0);
+						let discountAmount = this.goodsList.filter(g => ticket.onShelfType == 'FULL_COURT' || (ticket.goodsIds.indexOf(g.goodsId) >
+							-1)).reduce((t, x) => accAdd(t, accMul(accMul(x.price, x.quantity), accSub(1, ticket.discount))), 0);
 						this.selectedTicket.discountAmount = Math.floor(discountAmount)
 					}
 				}
@@ -323,8 +326,9 @@
 							//刷新库存数量
 							_this.cartList = res.data.settleList
 							//设置每个货品可以获得的积分
-							_this.cartList.filter(c => c.checked).forEach(g => g.integral = Math.floor(g.price) * this.consumeGotIntegral)
-							_this.gotIntegral = this.cartList.filter(c => c.checked).reduce((t, a) => t + a.integral * a.quantity, 0)
+							_this.cartList.filter(c => c.checked).forEach(g => g.integral = accMul(Math.floor(g.price), this.consumeGotIntegral))
+							_this.gotIntegral = _this.cartList.filter(c => c.checked).reduce((t, a) => accAdd(t, accMul(a.integral, a.quantity)),
+								0)
 							//自动选择优惠券
 							if (_this.ticketDetailList.length > 0) {
 								_this.ticketDetailList.filter(t => t.type == 'CASH').forEach(d => {

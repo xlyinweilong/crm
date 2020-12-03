@@ -99,11 +99,6 @@
 					
 					<van-col span="8">
 						<div style="border:10px;background-color:transparent;">
-							<!-- <button class="text-button" style="background-color:transparent;" @click="goPage('info/customer/index')"
-							 hover-class="user-info-hover">
-								<div><span class="iconfont icon-zhuanshuguwen"></span></div>
-								<div class="wenzi">专属顾问</div>
-							</button> -->
 							<button class="text-button" style="background-color:transparent;" open-type="contact" bindcontact="handleContact"
 							 hover-class="user-info-hover">
 								<div><span class="iconfont icon-zhuanshuguwen"></span></div>
@@ -222,7 +217,7 @@
 			return {
 				setUserInfoGiveIntegral: 0,
 				isGodUserInfoIntegral: true,
-				headerUrl: "../../static/images/header.png",
+				headerUrl: "",
 				avatarUrl: '',
 				nickName: '',
 				cardCode: '',
@@ -230,13 +225,7 @@
 				current: 0,
 				isEmploy: false,
 				coupon: 0,
-				info: [{
-					url: '../../static/images/footer1.png'
-				}, {
-					url: '../../static/images/footer1.png'
-				}, {
-					url: '../../static/images/footer1.png'
-				}],
+				info: [],
 				showMembershipCode: false,
 				showMyInfo: false,
 				userInfo: {
@@ -245,7 +234,7 @@
 					evaluateCount: null,
 					pendingReceiveCount: null
 				},
-				footerUrl: "../../static/images/footer1.png",
+				footerUrl: "",
 				footerUrlGoUrl: '',
 				fileListUrls: ''
 			}
@@ -314,9 +303,13 @@
 				this.$uniRequest.get('/api/diy_ui/info').then(res => {
 					if (res.data.infoBackImageUrl != null) {
 						this.headerUrl = this.$baseImageURL + res.data.infoBackImageUrl
+					}else{
+						this.headerUrl = '../../static/images/header.png'
 					}
 					if (res.data.infoFooterImageUrl != null) {
 						this.footerUrl = this.$baseImageURL + res.data.infoFooterImageUrl
+					}else{
+						this.footerUrl = '../../static/images/footer1.png'
 					}
 					this.footerUrlGoUrl = res.data.infoFooterImageUrlGoUrl
 					this.fileListUrls = res.data.fileListUrls
@@ -324,6 +317,14 @@
 						this.info = res.data.fileList.map(f => ({
 							url: this.$baseImageURL + f
 						}))
+					}else{
+						this.info =[{
+							url: '../../static/images/footer1.png'
+						}, {
+							url: '../../static/images/footer1.png'
+						}, {
+							url: '../../static/images/footer1.png'
+						}]
 					}
 				})
 			},

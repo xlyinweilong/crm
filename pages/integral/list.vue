@@ -148,7 +148,6 @@
 			this.getList()
 			this.getSumUsedIntegral()
 			this.getSumUsedAmount()
-			this.getWashingAmount()
 			this.$uniRequest.get('/api/small_procedures/vip/my_info').then(res => {
 				this.userInfo.totalIntegral = res.data.totalIntegral
 				wx.setStorageSync('userInfo', this.userInfo)
@@ -191,11 +190,7 @@
 				this.$uniRequest.get('/api/small_procedures/vip/sum_amount').then(res => {
 					this.totalAmount = res.data.totalAmount
 					this.totalUsedAmount = res.data.totalUsedAmount
-				})
-			},
-			getWashingAmount() {
-				this.$uniRequest.get('/api/small_procedures/user/info').then(res => {
-					this.totalWashingAmount = res.data.washingBalance
+					this.totalWashingAmount = res.data.totalWashingAmount
 				})
 			},
 			onClickTab(tab) {

@@ -22,6 +22,12 @@
 										折
 									</span>
 								</div>
+								<div v-if="ele.cardType == 'GIFT'" style="font-size: 40rpx;font-weight:600;margin-left: 8rpx;
+									width: 380rpx;text-overflow: -o-ellipsis-lastline;min-height: 96rpx;
+									overflow: hidden;text-overflow: ellipsis;display: -webkit-box;
+									-webkit-line-clamp: 2;line-clamp: 2;-webkit-box-orient: vertical;">
+									{{ele.title}}
+								</div>
 							</div>
 							<div class="ticket_limit" v-if="ele.leastCost != null">满{{ele.leastCost}}元可用</div>
 							<div class="ticket_limit" v-if="ele.leastCost == null">满0元可用</div>
@@ -138,13 +144,7 @@
 						url: '/pages/ticket/shelf/detail?code=' + ele.code
 					})
 				} else {
-					if (ele.canGot) {
-						if (ele.needPay) {
-							this.isPayed(ele)
-						} else {
-							this.useThis(ele)
-						}
-					}
+					this.useThis(ele)
 				}
 			},
 			useThis(ele, type) {
@@ -168,46 +168,6 @@
 						}],
 						success(res) {
 							console.log(res)
-						}
-					})
-				}).finally(error => this.loadingPage = false)
-			},
-			isPayed(ele) {
-				if (!this.loadingPage) {
-					let user = wx.getStorageSync('token')
-					let _this = this
-					this.loadingPage = true
-					this.$uniRequest.post('/api/small_procedures/pay/has_payed_order', {
-						id: ele.id
-					}).then(res => {
-						if (res.data) {
-							_this.useThis(ele, "PAYED")
-						} else {
-							_this.zhifu(ele)
-						}
-					}).finally(() => this.loadingPage = false)
-				}
-			},
-			zhifu(ele) {
-				let user = wx.getStorageSync('token')
-				let _this = this
-				this.loadingPage = true
-				this.$uniRequest.post('/api/small_procedures/pay/create_order', {
-					id: ele.id
-				}).then(res => {
-					wx.requestPayment({
-						timeStamp: res.data.timeStamp + '',
-						nonceStr: res.data.nonceStr,
-						package: res.data.package,
-						signType: 'MD5',
-						paySign: res.data.paySign,
-						success(res) {
-							console.log("支付成功")
-							//支付成功后直接跳转
-							_this.useThis(ele, "PAYED")
-						},
-						fail(res) {
-							console.log("支付失败")
 						}
 					})
 				}).finally(error => this.loadingPage = false)

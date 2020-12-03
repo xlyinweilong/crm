@@ -354,7 +354,24 @@
 				"navigationBarTitleText": "领劵",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ticket/detail",
+			"style": {
+				"navigationBarTitleText": "优惠券明细",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
 			}
 		},
 		{
@@ -859,6 +876,40 @@
 			"path": "pages/employ/ticket_list",
 			"style": {
 				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "优惠券列表",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/ticket_detail",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "优惠券明细",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-row": "/wxcomponents/vant/row/index",
+					"van-col": "/wxcomponents/vant/col/index"
+				}
+			}
+		},
+		{
+			"path": "pages/employ/ticket_check",
+			"style": {
+				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "优惠券核销",
 				"navigationStyle": "default",
 				"navigationBarTextStyle": "black",
@@ -952,12 +1003,11 @@
 		}],
 		"plugins": {
 			"live-player-plugin": {
-				"version": "1.1.4",
+				"version": "1.2.4",
 				"provider": "wx2b03c6e691cd7370"
 			}
 		}
 	}],
-	// 预加载
 	"preloadRule": {
 		"pagesA/live/room": {
 			"network": "all",
@@ -1012,7 +1062,7 @@
 	},
 	"plugins": {
 		"contactPlugin": {
-			"version": "1.3.0",
+			"version": "1.3.1",
 			"provider": "wx104a1a20c3f81ec2"
 		}
 	},

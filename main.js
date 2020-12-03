@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App'
 
 import uniRequest from 'uni-request'
-Vue.prototype.$recommender = {uid:''}
+Vue.prototype.$recommender = {uid:'',sourceScene:''}
 // Vue.prototype.$baseURL = 'http://192.168.1.109:9090/crm'
 // Vue.prototype.$baseURL = 'http://192.168.0.113:9080'
 // Vue.prototype.$baseURL = 'http://192.168.43.63:9090/crm'

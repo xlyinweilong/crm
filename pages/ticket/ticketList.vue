@@ -18,8 +18,15 @@
 									折
 								</span>
 							</div>
+							<div v-if="ele.type == 'GIFT'" style="font-size: 40rpx;
+									width: 380rpx;text-overflow: -o-ellipsis-lastline;min-height: 110rpx;
+									overflow: hidden;text-overflow: ellipsis;display: -webkit-box;
+									-webkit-line-clamp: 2;line-clamp: 2;-webkit-box-orient: vertical;">
+								{{ele.title}}
+							</div>
 						</div>
-						<div class="ticket_limit">{{ele.title}}</div>
+						<div v-if="ele.type != 'GIFT'" class="ticket_limit">{{ele.title}}</div>
+						<div v-if="ele.type == 'GIFT'" class="ticket_limit">兑换券</div>
 						<div class="ticket_info">
 							有效期至: {{ele.endDate}}
 						</div>
@@ -79,6 +86,10 @@
 								success(res) {
 									console.log(res)
 								}
+							})
+						}else if(ele.type == 'GIFT'){
+							uni.navigateTo({
+								url: '/pages/ticket/detail?id=' + ele.id
 							})
 						}
 					} else {
