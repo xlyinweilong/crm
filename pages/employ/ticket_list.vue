@@ -1,5 +1,10 @@
 <template>
 	<view>
+		<van-dropdown-menu>
+			<van-dropdown-item :value="listQuery.cardType" :options="option1" @change="changeOption1" />
+			<van-dropdown-item :value="listQuery.disabled" :options="option2" @change="changeOption2" />
+		</van-dropdown-menu>
+		<van-search :value="listQuery.title" placeholder="请输入优惠券标题" @change="changeTitle" @search="reSearch" />
 		<div style="margin-bottom: 8rpx;">
 			<div v-for="e in list" :key="e.id" class="ticket">
 				<div @click="showInfo(e)" class="link" hover-class="link-hover"><span class="lable">编号：</span>{{e.code}}</div>
@@ -28,9 +33,42 @@
 				list: [],
 				listQuery: {
 					pageIndex: 1,
-					usePlatform: ''
+					pageSize: 10,
+					cardType: '',
+					disabled: '',
+					title: ''
 				},
-				status: 'loading'
+				status: 'loading',
+				option1: [{
+						text: '全部类型',
+						value: ''
+					},
+					{
+						text: '代金券',
+						value: 'CASH'
+					},
+					{
+						text: '折扣券',
+						value: 'DISCOUNT'
+					},
+					{
+						text: '兑换券',
+						value: 'GIFT'
+					}
+				],
+				option2: [{
+						text: '不限过期',
+						value: ''
+					},
+					{
+						text: '正在使用',
+						value: false
+					},
+					{
+						text: '已过期',
+						value: true
+					},
+				]
 			}
 		},
 		props: {},
@@ -50,6 +88,17 @@
 			this.getList()
 		},
 		methods: {
+			changeOption1(e) {
+				this.listQuery.cardType = e.detail
+				this.reSearch()
+			},
+			changeOption2(e) {
+				this.listQuery.disabled = e.detail
+				this.reSearch()
+			},
+			changeTitle(e) {
+				this.listQuery.title = e.detail
+			},
 			reSearch() {
 				this.listQuery.pageIndex = 1
 				this.list = []
@@ -58,11 +107,7 @@
 			getList() {
 				this.status = "loading"
 				this.$uniRequest.get('/api/sale/ticket/list', {
-					data: {
-						pageIndex: this.listQuery.pageIndex,
-						pageSize: 10,
-						disabled: false
-					}
+					data: this.listQuery
 				}).then(res => {
 					res.data.records.forEach(c => {
 						if (this.list.find(l => l.id === c.id) == null) {

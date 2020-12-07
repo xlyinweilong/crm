@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<div style="text-align: center;background-color: #fff;width: 720rpx;margin: auto;padding-bottom: 10px;padding-top: 20px;margin-top: 30px;">
+		<div class="ticket">
 			<div style="font-size: 30rpx;">{{ele.title}}</div>
 			<div v-if="ele.cardType == 'CASH'" style="margin-top: 28rpx;">
 				<span style="font-size: 48rpx;">￥</span>
@@ -11,9 +11,16 @@
 			</div>
 			<div class="ticket_limit" v-if="ele.leastCost != null">满{{ele.leastCost}}元可用</div>
 			<div style="padding-left: 24rpx;padding-right: 15px;margin-top: 24rpx;font-size: 20px;">
-				<button @click="tryReceive(ele)" :disabled="!ele.canGot" type="primary" :loading="loading" v-text="getText(ele)">
-				</button>
+				<van-button block @click="tryReceive(ele)" type="primary" :disabled="!ele.canGot" :loading="loading" loading-text="加载中...">{{getText(ele)}}</van-button>
+				<!-- <button @click="tryReceive(ele)" :disabled="!ele.canGot" type="primary" :loading="loading" >
+				</button> -->
 			</div>
+		</div>
+		<div class="detail">
+			<div class="wrapper-dashed">
+				<div class="dashed"></div>
+			</div>
+			<div @click="showDetail" class="item">优惠券详情</div>
 		</div>
 		<van-dialog id="van-dialog" />
 	</view>
@@ -29,7 +36,7 @@
 				ele: {
 					id: ''
 				},
-				code:'',
+				code: '',
 				loading: false
 			}
 		},
@@ -174,6 +181,11 @@
 						uni.navigateBack()
 					}, 1500)
 				}).catch(() => this.loading = false)
+			},
+			showDetail(){
+				uni.navigateTo({
+					url: '/pages/ticket/shelf/detail_info?code=' + this.code
+				})
 			}
 		}
 	}
@@ -197,5 +209,62 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.ticket {
+		text-align: center;
+		background-color: #fff;
+		width: 720rpx;
+		margin: auto;
+		padding-bottom: 40rpx;
+		padding-top: 20px;
+		margin-top: 30px;
+	}
+
+	.detail {
+		background-color: #fff;
+		width: 720rpx;
+		margin: auto;
+	}
+
+	.wrapper-dashed {
+		position: relative;
+		height: 1px;
+		width: 100%;
+	}
+
+	/*虚线实现*/
+	.dashed {
+		border-top: 1px dashed #cccccc;
+		height: 1px;
+		overflow: hidden;
+	}
+
+	.dashed:before,
+	.dashed:after {
+		display: block;
+		position: absolute;
+		content: "";
+		width: 10px;
+		height: 10px;
+		background-color: #439057;
+		border-radius: 50%;
+		top: -5px;
+	}
+
+	.dashed:before {
+		left: -5px;
+	}
+
+	.dashed:after {
+		right: -5px;
+	}
+
+	.item {
+		font-size: 28rpx;
+		color: #303133;
+		padding-left: 30rpx;
+		padding-top: 20rpx;
+		padding-bottom: 20rpx;
 	}
 </style>

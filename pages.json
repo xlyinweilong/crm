@@ -356,6 +356,23 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ticket/shelf/detail_info",
+			"style": {
+				"navigationBarTitleText": "优惠券详情",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"usingComponents": {
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index",
 					"van-toast": "/wxcomponents/vant/toast/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index"
 				}
@@ -369,6 +386,9 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"usingComponents": {
+					"van-cell": "/wxcomponents/vant/cell/index",
+					"van-cell-group": "/wxcomponents/vant/cell-group/index",
+					"van-button": "/wxcomponents/vant/button/index",
 					"van-toast": "/wxcomponents/vant/toast/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index"
 				}
@@ -878,14 +898,17 @@
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "优惠券列表",
 				"navigationStyle": "default",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
 					"van-button": "/wxcomponents/vant/button/index",
 					"van-toast": "/wxcomponents/vant/toast/index",
 					"van-cell-group": "/wxcomponents/vant/cell-group/index",
 					"van-row": "/wxcomponents/vant/row/index",
-					"van-col": "/wxcomponents/vant/col/index"
+					"van-col": "/wxcomponents/vant/col/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dropdown-item/index",
+					"van-search": "/wxcomponents/vant/search/index"
 				}
 			}
 		},
@@ -895,8 +918,8 @@
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "优惠券明细",
 				"navigationStyle": "default",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
 					"van-button": "/wxcomponents/vant/button/index",
 					"van-toast": "/wxcomponents/vant/toast/index",
@@ -912,8 +935,8 @@
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "优惠券核销",
 				"navigationStyle": "default",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "#FFFFFF",
+				"navigationBarBackgroundColor": "#0faeff",
 				"usingComponents": {
 					"van-button": "/wxcomponents/vant/button/index",
 					"van-toast": "/wxcomponents/vant/toast/index",
