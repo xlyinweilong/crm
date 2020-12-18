@@ -83,7 +83,7 @@
 				</van-col>
 			</van-row>
 			<div class="icons">
-				<van-row custom-class="icons-row">
+				<!-- <van-row custom-class="icons-row">
 					<van-col span="8">
 						<div @click="reLaunchPage('shop/index/index')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-guanfangshangcheng"></span></div>
@@ -106,15 +106,8 @@
 							</button>
 						</div>
 					</van-col>
-				</van-row>
+				</van-row> -->
 				<van-row custom-class="icons-row">
-
-					<!-- <van-col span="8">
-						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
-							<div><span class="iconfont icon-jifenshangcheng"></span></div>
-							<div class="wenzi">积分商城</div>
-						</div>
-					</van-col> -->
 					<van-col span="8">
 						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-fujinmendian"></span></div>

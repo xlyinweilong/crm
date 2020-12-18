@@ -98,7 +98,7 @@
 						</div>
 					</div>
 				</view>
-				<view class="drawer-item" v-if="goodsCategory2List.length > 0">
+				<view class="drawer-item" v-if="showGoodsCategory2List.length > 0">
 					<view class="drawer-title" @click="goodsCategory2All = !goodsCategory2All">
 						款式
 						<div style="float: right;color: #909399;font-size: 24rpx;padding-top: 8rpx;">
@@ -248,7 +248,21 @@
 				return !this.goodsCategoryAll ? this.goodsCategoryList.slice(0, 3) : this.goodsCategoryList
 			},
 			showGoodsCategory2List() {
-				return !this.goodsCategory2All ? this.goodsCategory2List.slice(0, 3) : this.goodsCategory2List
+				let c2List = this.goodsCategory2List
+				if(this.selectGoodsAttrList.length > 0){
+					let gcIds = this.listQuery.goodsCategoryIds.split(",")
+					c2List = c2List.filter(c2 => this.selectGoodsAttrList.some(ga => ga.id === c2.pid))
+					if(this.listQuery.goodsCategory2Ids != ''){
+						let gc2Selected = this.listQuery.goodsCategory2Ids.split(",")
+						gc2Selected.filter(g2 => c2List.every(c2 => c2.id !== g2)).forEach(g2 => {
+							let gc2 = this.goodsCategory2List.find(c2 => c2.id === g2)
+							if(gc2 != null){
+								c2List.push(gc2)
+							}
+						})
+					}
+				}
+				return !this.goodsCategory2All ? c2List.slice(0, 3) : c2List
 			}
 		},
 		methods: {

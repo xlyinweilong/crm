@@ -1012,31 +1012,31 @@
 			}
 		}
 	],
-	"subPackages": [{
-		"root": "pagesA",
-		"pages": [{
-			"path": "live/room",
-			"style": {
-				"navigationBarTitleText": "直播间列表",
-				"navigationStyle": "default",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"enablePullDownRefresh": true
-			}
-		}],
-		"plugins": {
-			"live-player-plugin": {
-				"version": "1.2.4",
-				"provider": "wx2b03c6e691cd7370"
-			}
-		}
-	}],
-	"preloadRule": {
-		"pagesA/live/room": {
-			"network": "all",
-			"packages": ["__APP__"]
-		}
-	},
+	// "subPackages": [{
+	// 	"root": "pagesA",
+	// 	"pages": [{
+	// 		"path": "live/room",
+	// 		"style": {
+	// 			"navigationBarTitleText": "直播间列表",
+	// 			"navigationStyle": "default",
+	// 			"navigationBarTextStyle": "black",
+	// 			"navigationBarBackgroundColor": "#FFFFFF",
+	// 			"enablePullDownRefresh": true
+	// 		}
+	// 	}],
+	// 	"plugins": {
+	// 		"live-player-plugin": {
+	// 			"version": "1.2.4",
+	// 			"provider": "wx2b03c6e691cd7370"
+	// 		}
+	// 	}
+	// }],
+	// "preloadRule": {
+	// 	"pagesA/live/room": {
+	// 		"network": "all",
+	// 		"packages": ["__APP__"]
+	// 	}
+	// },
 	"tabBar": {
 		"custom": true,
 		"color": "#7a7e83",
