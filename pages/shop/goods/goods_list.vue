@@ -36,8 +36,8 @@
 						<!-- 价格 -->
 						<div class="price">
 							￥{{g.crmPrice}}
-							<span v-if="g.tagPrice > 0" class="delete_price">￥{{g.tagPrice}}</span>
-							<span v-if="discount(g) != null" class="discount">{{discount(g)}}折</span>
+							<span v-if="g.tagPrice > 0 && g.crmPrice < g.tagPrice" class="delete_price">￥{{g.tagPrice}}</span>
+							<span v-if="discount(g) != null && g.crmPrice < g.tagPrice" class="discount">{{discount(g)}}折</span>
 						</div>
 						<!-- 名称 -->
 						<div class="name">{{g.displayName}}</div>

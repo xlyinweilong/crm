@@ -2,7 +2,7 @@
 	<view style="padding-left: 10rpx;padding-right: 10rpx;background-color: #FFFFFF;">
 		<!-- header -->
 		<van-notice-bar v-if="!isGodUserInfoIntegral && setUserInfoGiveIntegral > 0" mode="closeable" :text="'进入[我的资料],完善个人资料可以获得'+setUserInfoGiveIntegral+'积分'" />
-		<view class="header">
+		<!-- <view class="header">
 			<image mode="widthFix" style="width: 100%;" :src="headerUrl" />
 			<div class="user-img">
 				<image class="user-img-image" :src="avatarUrl" />
@@ -36,6 +36,49 @@
 					</van-col>
 				</van-row>
 			</div>
+		</view> -->
+		<view class="header" :style="{'backgroundImage':'url('+ headerUrl +')'}">
+			<view style="display: flex;">
+				<view class="info">
+					<view class="role_change">
+						<div @click="changeRole" v-if="isEmploy">切换角色</div>
+					</view>
+					<view class="user" @click="goPage('info/myInfo')" hover-class="user-info-hover">
+						<view class="user-img">
+							<image class="user-img-image" :src="avatarUrl" />
+						</view>
+						<view class="user-name" v-if="nickName != null && nickName != ''">
+							<div>{{nickName}}</div>
+							<div style="display: flex;">
+								<div class="user-card-no" v-if="cardCode != ''">{{cardCode}}</div>
+								<div class="user-card-tips" v-if="cardCode != ''">有效期至永久有效</div>
+							</div>
+						</view>
+					</view>
+				</view>
+				<view class="qr_code" @click="goPage('info/membershipCode')" hover-class="user-info-hover">
+					<view>
+						<image style="width: 80rpx;height: 80rpx" src="../../static/images/qr_code.png" />
+					</view>
+					<view style="text-align: center;font-size: 18rpx;margin-top: 0;padding-top: 0;">
+						会员码
+					</view>
+				</view>
+			</view>
+			<view class="grade" v-if="cardCode != ''">
+				<div style="display: flex;font-size: 18rpx;padding-top: 14rpx;width: 666rpx;margin-left: 20rpx;">
+					<div style="width: 50%;text-align: left;" v-if="userInfo.gradeName != null">{{userInfo.gradeName}}</div>
+					<div style="width: 50%;text-align: right;" v-if="userInfo.nextGradeName != null">{{userInfo.nextGradeName}}</div>
+				</div>
+				<div class="bar">
+					<div v-if="userInfo.nextGradeRate != null" :style="{'width': userInfo.nextGradeRate + '%'}"></div>
+				</div>
+				<div style="width: 100%; display: flex;justify-content:center;margin-top: 4rpx;">
+					<div class="text-info" v-if="userInfo.exp != null">
+						成长值：{{userInfo.exp}}
+					</div>
+				</div>
+			</view>
 		</view>
 		<!-- tickets -->
 		<view class="tickets">
@@ -83,7 +126,7 @@
 				</van-col>
 			</van-row>
 			<div class="icons">
-				<!-- <van-row custom-class="icons-row">
+				<van-row custom-class="icons-row" v-if="isOpenShop">
 					<van-col span="8">
 						<div @click="reLaunchPage('shop/index/index')" hover-class="user-info-hover">
 							<div><span class="iconfont icon-guanfangshangcheng"></span></div>
@@ -96,7 +139,6 @@
 							<div class="wenzi">直播列表</div>
 						</div>
 					</van-col>
-					
 					<van-col span="8">
 						<div style="border:10px;background-color:transparent;">
 							<button class="text-button" style="background-color:transparent;" open-type="contact" bindcontact="handleContact"
@@ -106,7 +148,7 @@
 							</button>
 						</div>
 					</van-col>
-				</van-row> -->
+				</van-row>
 				<van-row custom-class="icons-row">
 					<van-col span="8">
 						<div @click="goPage('channel/nearby')" hover-class="user-info-hover">
@@ -208,6 +250,7 @@
 		},
 		data() {
 			return {
+				isOpenShop: false,
 				setUserInfoGiveIntegral: 0,
 				isGodUserInfoIntegral: true,
 				headerUrl: "",
@@ -235,7 +278,9 @@
 		onPullDownRefresh() {
 			this.init(true)
 		},
-		onLoad() {},
+		onLoad() {
+			this.isOpenShop = wx.getStorageSync('isOpenShop')
+		},
 		onShareAppMessage(options) {
 			var that = this;
 			let user = wx.getStorageSync('token')
@@ -296,12 +341,12 @@
 				this.$uniRequest.get('/api/diy_ui/info').then(res => {
 					if (res.data.infoBackImageUrl != null) {
 						this.headerUrl = this.$baseImageURL + res.data.infoBackImageUrl
-					}else{
+					} else {
 						this.headerUrl = '../../static/images/header.png'
 					}
 					if (res.data.infoFooterImageUrl != null) {
 						this.footerUrl = this.$baseImageURL + res.data.infoFooterImageUrl
-					}else{
+					} else {
 						this.footerUrl = '../../static/images/footer1.png'
 					}
 					this.footerUrlGoUrl = res.data.infoFooterImageUrlGoUrl
@@ -310,8 +355,8 @@
 						this.info = res.data.fileList.map(f => ({
 							url: this.$baseImageURL + f
 						}))
-					}else{
-						this.info =[{
+					} else {
+						this.info = [{
 							url: '../../static/images/footer1.png'
 						}, {
 							url: '../../static/images/footer1.png'
@@ -373,7 +418,7 @@
 					})
 				}
 			},
-			goPageBase(page){
+			goPageBase(page) {
 				if (this.hasVipCard()) {
 					uni.navigateTo({
 						url: '/' + page

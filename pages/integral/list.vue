@@ -104,6 +104,12 @@
 				</div>
 			</div>
 		</div>
+		<div class="center" @click="goPage('integral/vip_store')" hover-class="user-info-hover">
+			<span v-if="tab == 1" class="iconfont icon-jifenliebiao-wodejifen" style="margin-right: 10rpx;" />
+			<span v-if="tab == 2" class="iconfont icon-jifenliebiao-wodeyue" style="margin-right: 10rpx;" />
+			<span v-if="tab == 3" class="iconfont icon-baobeihuanxin" style="margin-right: 10rpx;" />
+			充值
+		</div>
 	</view>
 </template>
 
@@ -153,7 +159,19 @@
 				wx.setStorageSync('userInfo', this.userInfo)
 			})
 		},
+		// 上拉加载
+		onReachBottom() {
+			if (this.loading || this.noMore) {
+				return false
+			}
+			this.more()
+		},
 		methods: {
+			goPage(page) {
+				uni.navigateTo({
+					url: '/pages/' + page
+				})
+			},
 			getList() {
 				this.pageIndex = 0
 				this.list = []
@@ -161,6 +179,7 @@
 			},
 			more() {
 				if (!this.loading) {
+					uni.showNavigationBarLoading()
 					this.loading = true
 					this.pageIndex += 1
 					let url = this.tab === 1 ? '/api/small_procedures/vip/my_integral_list' :
@@ -171,12 +190,13 @@
 					this.$uniRequest.get(url, {
 						data: {
 							pageIndex: this.pageIndex,
-							pageSize: 10
+							pageSize: 30
 						}
 					}).then(res => {
 						res.data.records.forEach(c => this.list.push(c))
 						this.noMore = this.list.length >= res.data.total
 					}).finally(error => {
+						uni.hideNavigationBarLoading()
 						this.loading = false
 					})
 				}
@@ -281,4 +301,24 @@
 		padding-top: 17rpx;
 		border-bottom: 2rpx solid #706000;
 	}
+</style>
+
+<style scoped>
+	
+	.user-info-hover {
+		color: #C80000;
+	}
+	
+	.center {
+		position: fixed;
+		text-align: center;
+		bottom: 0px;
+		z-index: 100;
+		background-color: #fff;
+		width: 750rpx;
+		height: 50px;
+		line-height: 50px;
+		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+	}
+	
 </style>

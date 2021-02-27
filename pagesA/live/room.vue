@@ -1,7 +1,7 @@
 <template>
 	<view style="">
 		<div v-for="e in list" :key="e.id" style="margin-top: 22rpx;">
-			<!-- <navigator :url="'plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id=' + e.roomid"> -->
+			<navigator :url="'plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id=' + e.roomid">
 				<div class="item" :style="{'background-image':'url('+e.anchorImg+')'}">
 					<div style="position:absolute;bottom: 0;left: 18rpx;">
 						<p><span class="room">{{e.name}}</span></p>
@@ -10,7 +10,7 @@
 						</p>
 					</div>
 				</div>
-			<!-- </navigator> -->
+			</navigator>
 		</div>
 		<uni-load-more :status="status"></uni-load-more>
 	</view>

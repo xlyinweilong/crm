@@ -73,10 +73,8 @@
 				})
 			},
 			loginOk(data) {
-				wx.setStorage({
-					key: 'token',
-					data: data
-				})
+				wx.setStorageSync('token',data)
+				wx.setStorageSync('isOpenShop',data.isOpenShop)
 				this.$uniRequest.defaults.headers.common['X-Token'] = data.token
 				if (this.scene != null && this.scene.startsWith('evaluate,')) {
 					let posCode = this.scene.split(",")[1]

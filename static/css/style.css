@@ -1,186 +1,182 @@
 .header {
+	width: 730rpx;
+	height: 382rpx;
+	-moz-background-size: 100% 100%;
+	background-size: 100% 100%;
+}
+
+.header .info {
+	width: 620rpx;
+	height: 270rpx;
+}
+
+.header .info .role_change {
+	padding-left: 32rpx;
+	padding-top: 39rpx;
+	font-size: 17rpx;
+	height: 17rpx;
+}
+
+.header .grade {
+	width: 100%;
+	height: 100rpx;
 
 }
 
-.header .user-img {
-    width: 105rpx;
-    height: 105rpx;
-    border-radius: 100%;
-    overflow: hidden;
-    border: 2rpx solid rgba(255,255,255,0.7);
-    margin-right: 0.5rem;
-	position :absolute;
-	z-index: 100;
-	top:114rpx;
-	left: 332rpx;
+.header .user {
+	margin-top: 30rpx;
+	display: flex;
 }
 
-.header .user-img .user-img-image{
-	width: 105rpx;
-	height: 105rpx;
+.header .user .user-img {
+	margin-top: 20rpx;
+	margin-left: 14rpx;
+	width: 90rpx;
+	height: 90rpx;
+	border-radius: 100%;
+	overflow: hidden;
+	border: 1rpx solid rgba(255, 255, 255, 0.7);
 }
 
-.header .user-center{
-	width:100%;
-	position :absolute;
-	z-index: 100;
-	top:223rpx;
+.header .user .user-img .user-img-image {
+	width: 90rpx;
+	height: 90rpx;
 }
 
-.header .user-center .user-name{
-	padding-top: 10rpx;
-	color:#ffffff;
-	text-align: center;
-	font-size:28rpx;
+.header .user .user-name {
+	margin-top: 34rpx;
+	margin-left: 11rpx;
+	font-size: 30rpx;
 }
 
-.header .user-center .user-card-no{
-	padding-top: 10rpx;
-	color:#ffffff;
-	text-align: center;
-	font-size:28rpx;
-}
-
-.header .user-center .user-card-tips{
-	padding-top: 1rpx;
-	color:#ffffff;
-	text-align: center;
-	font-size:19rpx;
-}
-
-.header .user-qrcode{
-	padding-top: 5rpx;
-	border-top-left-radius:2em;
-	border-bottom-left-radius:2em;
-	position :absolute;
-	width: 150rpx;
-	height: 45rpx;
-	z-index: 100;
-	top:120rpx;
-	right: 10rpx;
-	background-color: #ffffe3;
-}
-
-.header .user-qrcode .iconfont{
-	font-size: 36rpx;
-	font-weight:bold;
-	text-align: right;
-}
-
-.header .user-qrcode .user-qrcode-name{
-	letter-spacing:8rpx;
-	font-weight:bold;
+.header .user-card-no {
 	font-size: 20rpx;
-	text-align: center;
 }
 
-.header .user-qrcode .user-qrcode-enname{
-	font-size: 10rpx;
-	letter-spacing:0rpx;
-	text-align: center;
-}
-
-.header .user-info{
-	padding-top: 5rpx;
-	border-top-left-radius:2em;
-	border-bottom-left-radius:2em;
-	position :absolute;
-	width: 150rpx;
-	height: 45rpx;
-	z-index: 100;
-	top:180rpx;
-	right: 10rpx;
-	background-color: #ffffe3;
-}
-
-.header .user-info .iconfont{
-	font-size: 36rpx;
-	font-weight:bold;
-	text-align: right;
-}
-
-.header .user-info .user-info-name{
-	letter-spacing:0rpx;
-	font-weight:bold;
+.header .user-card-tips {
+	padding-left: 4rpx;
 	font-size: 20rpx;
-	text-align: center;
 }
 
-.header .user-info .user-info-enname{
-	font-size: 10rpx;
-	letter-spacing:0rpx;
-	text-align: center;
+.header .qr_code {
+	margin-top: 30rpx;
+	height: 120rpx;
 }
 
-.tickets{
+.header .grade {
+	background-color: #FFFFFF;
+	height: 94rpx;
+	width: 706rpx;
+	margin-left: 12rpx;
+	margin-right: 12rpx;
+	border-radius: 20rpx;
+	opacity: 0.8;
+}
+
+.header .grade .bar {
+	margin-left: 25rpx;
+	margin-right: 25rpx;
+	margin-top: 12rpx;
+	position: relative;
+	width: 656rpx;
+	height: 10rpx;
+	border: 1rpx solid #DCDFE6;
+	background-color: #909399;
+	border-radius: 10rpx;
+}
+
+.header .grade .bar div {
+	display: block;
+	position: relative;
+	background: #C80000;
+	height: 10rpx;
+	line-height: 10rpx;
+	border-radius: 10rpx;
+	border-top-left-radius:10rpx;
+	border-bottom-left-radius:10rpx;
+}
+
+.header .grade .text-info{
+	font-size: 18rpx;
+	color: #ffffff;
+	background: #C80000;
+	margin: auto 0;
+	display: block;
+	padding-top: 2rpx;
+	padding-bottom: 2rpx;
+	padding-left: 8rpx;
+	padding-right: 8rpx;
+}
+
+.tickets {
 	padding-top: 12rpx;
 }
 
-.tickets .tickets-row-col-left{
+.tickets .tickets-row-col-left {
 	padding-right: 9rpx;
 }
 
-.tickets .tickets-row-col-right{
+.tickets .tickets-row-col-right {
 	padding-left: 9rpx;
 }
 
-.tickets .tickets-div{
+.tickets .tickets-div {
 	text-align: center;
-	background-color:#5f5150;
+	background-color: #5f5150;
 	/* height: 150rpx; */
-	border:1rpx solid;
-	border-radius:15rpx;
+	border: 1rpx solid;
+	border-radius: 15rpx;
 	color: #FFFFFF;
 	font-size: 50rpx;
-	padding-top:25rpx;
+	padding-top: 25rpx;
 	padding-bottom: 25rpx;
 }
 
-.tickets .tickets-icon{
+.tickets .tickets-icon {
 	font-size: 40rpx;
 }
 
-.tickets .shuxian{
+.tickets .shuxian {
 	height: 100rpx;
-	border-left:1px dashed #FFFFFF;
+	border-left: 1px dashed #FFFFFF;
 }
 
-.tickets .count{
+.tickets .count {
 	font-size: 48rpx;
 }
 
-.tickets .danwei{
+.tickets .danwei {
 	margin-left: 6rpx;
 	font-size: 21rpx;
 }
 
-.icons{
+.icons {
 	text-align: center;
 }
 
-.icons .icons-row{
+.icons .icons-row {
 	padding-left: 15rpx;
 	padding-right: 15rpx;
 	margin-top: 40rpx;
 }
 
-.icons .iconfont{
+.icons .iconfont {
 	font-size: 65rpx;
 }
 
-.icons .wenzi{
+.icons .wenzi {
 	margin-top: 12rpx;
 	font-size: 24rpx;
-	font-weight:bold;
+	font-weight: bold;
 }
 
-.footer1{
+.footer1 {
 	padding-top: 40rpx;
 	width: 100%;
 
 }
 
-.footer2{ 
+.footer2 {
 	padding-top: 10rpx;
 }
 
@@ -201,7 +197,7 @@
 } */
 
 .tickets button {
-    margin: 0;
-    font: inherit;
+	margin: 0;
+	font: inherit;
 	outline: none;
 }

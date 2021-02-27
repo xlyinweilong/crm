@@ -50,7 +50,9 @@
             },
             "ios" : {},
             /* ios打包配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "share" : {}
+            }
         }
     },
     /* SDK配置 */

@@ -16,8 +16,8 @@
 				</div>
 				<div style="margin-top: 10px;">{{goods.displayName}}</div>
 				<div style="margin-top: 10px;font-size: 34rpx;">￥{{goods.crmPrice}}
-					<span class="delete_price">￥{{goods.tagPrice}}</span>
-					<span class="discount">￥{{discount(goods)}}折</span>
+					<span v-if="goods.crmPrice < goods.tagPrice" class="delete_price">￥{{goods.tagPrice}}</span>
+					<span v-if="goods.crmPrice < goods.tagPrice" class="discount">￥{{discount(goods)}}折</span>
 				</div>
 			</div>
 			<!-- 卡片2 -->
