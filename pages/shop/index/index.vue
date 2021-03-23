@@ -14,7 +14,7 @@
 				<div v-for="c in theme.componentList" :key="c.index">
 					<div v-if="c.key == 'carousel'" :style="{'margin-top':c.marginTop+'px','margin-bottom':c.marginBottom+'px'}">
 						<uni-swiper-dot :info="c.imageList" :current="c.current" field="content" :mode="mode" :dotsStyles="dotsStyles">
-							<swiper class="swiper-box" @change="change($event,c)" :style="{height:c.imageHeight + 'rpx'}">
+							<swiper class="swiper-box" @change="change($event,c)" :style="{height:c.imageHeight + 'rpx'}" autoplay="true" :interval="3000">
 								<swiper-item v-for="(item ,index) in c.imageList" :key="index">
 									<view class="swiper-item" @click="goToPage(item)">
 										<image :style="{height:c.imageHeight + 'rpx',width:c.imageWidth+'rpx'}" style="background-color: #eeeeee;"
@@ -32,7 +32,13 @@
 						<image v-for="im in c.imageList" @click="goToPage(im)" style="background-color: #eeeeee;margin: auto;" :style="{width:c.imageWidth+'rpx',height: c.imageHeight+'rpx'}"
 						 mode="scaleToFill" :src="im.imageUrl" />
 					</div>
+					<div v-if="c.key == 'video'">
+						<!-- 视频组件 -->
+						<video style="width: 100%;" :src="c.videoSrc"
+						:autoplay="c.videoAutoplay" :loop="c.videoLoop" controls></video>
+					 </div>
 				</div>
+				
 			</div>
 		</view>
 		<!-- 悬浮的客服电话 -->
@@ -43,6 +49,10 @@
 		<van-toast id="van-toast" />
 		<tabbar ref="tabbar" :active="0" />
 		<loginCom/>
+		<van-popup :show="showPopup" @close="showPopup = false">
+			<image @click="goPopupPage" :style="{width:popup.width+'rpx',height:popup.height+'rpx'}" mode="scaleToFill"
+				:src="popup.imageUrl"></image>
+		</van-popup>
 	</view>
 </template>
 
@@ -68,7 +78,9 @@
 				theme: {
 					componentList: []
 				},
-				service400: ''
+				service400: '',
+				popup:{},
+				showPopup:false
 			}
 		},
 		onLoad(query) {
@@ -78,8 +90,33 @@
 
 			}
 			this.$refs.tabbar.active = 0
+			this.loadPopup()
 		},
 		methods: {
+			goPopupPage() {
+				if (this.popup.goPageType == 'APPLETS') {
+					uni.navigateTo({
+						url: '/' + this.popup.goToPage
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/info/web?url=' + encodeURIComponent(this.popup.goToPage)
+					})	
+				}
+				this.showPopup = false
+			},
+			loadPopup() {
+				this.$uniRequest.get('/api/small/shop/popup/activity', {
+					data: {
+						showPage: 'SHOP_INDEX'
+					}
+				}).then(res => {
+					if (res.data != null) {
+						this.popup = res.data
+						this.showPopup = true
+					}
+				})
+			},
 			goToPage(ele) {
 				if (ele.imageType == 'H5') {
 					uni.navigateTo({

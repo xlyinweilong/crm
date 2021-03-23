@@ -26,7 +26,7 @@
 			</div>
 			<div class="inputDivFirst">
 				<van-cell-group custom-class="cellGroup">
-					<van-field input-class="input" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.nickname"
+					<van-field input-class="input" custom-style="background-color: #F8F8F8;" title-width="60px" :value="info.nickname"
 					 :maxlength="20" label="昵称" @change="changeNickname" />
 				</van-cell-group>
 			</div>
@@ -38,24 +38,42 @@
 			</div> -->
 			<div class="inputDiv">
 				<van-cell-group custom-class="cellGroup">
-					<van-field type="number" custom-style="background-color: #F8F8F8;" title-width="50px" :value="info.birthday"
+					<van-field type="number" custom-style="background-color: #F8F8F8;" title-width="60px" :value="info.birthday"
 					 @change="changeBirthday" clearable label="生日" icon="gift" placeholder="例如:19710409" />
+				</van-cell-group>
+			</div>
+			<div class="inputDiv">
+				<van-cell-group custom-class="cellGroup">
+					<van-cell @click="onOpenBirthdayType" custom-style="background-color: #F8F8F8;"
+					 title-width="60px" :border="false" title="生日类型" is-link :value="info.birthdayTypeMean" />
 				</van-cell-group>
 			</div>
 			<div class="inputDiv" v-for="field in fieldList">
 				<van-cell-group custom-class="cellGroup">
 					<van-field v-if="field.fieldType === 'string'" input-class="input" custom-style="background-color: #F8F8F8;"
-					 title-width="50px" :value="info['diy' + field.fieldIndex]" :maxlength="field.valueMaxLength" :label="field.fieldName"
+					 title-width="60px" :value="info['diy' + field.fieldIndex]" :maxlength="field.valueMaxLength" :label="field.fieldName"
 					 @change="changeStringDiy" @focus="focusStringDiy(field)" />
 					<van-cell v-if="field.fieldType === 'radio'" @click="onOpenDiy(field)" custom-style="background-color: #F8F8F8;"
-					 title-width="50px" :border="false" :title="field.fieldName" is-link :value="info['diy' + field.fieldIndex]" />
+					 title-width="60px" :border="false" :title="field.fieldName" is-link :value="info['diy' + field.fieldIndex]" />
 				</van-cell-group>
 			</div>
 			<button :loading="loading" type="primary" class="submit" @click="saveDate">确认修改</button>
 		</view>
-		<van-popup :show="showBirthday" :safe-area-inset-bottom="false" position="bottom" z-index="201" @close="onClose">
-			<van-datetime-picker type="date" :value="birthday" :min-date="minDate" :max-date="maxDate" @cancel="onClose"
-			 @confirm="confirm" />
+		<van-popup :show="showBirthdayType" :safe-area-inset-bottom="false" position="bottom" z-index="201" @close="onCloseBirthdayType">
+			<van-cell-group>
+				<van-cell>
+					<span @click="onCloseBirthdayType" style="color:#1989fa;float: left;">取消</span>
+					<span @click="saveBirthdayType" style="color:#1989fa">确定</span>
+				</van-cell>
+				<van-radio-group :value="birthdayType">
+					<van-cell @click="birthdayType = 'SOLAR'" center clickable>
+						<van-radio name="SOLAR" checked-color="#07c160">阳历</van-radio>
+					</van-cell>
+					<van-cell @click="birthdayType = 'LUNAR'" center clickable>
+						<van-radio name="LUNAR" checked-color="#07c160">阴历</van-radio>
+					</van-cell>
+				</van-radio-group>
+			</van-cell-group>
 		</van-popup>
 		<van-popup :show="showSex" :safe-area-inset-bottom="false" position="bottom" z-index="201" @close="onCloseSex">
 			<van-cell-group>
@@ -105,6 +123,8 @@
 					name: "",
 					sex: "",
 					birthday: "",
+					birthdayTypeMean:'阳历',
+					birthdayType:'SOLAR',
 					diy1: "",
 					diy2: "",
 					diy3: "",
@@ -117,7 +137,6 @@
 					diy10: ""
 				},
 				fieldList: [],
-				showBirthday: false,
 				birthday: '',
 				maxDate: new Date().getTime(),
 				minDate: new Date(1960, 1, 1).getTime(),
@@ -128,7 +147,9 @@
 				activityField: null,
 				showDiy: false,
 				tempRadioDiy: null,
-				tempRadioDiyList: []
+				tempRadioDiyList: [],
+				showBirthdayType:false,
+				birthdayType:'SOLAR'
 			}
 		},
 		onShow() {
@@ -157,6 +178,8 @@
 				this.info.name = user.name == null ? "" : user.name
 				this.info.nickname = this.nickName == null ? "" : this.nickName
 				this.info.birthday = this.getNotNull(user.birthday)
+				this.info.birthdayType = this.getNotNull(user.birthdayType)
+				this.info.birthdayTypeMean = this.info.birthdayType == 'SOLAR' ? '阳历':'阴历'
 				this.info.diy1 = this.getNotNull(user.diy1)
 				this.info.diy2 = this.getNotNull(user.diy2)
 				this.info.diy3 = this.getNotNull(user.diy3)
@@ -194,9 +217,6 @@
 			getNotNull(str) {
 				return str == null ? "" : str
 			},
-			onClose() {
-				this.showBirthday = false
-			},
 			onOpenSex() {
 				let user = wx.getStorageSync('token')
 				this.setSex(user.sex)
@@ -204,6 +224,18 @@
 			},
 			onCloseSex() {
 				this.showSex = false
+			},
+			onOpenBirthdayType() {
+				this.birthdayType = this.info.birthdayType
+				this.showBirthdayType = true
+			},
+			onCloseBirthdayType() {
+				this.showBirthdayType = false
+			},
+			saveBirthdayType(){
+				this.info.birthdayType = this.birthdayType
+				this.info.birthdayTypeMean = this.birthdayType == 'SOLAR' ? '阳历':'阴历'
+				this.onCloseBirthdayType()
 			},
 			onOpenDiy(field) {
 				this.activityField = field
@@ -281,6 +313,7 @@
 				this.$uniRequest.post('/api/small_procedures/user/save', {
 					nickName: this.info.nickname,
 					birthday: this.info.birthday,
+					birthdayType: this.info.birthdayType,
 					name: this.info.name,
 					diy1: this.info.diy1,
 					diy2: this.info.diy2,
@@ -295,6 +328,7 @@
 				}).then(res => {
 					let user = wx.getStorageSync('token')
 					user.nickName = this.info.nickname
+					user.birthdayType = this.info.birthdayType,
 					user.diy1 = this.info.diy1
 					user.diy2 = this.info.diy2
 					user.diy3 = this.info.diy3

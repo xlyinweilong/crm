@@ -29,6 +29,7 @@
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"enablePullDownRefresh": true,
 				"usingComponents": {
+					"van-popup": "/wxcomponents/vant/popup/index",
 					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			}
@@ -284,6 +285,7 @@
 				"usingComponents": {
 					"van-notice-bar": "/wxcomponents/vant/notice-bar/index",
 					"van-dialog": "/wxcomponents/vant/dialog/index",
+					"van-popup": "/wxcomponents/vant/popup/index",
 					"van-row": "/wxcomponents/vant/row/index",
 					"van-col": "/wxcomponents/vant/col/index"
 				}
@@ -1049,7 +1051,7 @@
 		}],
 		"plugins": {
 			"live-player-plugin": {
-				"version": "1.2.8",
+				"version": "1.2.10",
 				"provider": "wx2b03c6e691cd7370"
 			}
 		}

@@ -3,13 +3,13 @@ import App from './App'
 
 import uniRequest from 'uni-request'
 Vue.prototype.$recommender = {uid:'',sourceScene:''}
-Vue.prototype.$baseURL = 'http://192.168.0.113:9080'
+Vue.prototype.$baseURL = 'http://192.168.1.20:9080'
 // Vue.prototype.$baseImageURL = 'http://192.168.1.113:8086/images/'
 // Vue.prototype.$baseURL = 'https://erp.wisdomyy.com/'
 Vue.prototype.$baseImageURL = 'https://erp.wisdomyy.com/images/'
 uniRequest.defaults.baseURL = Vue.prototype.$baseURL
-// Vue.prototype.$tnId='11'
-Vue.prototype.$tnId = 'jljy'
+Vue.prototype.$tnId='dev_jy'
+// Vue.prototype.$tnId = 'jljy'
 // Vue.prototype.$tnId = 'zlty'
 // Vue.prototype.$tnId = 'nuoqi'
 uniRequest.defaults.headers['tn_id'] = Vue.prototype.$tnId

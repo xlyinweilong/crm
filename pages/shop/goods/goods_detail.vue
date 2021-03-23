@@ -5,7 +5,7 @@
 			<div class="card" style="padding-bottom: 40rpx;">
 				<div>
 					<uni-swiper-dot :info="goods.imageList" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
-						<swiper class="swiper-box" @change="changeImage">
+						<swiper class="swiper-box" @change="changeImage" autoplay="true" :interval="3000">
 							<swiper-item v-for="(item ,index) in goods.imageList" :key="index">
 								<view class="swiper-item" @click="previewImage(item)">
 									<image class="dot-image" mode="aspectFit" :src="item"></image>
@@ -24,6 +24,7 @@
 			<div style="margin-top: 10px;">
 				<van-cell @click="showGoodsDetail" :title="(selected.colorId != '' ? ('颜色:' + selected.colorName) : '选择：颜色')+' '+(selected.sizeId != '' ? ('尺码:' + selected.sizeName) : '选择：尺码')"
 				 is-link value="" />
+				 <van-cell v-if="goods.sizeGroup.url != null && goods.sizeGroup.url != ''" @click="goUrl(goods.sizeGroup.url)" title="尺码对照表"/>
 			</div>
 			<div class="card tools">
 				<div hover-class="hover-button" style="width: 250rpx;" @click="doLike">
@@ -67,7 +68,8 @@
 					进入品牌馆<span class="iconfont icon-arrow-right"></span>
 				</div>
 			</div>
-			<!-- 同系列推荐todo -->
+			<!-- 搭配 -->
+			
 
 			<!-- 上滑查看图文详情 -->
 			<div v-if="goods.imageDetailList.length == 0" class="card" style="margin-top: 10px;padding-top: 26rpx;padding-bottom: 26rpx;text-align: center;">
@@ -78,7 +80,7 @@
 			</div>
 			<!-- 图片明细 -->
 			<div style="background-color: #ffffff;margin-top: 10px;margin-bottom: 50px;">
-				<image v-for="imageUrl in goods.imageDetailList" style="width: 750rpx;" mode="widthFix" :src="imageUrl" />
+				<image v-for="imageUrl in goods.imageDetailList" :key="imageUrl" style="width: 750rpx;" mode="widthFix" :src="imageUrl" />
 			</div>
 			<!-- 工具条 -->
 			<div class="detail-tabbar">
@@ -143,8 +145,14 @@
 								</div>
 							</div>
 						</div>
+
 						<div style="margin-top: 20rpx;">
-							<p style="color: #909399;font-size: 26rpx;">尺码</p>
+							<p style="color: #909399;font-size: 26rpx;">
+								尺码
+								<view v-if="goods.sizeGroup.url != null && goods.sizeGroup.url != ''" @click="goUrl(goods.sizeGroup.url)" style="margin-right: 10rpx;color: #409EFF;font-size: 26rpx;float: right;">
+									尺码对照表
+								</view>
+							</p>
 							<div style="display: flex;flex-wrap:wrap;font-size: 24rpx;color: #606266;">
 								<div @click="selectSize(size)" v-for="size in goods.sizeList" :key="size.id" style="width: 152rpx;text-align: center;padding: 14rpx">
 									<div :style="{ 'background-color': selected.sizeId == size.id ? '#706000':(size.stockCount == 0 ? '#F2F6FC':'#ffffff'),
@@ -294,6 +302,11 @@
 
 		},
 		methods: {
+			goUrl(url){
+				uni.navigateTo({
+					url: '/pages/info/web?url=' + encodeURIComponent(url)
+				})
+			},
 			login(query) {
 				let that = this
 				wx.login({
